@@ -17,6 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInputField from "./FormInput/FormInputField";
 import { useState } from "react";
+import { useLogin } from "@/services/authServices";
+import axios from "axios";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
@@ -24,7 +26,7 @@ const formSchema = z.object({
 });
 
 const DialogLogin = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -34,9 +36,15 @@ const DialogLogin = () => {
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log("Login data", data);
-    // TODO: login logic here
+  const { mutateAsync: loginMutate, error, isError, data } = useLogin();
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    try {
+      await loginMutate(data).then(() => {
+        setOpen(false);
+      });
+    } catch (error) {
+      alert(error);
+    }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -65,11 +73,11 @@ const DialogLogin = () => {
               type="password"
               placeholder="*******"
             />
-            {/* {isError && axios.isAxiosError(error) && (
-                <p className="text-red-500 text-sm ">
-                  {error?.response?.data?.error}
-                </p>
-              )} */}
+            {isError && axios.isAxiosError(error) && (
+              <p className="text-red-500 text-sm ">
+                {error?.response?.data?.message}
+              </p>
+            )}
             <DialogFooter>
               <div className="flex flex-col w-full gap-3">
                 <Button className="w-full" type="submit">
