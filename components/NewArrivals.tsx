@@ -21,7 +21,7 @@ const NewArrivals = () => {
   ];
 
   return (
-    <section className="pt-20 px-4 sm:px-6 lg:px-8">
+    <section className="py-10 px-4 sm:px-6 lg:px-8">
       <h2 className="text-3xl font-bold mb-6 text-center">New Arrivals</h2>
       <div className="flex flex-wrap justify-center gap-4 ">
         {newList?.map((item) => (
