@@ -1,6 +1,6 @@
 const HeroSection = () => {
   return (
-    <section className="bg-gray-50 px-6 py-20 ">
+    <section className="bg-gray-50 py-20  px-4 sm:px-6 lg:px-8 ">
       <div className=" max-w-7xl mx-auto md:flex items-center justify-between gap-10">
         <div className="max-w-xl ">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900">
