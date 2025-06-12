@@ -124,18 +124,18 @@ const SignupPage = () => {
                     type={changeType ? "text" : "password"}
                     placeholder="Password"
                   />
-                  <div className="absolute right-4 bottom-9">
+                  <div className="absolute right-6 bottom-2">
                     {changeType ? (
                       <EyeOff
                         onClick={() => handleChangeType()}
                         size={18}
-                        className=" hover:cursor-pointer "
+                        className="hover:cursor-pointer "
                       />
                     ) : (
                       <Eye
                         onClick={() => handleChangeType()}
                         size={18}
-                        className=" hover:cursor-pointer "
+                        className="hover:cursor-pointer "
                       />
                     )}
                   </div>
