@@ -10,6 +10,10 @@ import {
 import DialogLogin from "./DialogLogin";
 import { PersonDropDown } from "./PersonDropDown";
 import { Label } from "./ui/label";
+import { useRouter } from "next/navigation";
+import { deleteCookie } from "@/lib/clearCookie";
+import { Bounce, toast } from "react-toastify";
+import Link from "next/link";
 
 type HeaderProps = {
   cookie: string | undefined;
@@ -31,6 +35,24 @@ const navigation = {
 const Header = ({ cookie }: HeaderProps) => {
   const [open, setOpen] = useState(false);
 
+  const [openDialogLogin, setOpenDialogLogin] = useState<boolean>(false);
+
+  const router = useRouter();
+  const handleLogout = async () => {
+    await deleteCookie();
+    router.refresh();
+    toast.success("Logged out successfully.", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -86,17 +108,26 @@ const Header = ({ cookie }: HeaderProps) => {
               <div className="flow-root">
                 {/* NOTE- Login */}
                 {cookie == "" || cookie == undefined ? (
-                  <DialogLogin />
+                  <DialogLogin
+                    setOpenDialogLogin={setOpenDialogLogin}
+                    openDialogLogin={openDialogLogin}
+                  />
                 ) : (
                   <Label className="-m-2 block p-2 font-medium text-gray-900">
                     Profile
                   </Label>
                 )}
               </div>
+
               <div className="flow-root">
-                <Label className="-m-2 block p-2 font-medium text-gray-900">
-                  Logout
-                </Label>
+                {cookie == "" || cookie == undefined ? null : (
+                  <Label
+                    onClick={() => handleLogout()}
+                    className="-m-2 block p-2 font-medium text-gray-900 hover:cursor-pointer"
+                  >
+                    Logout
+                  </Label>
+                )}
               </div>
             </div>
           </DialogPanel>
@@ -126,15 +157,16 @@ const Header = ({ cookie }: HeaderProps) => {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
+                <Link href="/">
                   <span className="sr-only">Your Company</span>
+
                   <p className="text-xl font-bold">BELUGA</p>
                   {/* <img
                     alt=""
                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
                   /> */}
-                </a>
+                </Link>
               </div>
 
               {/* Flyout menus */}
@@ -149,7 +181,10 @@ const Header = ({ cookie }: HeaderProps) => {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {/* NOTE - Login */}
                   {cookie == "" || cookie == undefined ? (
-                    <DialogLogin />
+                    <DialogLogin
+                      setOpenDialogLogin={setOpenDialogLogin}
+                      openDialogLogin={openDialogLogin}
+                    />
                   ) : (
                     <PersonDropDown />
                   )}

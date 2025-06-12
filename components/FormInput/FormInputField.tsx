@@ -36,6 +36,7 @@ const FormInputField = <T extends FieldValues>({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input placeholder={placeholder} type={type} {...field} />
+            {/* <EyeOff size={18} /> */}
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage className="text-red-500" />

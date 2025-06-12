@@ -16,20 +16,28 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInputField from "./FormInput/FormInputField";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useLogin } from "@/services/authServices";
 import axios from "axios";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
+type DialogLoginPros = {
+  setOpenDialogLogin: Dispatch<SetStateAction<boolean>>;
+  openDialogLogin: boolean;
+};
+
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
   password: z.string().min(1, { message: "password is required." }),
 });
 
-const DialogLogin = () => {
-  const [open, setOpen] = useState(false);
+const DialogLogin = ({
+  openDialogLogin,
+  setOpenDialogLogin,
+}: DialogLoginPros) => {
+  // const [open, setOpen] = useState(false);
 
   const router = useRouter();
 
@@ -46,7 +54,7 @@ const DialogLogin = () => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await loginMutate(data).then(() => {
-        setOpen(false);
+        setOpenDialogLogin(false);
         router.refresh();
         toast.success("Login Success", {
           position: "top-center",
@@ -75,7 +83,7 @@ const DialogLogin = () => {
     }
   };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={openDialogLogin} onOpenChange={setOpenDialogLogin}>
       <DialogTrigger asChild className="cursor-pointer">
         <UserIcon className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 " />
       </DialogTrigger>
