@@ -1,5 +1,5 @@
+// "use client";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import {
   Dialog,
@@ -19,6 +19,9 @@ import FormInputField from "./FormInput/FormInputField";
 import { useState } from "react";
 import { useLogin } from "@/services/authServices";
 import axios from "axios";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { Bounce, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
@@ -27,6 +30,9 @@ const formSchema = z.object({
 
 const DialogLogin = () => {
   const [open, setOpen] = useState(false);
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -36,20 +42,42 @@ const DialogLogin = () => {
     },
   });
 
-  const { mutateAsync: loginMutate, error, isError, data } = useLogin();
+  const { mutateAsync: loginMutate, error, isError } = useLogin();
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await loginMutate(data).then(() => {
         setOpen(false);
+        router.refresh();
+        toast.success("Login Success", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       });
     } catch (error) {
-      alert(error);
+      toast.error("Login Failed", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild className="cursor-pointer">
-        <Label>Sign In</Label>
+        <UserIcon className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 " />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
