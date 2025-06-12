@@ -16,6 +16,10 @@ import dayjs from "dayjs";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { useSignUp } from "@/services/authServices";
+import { signUpBodyDTO } from "@/types";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
@@ -32,6 +36,9 @@ const formSchema = z.object({
 
 const SignupPage = () => {
   const [changeType, setChangeType] = useState<boolean>(false);
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,17 +55,33 @@ const SignupPage = () => {
     setChangeType(!changeType);
   };
 
+  const { mutateAsync: signUpMutate, error, isError } = useSignUp();
+
   const handleSignIn = async (values: z.infer<typeof formSchema>) => {
-    console.log(
-      "🎯 BirthDate Value:",
-      values.birthDate.toDateString() <= dayjs().toString()
-    );
+    try {
+      const payload: signUpBodyDTO = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        birthDate: dayjs(values.birthDate),
+        phone: values.phone,
+        email: values.email,
+        password: values.password,
+      };
+      await signUpMutate(payload)
+        .then(() => {
+          toast.success("SignUp Success");
+          router.push("/");
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+    } catch (error) {}
   };
   return (
     <div className=" bg-gray-50  py-10 px-4 sm:px-6 lg:px-8 ">
       <Card className=" max-w-7xl mx-auto my-5">
         <CardHeader>
-          <CardTitle className="text-3xl text-center">Signup</CardTitle>
+          <CardTitle className="text-3xl text-center">Sign Up</CardTitle>
         </CardHeader>
         <FormProvider {...form}>
           <form

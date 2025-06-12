@@ -1,12 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
-import { login } from "./api/authApi";
+import { signIn, signUp } from "./api/authApi";
 
-export const useLogin = () => {
+export const useSignIn = () => {
   return useMutation({
-    mutationFn: login,
+    mutationFn: signIn,
     onSuccess: () => {},
     onError: (error: Error) => {
-      console.log("Login Failed: ", error.message);
+      console.log("SignIn Failed: ", error.message);
+    },
+  });
+};
+
+export const useSignUp = () => {
+  return useMutation({
+    mutationFn: signUp,
+    onSuccess: () => {},
+    onError: (error: Error) => {
+      console.log("SignUp Failed: ", error.message);
     },
   });
 };

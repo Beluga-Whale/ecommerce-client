@@ -16,12 +16,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInputField from "./FormInput/FormInputField";
-import { Dispatch, SetStateAction, useState } from "react";
-import { useLogin } from "@/services/authServices";
+import { Dispatch, SetStateAction } from "react";
+
 import axios from "axios";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useSignIn } from "@/services/authServices";
 
 type DialogLoginPros = {
   setOpenDialogLogin: Dispatch<SetStateAction<boolean>>;
@@ -50,7 +51,7 @@ const DialogLogin = ({
     },
   });
 
-  const { mutateAsync: loginMutate, error, isError } = useLogin();
+  const { mutateAsync: loginMutate, error, isError } = useSignIn();
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await loginMutate(data).then(() => {
