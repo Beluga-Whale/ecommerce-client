@@ -21,17 +21,17 @@ const HeroSection = () => {
             Shop Now
           </button>
         </div>
-        <div className=" hidden lg:flex items-center gap-4">
+        <div className=" hidden lg:flex items-center gap-4 ">
           <img
             src="/images/heroSection.jpg"
             alt="Hero Model"
             className="h-[400px] w-auto rounded-xl shadow-sm"
           />
-          <img
+          {/* <img
             src="/images/heroSection.jpg"
             alt="Hero Model"
-            className="h-[360px] w-auto rounded-xl shadow-md opacity-90"
-          />
+            className="h-[360px]  w-auto rounded-xl shadow-md opacity-90"
+          /> */}
         </div>
       </div>
     </section>

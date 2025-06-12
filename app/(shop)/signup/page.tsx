@@ -20,6 +20,8 @@ import { useSignUp } from "@/services/authServices";
 import { signUpBodyDTO } from "@/types";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/hooks";
+import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
@@ -36,6 +38,7 @@ const formSchema = z.object({
 
 const SignupPage = () => {
   const [changeType, setChangeType] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
 
@@ -71,6 +74,9 @@ const SignupPage = () => {
         .then(() => {
           toast.success("SignUp Success");
           router.push("/");
+          setTimeout(() => {
+            dispatch(setDialogLoginOpen());
+          }, 1000);
         })
         .catch((error) => {
           toast.error(error);

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/counter/counterSlice";
+import dialogReducer from "./features/dialog/dialogSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      counter: counterReducer,
+      dialog: dialogReducer,
     },
   });
 };

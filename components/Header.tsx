@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -14,6 +14,9 @@ import { useRouter } from "next/navigation";
 import { deleteCookie } from "@/lib/clearCookie";
 import { Bounce, toast } from "react-toastify";
 import Link from "next/link";
+import { UserIcon } from "lucide-react";
+import { useAppDispatch } from "@/lib/hooks";
+import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 
 type HeaderProps = {
   cookie: string | undefined;
@@ -34,8 +37,7 @@ const navigation = {
 
 const Header = ({ cookie }: HeaderProps) => {
   const [open, setOpen] = useState(false);
-
-  const [openDialogLogin, setOpenDialogLogin] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
   const handleLogout = async () => {
@@ -108,9 +110,10 @@ const Header = ({ cookie }: HeaderProps) => {
               <div className="flow-root">
                 {/* NOTE- Login */}
                 {cookie == "" || cookie == undefined ? (
-                  <DialogLogin
-                    setOpenDialogLogin={setOpenDialogLogin}
-                    openDialogLogin={openDialogLogin}
+                  <UserIcon
+                    onClick={() => dispatch(setDialogLoginOpen())}
+                    className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 "
+                    aria-describedby="login"
                   />
                 ) : (
                   <Label className="-m-2 block p-2 font-medium text-gray-900">
@@ -181,9 +184,10 @@ const Header = ({ cookie }: HeaderProps) => {
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {/* NOTE - Login */}
                   {cookie == "" || cookie == undefined ? (
-                    <DialogLogin
-                      setOpenDialogLogin={setOpenDialogLogin}
-                      openDialogLogin={openDialogLogin}
+                    <UserIcon
+                      onClick={() => dispatch(setDialogLoginOpen())}
+                      className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 "
+                      aria-describedby="login"
                     />
                   ) : (
                     <PersonDropDown />
@@ -208,6 +212,7 @@ const Header = ({ cookie }: HeaderProps) => {
           </div>
         </nav>
       </header>
+      <DialogLogin />
     </div>
   );
 };

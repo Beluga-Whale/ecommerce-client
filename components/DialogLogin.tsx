@@ -8,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
@@ -16,31 +15,23 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInputField from "./FormInput/FormInputField";
-import { Dispatch, SetStateAction } from "react";
 
 import axios from "axios";
-import { UserIcon } from "@heroicons/react/24/outline";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useSignIn } from "@/services/authServices";
-
-type DialogLoginPros = {
-  setOpenDialogLogin: Dispatch<SetStateAction<boolean>>;
-  openDialogLogin: boolean;
-};
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setDialogLoginClose } from "@/lib/features/dialog/dialogSlice";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
   password: z.string().min(1, { message: "password is required." }),
 });
 
-const DialogLogin = ({
-  openDialogLogin,
-  setOpenDialogLogin,
-}: DialogLoginPros) => {
-  // const [open, setOpen] = useState(false);
-
+const DialogLogin = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { loginToggle } = useAppSelector((state) => state.dialog);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +46,6 @@ const DialogLogin = ({
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await loginMutate(data).then(() => {
-        setOpenDialogLogin(false);
         router.refresh();
         toast.success("Login Success", {
           position: "top-center",
@@ -68,6 +58,8 @@ const DialogLogin = ({
           theme: "light",
           transition: Bounce,
         });
+        dispatch(setDialogLoginClose());
+        form.reset();
       });
     } catch (error) {
       toast.error("Login Failed", {
@@ -84,10 +76,12 @@ const DialogLogin = ({
     }
   };
   return (
-    <Dialog open={openDialogLogin} onOpenChange={setOpenDialogLogin}>
-      <DialogTrigger asChild className="cursor-pointer">
-        <UserIcon className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 " />
-      </DialogTrigger>
+    <Dialog
+      open={loginToggle}
+      onOpenChange={(open) => {
+        if (!open) dispatch(setDialogLoginClose());
+      }}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-center">Sign In</DialogTitle>
