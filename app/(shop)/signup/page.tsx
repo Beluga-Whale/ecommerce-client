@@ -15,7 +15,6 @@ import FormDatePickerField from "@/components/FormInput/FormDatePickerField";
 import dayjs from "dayjs";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import Image from "next/image";
 import { useSignUp } from "@/services/authServices";
 import { signUpBodyDTO } from "@/types";
 import { toast } from "react-toastify";
