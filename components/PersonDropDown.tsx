@@ -32,7 +32,10 @@ export function PersonDropDown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <UserIcon className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 " />
+        <UserIcon
+          className="size-7 bg-amber-400 text-white hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 "
+          aria-describedby="login"
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
