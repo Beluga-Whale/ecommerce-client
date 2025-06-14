@@ -49,7 +49,7 @@ export function AppSidebar() {
   ];
   return (
     <Sidebar className=" ">
-      <SidebarContent className="font-semibold p-2">
+      <SidebarContent className="font-semibold p-2 ">
         <SidebarGroup>
           <SidebarGroupLabel className="font-bold text-xl">
             <span className="text-amber-400">B</span>E
