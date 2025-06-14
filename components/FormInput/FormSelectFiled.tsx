@@ -16,7 +16,7 @@ import {
 } from "../ui/select";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
-type Option = {
+export type Option = {
   label: string;
   value: string | number;
 };

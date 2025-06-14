@@ -15,12 +15,15 @@ import FormInputField from "./FormInput/FormInputField";
 
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
+import { useCreateCategory } from "@/services/categoryServices";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "name is required." }),
 });
 
 const DialogCreateCategory = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -29,37 +32,42 @@ const DialogCreateCategory = () => {
     },
   });
 
+  const {
+    mutateAsync: createCategoryMutate,
+    error,
+    isError,
+  } = useCreateCategory();
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    // try {
-    //   await loginMutate(data).then(() => {
-    //     router.refresh();
-    //     toast.success("Login Success", {
-    //       position: "top-center",
-    //       autoClose: 2000,
-    //       hideProgressBar: false,
-    //       closeOnClick: false,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "light",
-    //       transition: Bounce,
-    //     });
-    //     dispatch(setDialogLoginClose());
-    //     form.reset();
-    //   });
-    // } catch (error) {
-    //   toast.error("Login Failed", {
-    //     position: "top-center",
-    //     autoClose: 2000,
-    //     hideProgressBar: false,
-    //     closeOnClick: false,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //     transition: Bounce,
-    //   });
-    // }
+    try {
+      await createCategoryMutate(data).then(() => {
+        // router.refresh();
+        toast.success("Create Category Success", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        form.reset();
+      });
+    } catch (error) {
+      toast.error("Create Category Failed", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
   };
   return (
     <Dialog>
@@ -83,11 +91,11 @@ const DialogCreateCategory = () => {
               type="text"
               placeholder=""
             />
-            {/* {isError && axios.isAxiosError(error) && (
+            {isError && axios.isAxiosError(error) && (
               <p className="text-red-500 text-sm ">
                 {error?.response?.data?.message}
               </p>
-            )} */}
+            )}
             <DialogFooter>
               <div className="flex flex-col w-full gap-3">
                 <Button className="w-full" type="submit">

@@ -10,10 +10,14 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { CldImage } from "next-cloudinary";
 import { UploadImage } from "@/components/UploadImage";
-import FormSelectField from "@/components/FormInput/FormSelectFiled";
+import FormSelectField, {
+  Option,
+} from "@/components/FormInput/FormSelectFiled";
 import DialogCreateCategory from "@/components/DialogCreateCategory";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useGetAllCategory } from "@/services/categoryServices";
+import { CategoryResponseDTO } from "@/types";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
@@ -32,6 +36,13 @@ const AddProduct = () => {
     },
   });
   const [description, setDescription] = useState<string>("");
+
+  const { data: dataCategoryAll } = useGetAllCategory();
+  const categoryList: Option[] =
+    dataCategoryAll?.data?.map((item: CategoryResponseDTO) => ({
+      label: item?.Name,
+      value: item?.ID,
+    })) ?? [];
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {};
   return (
@@ -69,11 +80,7 @@ const AddProduct = () => {
                     control={form.control}
                     name="category"
                     label="Select Category"
-                    options={[
-                      { label: "Low", value: "low" },
-                      { label: "Medium", value: "medium" },
-                      { label: "High", value: "high" },
-                    ]}
+                    options={categoryList}
                   />
                 </div>
                 <div className="my-5">
