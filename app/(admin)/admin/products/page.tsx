@@ -1,4 +1,10 @@
+import { Button } from "@/components/ui/button";
+
 const ProductsPage = () => {
-  return <div>ProductsPage</div>;
+  return (
+    <div>
+      <Button>Add Products</Button>
+    </div>
+  );
 };
 export default ProductsPage;

@@ -22,7 +22,7 @@ const HeaderAdmin = () => {
     },
   ];
   return (
-    <div className="  w-screen">
+    <div className=" w-screen">
       <h1>
         {pathname === "/admin"
           ? "DashBoard"
