@@ -1,4 +1,13 @@
+"use client";
+import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
+import { useState } from "react";
+
 const AddProduct = () => {
-  return <div>AddProduct</div>;
+  const [description, setDescription] = useState<string>("");
+  return (
+    <div>
+      <SimpleEditor onChange={setDescription} />
+    </div>
+  );
 };
 export default AddProduct;
