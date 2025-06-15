@@ -31,6 +31,17 @@ export type CategoryResponseDTO = {
 
 // NOTE - Products
 
+export type ProductBodyDTO = {
+  name: string;
+  description: string;
+  images: ImagesBodyDTO[];
+  isFeatured: boolean;
+  isOnSale: boolean;
+  salePrice: number;
+  categoryId: number;
+  variants: variantsDTO[];
+};
+
 export type variantsDTO = {
   size: string;
   stock: number;
@@ -38,13 +49,6 @@ export type variantsDTO = {
   price: number;
 };
 
-export type ProductBodyDTO = {
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  isFeatured: boolean;
-  isOnSale: false;
-  categoryID: number;
-  variants: variantsDTO[];
+export type ImagesBodyDTO = {
+  url: string;
 };

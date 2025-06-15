@@ -17,8 +17,16 @@ import { Info } from "lucide-react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategory } from "@/services/categoryServices";
-import { CategoryResponseDTO } from "@/types";
+import {
+  CategoryResponseDTO,
+  ImagesBodyDTO,
+  ProductBodyDTO,
+  variantsDTO,
+} from "@/types";
 import FormCheckBoxField from "@/components/FormInput/FormCheckBoxField";
+import { useCreateProduct } from "@/services/productervices";
+import { Bounce, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
@@ -38,6 +46,9 @@ const formSchema = z.object({
 
 const AddProduct = () => {
   const [imageUpload, setImageUpload] = useState<string[]>([]);
+
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,9 +73,61 @@ const AddProduct = () => {
       value: item?.ID,
     })) ?? [];
 
+  const { mutateAsync: productMutate, error, isError } = useCreateProduct();
+
+  const imageArray: ImagesBodyDTO[] = imageUpload?.map((item: string) => ({
+    url: item,
+  }));
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    const payload = {};
-    console.log("Halay", imageUpload);
+    const productVariants: variantsDTO[] = data?.variants?.map((item) => ({
+      size: item.size,
+      stock: item.stock,
+      sku: `${data?.name.toUpperCase()}-${item.size}`,
+      price: item.price,
+    }));
+
+    const payload: ProductBodyDTO = {
+      name: data?.name,
+      description: description,
+      images: imageArray,
+      isFeatured: data?.isFeature,
+      isOnSale: data?.salePrice <= 0 ? false : true,
+      salePrice: data?.salePrice,
+      categoryId: Number(data?.category),
+      variants: productVariants,
+    };
+
+    try {
+      await productMutate(payload).then(() => {
+        toast.success("Create Product Success", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        router.push("/admin/products");
+        router.refresh();
+        form.reset();
+      });
+    } catch (error) {
+      toast.error("Create Product Failed", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
   };
   return (
     <div className="  bg-slate-200 h-screen overflow-auto p-10 ">
