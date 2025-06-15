@@ -1,5 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { createProduct } from "./api/productsApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createProduct, getAllProducts } from "./api/productsApi";
+
+const getGetAllProductQueryKey = "getGetAllProductQueryKey";
 
 export const useCreateProduct = () => {
   return useMutation({
@@ -8,5 +10,12 @@ export const useCreateProduct = () => {
     onError: (error: Error) => {
       console.log("Create Product Failed: ", error.message);
     },
+  });
+};
+
+export const useGetAllProducts = () => {
+  return useQuery({
+    queryKey: [getGetAllProductQueryKey],
+    queryFn: () => getAllProducts(),
   });
 };

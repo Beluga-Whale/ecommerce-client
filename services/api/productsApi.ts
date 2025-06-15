@@ -12,3 +12,14 @@ export const createProduct = async (data: ProductBodyDTO) => {
     throw error;
   }
 };
+
+export const getAllProducts = async () => {
+  try {
+    const result = await axios.get(`${apiUrl}/product`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
