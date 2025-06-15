@@ -35,8 +35,16 @@ const FormInputField = <T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} type={type} {...field} />
-            {/* <EyeOff size={18} /> */}
+            <Input
+              placeholder={placeholder}
+              type={type}
+              {...field}
+              onChange={(e) =>
+                field.onChange(
+                  type === "number" ? +e.target.value : e.target.value
+                )
+              }
+            />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage className="text-red-500" />

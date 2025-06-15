@@ -28,3 +28,23 @@ export type CategoryResponseDTO = {
   Name: string;
   Slug: string;
 };
+
+// NOTE - Products
+
+export type variantsDTO = {
+  size: string;
+  stock: number;
+  sku: string;
+  price: number;
+};
+
+export type ProductBodyDTO = {
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  isFeatured: boolean;
+  isOnSale: false;
+  categoryID: number;
+  variants: variantsDTO[];
+};

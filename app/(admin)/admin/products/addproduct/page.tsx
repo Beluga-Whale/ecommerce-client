@@ -13,30 +13,48 @@ import { UploadImage } from "@/components/UploadImage";
 import FormSelectField, {
   Option,
 } from "@/components/FormInput/FormSelectFiled";
-import DialogCreateCategory from "@/components/DialogCreateCategory";
+import { Info } from "lucide-react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategory } from "@/services/categoryServices";
 import { CategoryResponseDTO } from "@/types";
+import FormCheckBoxField from "@/components/FormInput/FormCheckBoxField";
 
 const formSchema = z.object({
-  email: z.string().email("Invalid email format. Please enter a valid email."),
-  password: z.string().min(8, { message: "Password should be long than 8 " }),
+  name: z.string().min(1, { message: "Please enter name product" }),
   category: z.string().min(1, "Category is required"),
+  salePrice: z.number().min(1, "Please input sale price"),
+  isFeature: z.boolean(),
+  variants: z
+    .array(
+      z.object({
+        size: z.string().min(1, "Please select size"),
+        stock: z.number().min(1, "Stock must more than 1"),
+        price: z.number().min(1, "Price must more than 1"),
+      })
+    )
+    .min(1, "At least one variant is required"),
 });
 
 const AddProduct = () => {
-  const [imageUpload, setImageUpload] = useState<string>("");
+  const [imageUpload, setImageUpload] = useState<string[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      name: "",
       category: "",
+      salePrice: 0,
+      isFeature: false,
+      variants: [
+        {
+          size: "",
+          stock: 0,
+          price: 0,
+        },
+      ],
     },
   });
   const [description, setDescription] = useState<string>("");
-
   const { data: dataCategoryAll } = useGetAllCategory();
   const categoryList: Option[] =
     dataCategoryAll?.data?.map((item: CategoryResponseDTO) => ({
@@ -44,36 +62,56 @@ const AddProduct = () => {
       value: item?.ID,
     })) ?? [];
 
-  const handleSubmit = async (data: z.infer<typeof formSchema>) => {};
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    const payload = {};
+    console.log("Halay", imageUpload);
+  };
   return (
     <div className="  bg-slate-200 h-screen overflow-auto p-10 ">
       <h3>Add New Product</h3>
-      <div className="flex   ">
+      <div className="  ">
         <Card className="w-full  ">
           <FormProvider {...form}>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                form.handleSubmit(handleSubmit)();
-              }}
-              className="space-x-5 flex  "
-            >
+            <form className="inline-block md:flex md:flex-row-reverse ">
               {/* NOTE - left */}
-              <CardContent className=" w-1/2 h-full ">
+              <CardContent className="flex flex-col h-full my-5 md:w-1/2 ">
+                <Label>Upload Image</Label>
+                {imageUpload.length < 3 && (
+                  <UploadImage setImageUpload={setImageUpload} />
+                )}
+                {imageUpload && (
+                  <div className="flex gap-1.5">
+                    {imageUpload.map((url, idx) => (
+                      <CldImage
+                        key={idx}
+                        src={url}
+                        alt="Product image"
+                        width={200}
+                        height={125}
+                        className="rounded-xl border w-[200px] h-[125px] my-5"
+                      />
+                    ))}
+                  </div>
+                )}
+                <div className="flex items-center space-x-4">
+                  <Info size={35} className="text-gray-400" />
+                  <p className="text-sm text-gray-400">
+                    You need to add image 3 images. Pay attention to the quality
+                    and size of picture you add (important)
+                  </p>
+                </div>
+                {/* NOTE - Add Product Size */}
+                <div className="my-5">
+                  <ProductVariants formProductVariants={form} />
+                </div>
                 <div className="my-5">
                   <FormInputField
                     control={form.control}
-                    name="email"
-                    label="Email"
-                    placeholder="Email"
+                    name="salePrice"
+                    label="Sale Price"
+                    placeholder="Sale price all size"
+                    type="number"
                   />
-                </div>
-                <div className="max-w-3xl my-5">
-                  <Label>Description Product</Label>
-                  <SimpleEditor onChange={setDescription} />
-                </div>
-                <div className="my-5">
-                  <ProductVariants />
                 </div>
                 <div className="my-5">
                   <FormSelectField
@@ -84,34 +122,43 @@ const AddProduct = () => {
                   />
                 </div>
                 <div className="my-5">
-                  <DialogCreateCategory />
+                  <FormCheckBoxField
+                    control={form.control}
+                    name="isFeature"
+                    label="Feature"
+                  />
                 </div>
-                <DialogFooter>
-                  <div className="flex flex-col w-full gap-3">
-                    <Button className="w-full" type="submit">
-                      Create Products
-                    </Button>
-                  </div>
-                </DialogFooter>
               </CardContent>
               {/* NOTE - right */}
-              <CardContent className="flex flex-col w-1/2 h-full my-5 ">
-                <Label>Upload Image</Label>
-                {!imageUpload && (
-                  <UploadImage setImageUpload={setImageUpload} />
-                )}
-                {imageUpload && (
-                  <CldImage
-                    src={imageUpload}
-                    alt="Product image"
-                    width={300} // ✅ ความกว้าง 300px
-                    height={225} // ✅ สัดส่วน 4:3 (ดูดีในกล่อง)
-                    className="rounded-xl border w-[300px] h-[225px] my-5"
+              <CardContent className="  h-full md:w-1/2 ">
+                <div className="my-5">
+                  <FormInputField
+                    control={form.control}
+                    name="name"
+                    label="Name Product"
+                    placeholder="name of product"
+                    type="text"
                   />
-                )}
+                </div>
+                {/* NOTE - Description */}
+                <div className="max-w-3xl my-5">
+                  <Label>Description Product</Label>
+                  <SimpleEditor onChange={setDescription} />
+                </div>
               </CardContent>
             </form>
+            <DialogFooter className="self-end">
+              <div className="flex flex-col w-full gap-3">
+                <Button
+                  className="w-full"
+                  onClick={() => form.handleSubmit(handleSubmit)()}
+                >
+                  Create Products
+                </Button>
+              </div>
+            </DialogFooter>
           </FormProvider>
+          {/* <DialogCreateCategory /> */}
         </Card>
       </div>
     </div>
