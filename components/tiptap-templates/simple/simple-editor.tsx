@@ -218,7 +218,7 @@ export function SimpleEditor({
   }, [isMobile, mobileView]);
 
   return (
-    <div className="border rounded-xl border-amber-400 my-2">
+    <div className="border rounded-xl border-amber-400 my-2 h-full">
       <EditorContext.Provider value={{ editor }}>
         <div className="max-w-3xl">
           <Toolbar

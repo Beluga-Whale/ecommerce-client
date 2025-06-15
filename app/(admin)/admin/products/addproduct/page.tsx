@@ -204,7 +204,7 @@ const AddProduct = () => {
                   />
                 </div>
                 {/* NOTE - Description */}
-                <div className="max-w-3xl my-5">
+                <div className="max-w-3xl my-5 h-96">
                   <Label>Description Product</Label>
                   <SimpleEditor onChange={setDescription} />
                 </div>
