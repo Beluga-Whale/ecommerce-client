@@ -156,8 +156,10 @@ const MobileToolbarContent = ({
 
 export function SimpleEditor({
   onChange,
+  description,
 }: {
   onChange?: (value: string) => void;
+  description: string;
 }) {
   const isMobile = useMobile();
   const windowSize = useWindowSize();
@@ -202,7 +204,7 @@ export function SimpleEditor({
     content: "",
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      onChange?.(html); // 💡 ส่งค่าออกไป
+      onChange?.(html);
     },
   });
 
@@ -216,6 +218,12 @@ export function SimpleEditor({
       setMobileView("main");
     }
   }, [isMobile, mobileView]);
+
+  React.useEffect(() => {
+    if (editor && description) {
+      editor.commands.setContent(description);
+    }
+  }, [editor, description]);
 
   return (
     <div className="border rounded-xl border-amber-400 my-2 h-full">

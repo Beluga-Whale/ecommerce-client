@@ -57,7 +57,7 @@ const SignupPage = () => {
     setChangeType(!changeType);
   };
 
-  const { mutateAsync: signUpMutate, error, isError } = useSignUp();
+  const { mutateAsync: signUpMutate } = useSignUp();
 
   const handleSignIn = async (values: z.infer<typeof formSchema>) => {
     try {

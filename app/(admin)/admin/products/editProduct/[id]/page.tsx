@@ -5,7 +5,7 @@ import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor
 import { Card, CardContent } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { CldImage } from "next-cloudinary";
@@ -24,9 +24,13 @@ import {
   variantsDTO,
 } from "@/types";
 import FormCheckBoxField from "@/components/FormInput/FormCheckBoxField";
-import { useCreateProduct } from "@/services/productServices";
+import {
+  useCreateProduct,
+  useGetProductByID,
+  useUpdateProduct,
+} from "@/services/productServices";
 import { Bounce, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
@@ -44,13 +48,16 @@ const formSchema = z.object({
     .min(1, "At least one variant is required"),
 });
 
-const AddProductPage = () => {
+const EditProductPage = () => {
+  const { id } = useParams();
+  const { data: product } = useGetProductByID(Number(id));
   const [imageUpload, setImageUpload] = useState<string[]>([]);
-
+  console.log("product", product?.data);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+
     defaultValues: {
       name: "",
       category: "",
@@ -73,7 +80,7 @@ const AddProductPage = () => {
       value: item?.ID,
     })) ?? [];
 
-  const { mutateAsync: productMutate, error, isError } = useCreateProduct();
+  const { mutateAsync: updateProductMutate } = useUpdateProduct(Number(id));
 
   const imageArray: ImagesBodyDTO[] = imageUpload?.map((item: string) => ({
     url: item,
@@ -86,7 +93,6 @@ const AddProductPage = () => {
       sku: `${data?.name.toUpperCase()}-${item.size}`,
       price: item.price,
     }));
-
     const payload: ProductBodyDTO = {
       name: data?.name,
       description: description,
@@ -97,10 +103,9 @@ const AddProductPage = () => {
       categoryId: Number(data?.category),
       variants: productVariants,
     };
-
     try {
-      await productMutate(payload).then(() => {
-        toast.success("Create Product Success", {
+      await updateProductMutate(payload).then(() => {
+        toast.success("Update Product Success", {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: false,
@@ -116,7 +121,7 @@ const AddProductPage = () => {
         form.reset();
       });
     } catch (error) {
-      toast.error("Create Product Failed", {
+      toast.error("Update Product Failed", {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
@@ -129,9 +134,27 @@ const AddProductPage = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (product?.data) {
+      form.reset({
+        name: product.data.name,
+        category: String(product.data.categoryID),
+        salePrice: product.data.salePrice,
+        isFeature: product.data.isFeatured,
+        variants: product.data.variants.map((v: any) => ({
+          size: v.size,
+          stock: v.stock,
+          price: v.price,
+        })),
+      });
+      setImageUpload(product.data.images.map((img: any) => img.url));
+      setDescription(product.data.description);
+    }
+  }, [product?.data]);
   return (
     <div className="  bg-slate-200 h-screen overflow-auto p-10 ">
-      <h3>Add New Product</h3>
+      <h3>Edit Product</h3>
       <div className="  ">
         <Card className="w-full  ">
           <FormProvider {...form}>
@@ -230,4 +253,4 @@ const AddProductPage = () => {
     </div>
   );
 };
-export default AddProductPage;
+export default EditProductPage;

@@ -8,20 +8,21 @@ import {
   ModuleRegistry,
   PaginationModule,
 } from "ag-grid-community";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 ModuleRegistry.registerModules([PaginationModule, ClientSideRowModelModule]);
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useFetchJson } from "@/components/useFetchJson";
-import { IOlympicData } from "@/types";
-import { useGetAllProducts } from "@/services/productervices";
+import { ProductBodyDTO } from "@/types";
+import { useGetAllProducts } from "@/services/productServices";
+import { useGetAllCategory } from "@/services/categoryServices";
+import DropdownDataTableProducts from "@/components/DropDownDataTable/DropdownDataTableProducts";
 
 const ProductsPage = () => {
   const router = useRouter();
-  const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
   const { data: productsData } = useGetAllProducts();
-
+  const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
   const [columnDefs] = useState<ColDef[]>([
     { headerName: "Name", field: "name" },
     {
@@ -30,15 +31,27 @@ const ProductsPage = () => {
       cellRenderer: (params: any) => {
         const url = params.value?.[0]?.url ?? "https://via.placeholder.com/50";
         return (
-          <img
-            src={url}
-            alt="Product"
-            className="w-[50px] h-[50px] object-cover rounded-md"
-          />
+          <div className="p-3">
+            <img
+              src={url}
+              alt="Product"
+              className="w-[40px] h-[25px] object-cover rounded-md"
+            />
+          </div>
         );
       },
     },
-    { headerName: "Category", field: "categoryID" },
+    {
+      headerName: "Category",
+      field: "categoryID",
+      cellRenderer: (params: any) => {
+        const { data: categoryData } = useGetAllCategory();
+        const category = categoryData?.data?.find(
+          (item: any) => item.ID == params?.data?.categoryID
+        );
+        return <>{category?.Name ?? "-"}</>;
+      },
+    },
     {
       headerName: "Stock",
       field: "stock", // ต้องใส่ field หรือ valueGetter ให้ AG Grid รู้ว่าใช้ค่านี้ในการ sort
@@ -57,8 +70,25 @@ const ProductsPage = () => {
 
     { headerName: "IsOnSale", field: "isOnSale" },
     { headerName: "IsFeatured", field: "isFeatured" },
+    {
+      headerName: "Actions",
+      field: "actions",
+      cellRenderer: (params: any) => {
+        return (
+          <div className="flex items-center h-full">
+            <DropdownDataTableProducts idProduct={params?.data?.id} />
+            {/* 
+            <button
+              onClick={handleEdit}
+              className="bg-blue-500 text-white px-2 py-1 rounded"
+            >
+              Edit
+            </button> */}
+          </div>
+        );
+      },
+    },
   ]);
-
   const defaultColDef = useMemo<ColDef>(() => {
     return {
       flex: 1,
@@ -68,17 +98,19 @@ const ProductsPage = () => {
 
   return (
     <div className="p-4">
-      <Button onClick={() => router.push("/admin/products/addproduct")}>
-        Add Products
-      </Button>
-      <div style={containerStyle} className="ag-theme-alpine mt-4">
-        <AgGridReact<IOlympicData>
-          rowData={productsData?.data?.products}
-          columnDefs={columnDefs}
-          defaultColDef={defaultColDef}
-          pagination={true}
-        />
-      </div>
+      <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
+        <Button onClick={() => router.push("/admin/products/addproduct")}>
+          Add Products
+        </Button>
+        <div style={containerStyle} className="ag-theme-alpine mt-4">
+          <AgGridReact<ProductBodyDTO>
+            rowData={productsData?.data?.products}
+            columnDefs={columnDefs}
+            defaultColDef={defaultColDef}
+            pagination={true}
+          />
+        </div>
+      </AspectRatio>
     </div>
   );
 };

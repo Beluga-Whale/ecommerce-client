@@ -36,7 +36,7 @@ const AdminLoginPage = () => {
     },
   });
 
-  const { mutateAsync: loginMutate, error, isError } = useSignIn();
+  const { mutateAsync: loginMutate } = useSignIn();
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await loginMutate(data).then(() => {

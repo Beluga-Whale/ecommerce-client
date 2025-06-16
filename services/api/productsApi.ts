@@ -23,3 +23,28 @@ export const getAllProducts = async () => {
     throw error;
   }
 };
+
+export const getProductID = async (id: number) => {
+  try {
+    const result = await axios.get(`${apiUrl}/product/${id}`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateProductByID = async (
+  id: number,
+  payload: ProductBodyDTO
+) => {
+  try {
+    const result = await axios.put(`${apiUrl}/product/${id}`, payload, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
