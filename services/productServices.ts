@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createProduct,
   deleteProductByID,
@@ -6,7 +6,7 @@ import {
   getProductID,
   updateProductByID,
 } from "./api/productsApi";
-import { ProductBodyDTO } from "@/types";
+import { ProductAllResponse, ProductBodyDTO } from "@/types";
 
 const getGetAllProductQueryKey = "getGetAllProductQueryKey";
 const getGetProductByIDQueryKey = "getGetProductByIDQueryKey";
@@ -22,7 +22,7 @@ export const useCreateProduct = () => {
 };
 
 export const useGetAllProducts = () => {
-  return useQuery({
+  return useQuery<ProductAllResponse>({
     queryKey: [getGetAllProductQueryKey],
     queryFn: () => getAllProducts(),
   });
@@ -46,9 +46,14 @@ export const useUpdateProduct = (id: number) => {
 };
 
 export const upeDeleteProductByID = (id: number) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => deleteProductByID(id),
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getGetAllProductQueryKey],
+      });
+    },
     onError: (error: Error) => {
       console.log("Update Product Failed: ", error.message);
     },

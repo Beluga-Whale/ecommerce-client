@@ -17,6 +17,7 @@ import FormInputField from "./FormInput/FormInputField";
 
 type ProductFormType = {
   name: string;
+  title: string;
   category: string;
   salePrice: number;
   isFeature: boolean;

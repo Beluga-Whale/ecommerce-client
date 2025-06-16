@@ -28,7 +28,6 @@ const DialogDeleteProduct = () => {
   const handlerDelete = async () => {
     try {
       await deleteProductByID().then(() => {
-        router.refresh();
         toast.success("Delete Success", {
           position: "top-center",
           autoClose: 2000,
@@ -41,6 +40,7 @@ const DialogDeleteProduct = () => {
           transition: Bounce,
         });
         dispatch(setDialogDeleteProductClose());
+        window.location.reload();
       });
     } catch (error) {
       toast.error("Delete Failed", {

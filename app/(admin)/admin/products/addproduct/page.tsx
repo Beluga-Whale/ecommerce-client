@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
+  title: z.string().min(1, { message: "Please enter title product" }),
   category: z.string().min(1, "Category is required"),
   salePrice: z.number(),
   isFeature: z.boolean(),
@@ -53,6 +54,7 @@ const AddProductPage = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      title: "",
       category: "",
       salePrice: 0,
       isFeature: false,
@@ -89,6 +91,7 @@ const AddProductPage = () => {
 
     const payload: ProductBodyDTO = {
       name: data?.name,
+      title: data?.title,
       description: description,
       images: imageArray,
       isFeatured: data?.isFeature,
@@ -200,6 +203,15 @@ const AddProductPage = () => {
                     name="name"
                     label="Name Product"
                     placeholder="name of product"
+                    type="text"
+                  />
+                </div>
+                <div className="my-5">
+                  <FormInputField
+                    control={form.control}
+                    name="title"
+                    label="Title Product"
+                    placeholder="Title of product"
                     type="text"
                   />
                 </div>

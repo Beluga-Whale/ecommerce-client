@@ -33,6 +33,7 @@ export type CategoryResponseDTO = {
 
 export type ProductBodyDTO = {
   name: string;
+  title: string;
   description: string;
   images: ImagesBodyDTO[];
   isFeatured: boolean;
@@ -52,6 +53,42 @@ export type variantsDTO = {
 export type ImagesBodyDTO = {
   url: string;
 };
+
+export interface ProductImage {
+  url: string;
+}
+
+export interface ProductVariant {
+  size: string;
+  stock: number;
+  sku: string;
+  price: number;
+  finalPrice?: number;
+}
+
+export interface ProductDTO {
+  id: number;
+  name: string;
+  title: string;
+  description: string;
+  images: ProductImage[];
+  variants: ProductVariant[];
+  isFeatured: boolean;
+  isOnSale: boolean;
+  salePrice?: number;
+  categoryID: number;
+}
+
+export interface ProductAllResponse {
+  data: {
+    limit: number;
+    page: number;
+    pageTotal: number;
+    products: ProductDTO[];
+  };
+  message: string;
+  success: boolean;
+}
 
 // NOTE -
 

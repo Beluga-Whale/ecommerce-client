@@ -13,12 +13,11 @@ ModuleRegistry.registerModules([PaginationModule, ClientSideRowModelModule]);
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ProductBodyDTO } from "@/types";
+import { ProductDTO } from "@/types";
 import { useGetAllProducts } from "@/services/productServices";
 import { useGetAllCategory } from "@/services/categoryServices";
 import DropdownDataTableProducts from "@/components/DropDownDataTable/DropdownDataTableProducts";
 import DialogDeleteProduct from "@/components/Dialog/DialogDeleteProduct";
-import { useAppSelector } from "@/lib/hooks";
 
 const ProductsPage = () => {
   const router = useRouter();
@@ -26,6 +25,7 @@ const ProductsPage = () => {
   const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
   const [columnDefs] = useState<ColDef[]>([
     { headerName: "Name", field: "name" },
+    { headerName: "Title", field: "title" },
     {
       headerName: "Image",
       field: "images",
@@ -92,21 +92,20 @@ const ProductsPage = () => {
       minWidth: 100,
     };
   }, []);
-  const { deleteProductToggle } = useAppSelector((state) => state.dialog);
+
   return (
     <div className="p-4">
       <Button onClick={() => router.push("/admin/products/addproduct")}>
         Add Products
       </Button>
       <div style={containerStyle} className="ag-theme-alpine mt-4">
-        <AgGridReact<ProductBodyDTO>
+        <AgGridReact<ProductDTO>
           rowData={productsData?.data?.products}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           pagination={true}
         />
       </div>
-
       <DialogDeleteProduct />
     </div>
   );

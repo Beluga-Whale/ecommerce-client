@@ -33,6 +33,7 @@ import { useParams, useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
+  title: z.string().min(1, { message: "Please enter title product" }),
   category: z.string().min(1, "Category is required"),
   salePrice: z.number(),
   isFeature: z.boolean(),
@@ -58,6 +59,7 @@ const EditProductPage = () => {
 
     defaultValues: {
       name: "",
+      title: "",
       category: "",
       salePrice: 0,
       isFeature: false,
@@ -93,6 +95,7 @@ const EditProductPage = () => {
     }));
     const payload: ProductBodyDTO = {
       name: data?.name,
+      title: data?.title,
       description: description,
       images: imageArray,
       isFeatured: data?.isFeature,
@@ -137,6 +140,7 @@ const EditProductPage = () => {
     if (product?.data) {
       form.reset({
         name: product.data.name,
+        title: product.data.title,
         category: String(product.data.categoryID),
         salePrice: product.data.salePrice,
         isFeature: product.data.isFeatured,
@@ -221,6 +225,15 @@ const EditProductPage = () => {
                     name="name"
                     label="Name Product"
                     placeholder="name of product"
+                    type="text"
+                  />
+                </div>
+                <div className="my-5">
+                  <FormInputField
+                    control={form.control}
+                    name="title"
+                    label="Title Product"
+                    placeholder="Title of product"
                     type="text"
                   />
                 </div>

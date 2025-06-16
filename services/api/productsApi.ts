@@ -1,4 +1,4 @@
-import { ProductBodyDTO } from "@/types";
+import { ProductAllResponse, ProductBodyDTO } from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
 
@@ -13,7 +13,7 @@ export const createProduct = async (data: ProductBodyDTO) => {
   }
 };
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (): Promise<ProductAllResponse> => {
   try {
     const result = await axios.get(`${apiUrl}/product`, {
       withCredentials: true,
