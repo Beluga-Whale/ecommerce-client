@@ -1,9 +1,9 @@
 "use client";
 import { ProductDTO, ProductVariant } from "@/types";
-import Pagination from "./Pagination";
 import { useGetAllProducts } from "@/services/productServices";
 import { CldImage } from "next-cloudinary";
 import { useState } from "react";
+import Pagination from "./Pagination";
 
 const ProductLists = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -29,12 +29,7 @@ const ProductLists = () => {
                 />
                 <div className="mt-4 flex justify-between">
                   <div>
-                    <h3 className="text-sm text-gray-700">
-                      {/* <a href={product.href}> */}
-                      <span aria-hidden="true" className="absolute inset-0" />
-                      {product.name}
-                      {/* </a> */}
-                    </h3>
+                    <h3 className="text-sm text-gray-700">{product.name}</h3>
                     <p className="mt-1 text-sm text-gray-500">
                       {product.title}
                     </p>
