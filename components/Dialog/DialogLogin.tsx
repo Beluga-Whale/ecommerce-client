@@ -1,6 +1,6 @@
 // "use client";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
 import {
   Dialog,
   DialogClose,
@@ -9,12 +9,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import FormInputField from "./FormInput/FormInputField";
+import FormInputField from "../FormInput/FormInputField";
 
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";

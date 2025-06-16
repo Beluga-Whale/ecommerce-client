@@ -52,7 +52,6 @@ const EditProductPage = () => {
   const { id } = useParams();
   const { data: product } = useGetProductByID(Number(id));
   const [imageUpload, setImageUpload] = useState<string[]>([]);
-  console.log("product", product?.data);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({

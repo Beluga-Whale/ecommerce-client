@@ -8,7 +8,6 @@ import {
   ModuleRegistry,
   PaginationModule,
 } from "ag-grid-community";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 ModuleRegistry.registerModules([PaginationModule, ClientSideRowModelModule]);
 
@@ -18,6 +17,8 @@ import { ProductBodyDTO } from "@/types";
 import { useGetAllProducts } from "@/services/productServices";
 import { useGetAllCategory } from "@/services/categoryServices";
 import DropdownDataTableProducts from "@/components/DropDownDataTable/DropdownDataTableProducts";
+import DialogDeleteProduct from "@/components/Dialog/DialogDeleteProduct";
+import { useAppSelector } from "@/lib/hooks";
 
 const ProductsPage = () => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const ProductsPage = () => {
     },
     {
       headerName: "Stock",
-      field: "stock", // ต้องใส่ field หรือ valueGetter ให้ AG Grid รู้ว่าใช้ค่านี้ในการ sort
+      field: "stock",
       valueGetter: (params) => {
         const variants = params.data.variants ?? [];
         return variants.reduce(
@@ -63,9 +64,9 @@ const ProductsPage = () => {
         );
       },
       cellRenderer: (params: any) => {
-        return <p>{params.value}</p>; // ✅ ใช้ value ที่คำนวณจาก valueGetter
+        return <p>{params.value}</p>;
       },
-      sortable: true, // optional (AG Grid เปิด sortable ให้ทุก column ที่มีค่าอยู่แล้ว)
+      sortable: true,
     },
 
     { headerName: "IsOnSale", field: "isOnSale" },
@@ -76,14 +77,10 @@ const ProductsPage = () => {
       cellRenderer: (params: any) => {
         return (
           <div className="flex items-center h-full">
-            <DropdownDataTableProducts idProduct={params?.data?.id} />
-            {/* 
-            <button
-              onClick={handleEdit}
-              className="bg-blue-500 text-white px-2 py-1 rounded"
-            >
-              Edit
-            </button> */}
+            <DropdownDataTableProducts
+              idProduct={params?.data?.id}
+              nameProduct={params?.data?.name}
+            />
           </div>
         );
       },
@@ -95,22 +92,22 @@ const ProductsPage = () => {
       minWidth: 100,
     };
   }, []);
-
+  const { deleteProductToggle } = useAppSelector((state) => state.dialog);
   return (
     <div className="p-4">
-      <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
-        <Button onClick={() => router.push("/admin/products/addproduct")}>
-          Add Products
-        </Button>
-        <div style={containerStyle} className="ag-theme-alpine mt-4">
-          <AgGridReact<ProductBodyDTO>
-            rowData={productsData?.data?.products}
-            columnDefs={columnDefs}
-            defaultColDef={defaultColDef}
-            pagination={true}
-          />
-        </div>
-      </AspectRatio>
+      <Button onClick={() => router.push("/admin/products/addproduct")}>
+        Add Products
+      </Button>
+      <div style={containerStyle} className="ag-theme-alpine mt-4">
+        <AgGridReact<ProductBodyDTO>
+          rowData={productsData?.data?.products}
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          pagination={true}
+        />
+      </div>
+
+      <DialogDeleteProduct />
     </div>
   );
 };

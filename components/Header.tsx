@@ -7,7 +7,7 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import DialogLogin from "./DialogLogin";
+import DialogLogin from "./Dialog/DialogLogin";
 import { PersonDropDown } from "./PersonDropDown";
 import { Label } from "./ui/label";
 import { useRouter } from "next/navigation";

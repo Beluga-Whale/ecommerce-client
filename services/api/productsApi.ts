@@ -48,3 +48,14 @@ export const updateProductByID = async (
     throw error;
   }
 };
+
+export const deleteProductByID = async (id: number) => {
+  try {
+    const result = await axios.delete(`${apiUrl}/product/${id}`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};

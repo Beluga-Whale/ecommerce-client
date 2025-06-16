@@ -1,5 +1,5 @@
 // "use client";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import FormInputField from "./FormInput/FormInputField";
+import FormInputField from "../FormInput/FormInputField";
 
 import axios from "axios";
 import { Bounce, toast } from "react-toastify";
@@ -23,7 +23,6 @@ const formSchema = z.object({
 });
 
 const DialogCreateCategory = () => {
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onSubmit",

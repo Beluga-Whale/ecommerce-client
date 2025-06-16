@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createProduct,
+  deleteProductByID,
   getAllProducts,
   getProductID,
   updateProductByID,
@@ -37,6 +38,16 @@ export const useGetProductByID = (id: number) => {
 export const useUpdateProduct = (id: number) => {
   return useMutation({
     mutationFn: (payload: ProductBodyDTO) => updateProductByID(id, payload),
+    onSuccess: () => {},
+    onError: (error: Error) => {
+      console.log("Update Product Failed: ", error.message);
+    },
+  });
+};
+
+export const upeDeleteProductByID = (id: number) => {
+  return useMutation({
+    mutationFn: () => deleteProductByID(id),
     onSuccess: () => {},
     onError: (error: Error) => {
       console.log("Update Product Failed: ", error.message);
