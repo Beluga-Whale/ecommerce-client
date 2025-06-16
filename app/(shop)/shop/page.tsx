@@ -1,5 +1,4 @@
 import CategoryFilter from "@/components/CategoryFilter";
-import Pagination from "@/components/Pagination";
 
 const ShopPage = () => {
   return (

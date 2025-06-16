@@ -3,9 +3,11 @@ import { ProductDTO, ProductVariant } from "@/types";
 import Pagination from "./Pagination";
 import { useGetAllProducts } from "@/services/productServices";
 import { CldImage } from "next-cloudinary";
+import { useState } from "react";
 
 const ProductLists = () => {
-  const { data: productAll } = useGetAllProducts();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { data: productAll } = useGetAllProducts(currentPage);
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-1 sm:px-6  lg:max-w-7xl lg:px-8">
@@ -50,7 +52,11 @@ const ProductLists = () => {
             )
           )}
         </div>
-        <Pagination />
+        <Pagination
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          totalPage={productAll?.data?.pageTotal}
+        />
       </div>
     </div>
   );

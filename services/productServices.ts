@@ -21,10 +21,10 @@ export const useCreateProduct = () => {
   });
 };
 
-export const useGetAllProducts = () => {
+export const useGetAllProducts = (page?: number | undefined) => {
   return useQuery<ProductAllResponse>({
-    queryKey: [getGetAllProductQueryKey],
-    queryFn: () => getAllProducts(),
+    queryKey: [getGetAllProductQueryKey, page],
+    queryFn: () => getAllProducts(page),
   });
 };
 

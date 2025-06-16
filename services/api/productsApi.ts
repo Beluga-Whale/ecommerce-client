@@ -13,9 +13,15 @@ export const createProduct = async (data: ProductBodyDTO) => {
   }
 };
 
-export const getAllProducts = async (): Promise<ProductAllResponse> => {
+export const getAllProducts = async (
+  page?: number | undefined
+): Promise<ProductAllResponse> => {
   try {
     const result = await axios.get(`${apiUrl}/product`, {
+      params: {
+        page,
+        limit: 12,
+      },
       withCredentials: true,
     });
     return result?.data;
