@@ -25,7 +25,6 @@ import {
 } from "@/types";
 import FormCheckBoxField from "@/components/FormInput/FormCheckBoxField";
 import {
-  useCreateProduct,
   useGetProductByID,
   useUpdateProduct,
 } from "@/services/productServices";
@@ -35,7 +34,7 @@ import { useParams, useRouter } from "next/navigation";
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
   category: z.string().min(1, "Category is required"),
-  salePrice: z.number().min(1, "Please input sale price"),
+  salePrice: z.number(),
   isFeature: z.boolean(),
   variants: z
     .array(
