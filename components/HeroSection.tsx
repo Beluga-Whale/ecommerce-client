@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const HeroSection = () => {
@@ -14,13 +15,14 @@ const HeroSection = () => {
           <p className="mt-4 text-lg text-gray-600">
             Premium basics made with quality fabric, tailored for modern living.
           </p>
-          <button
-            onClick={() => router.push("/shop")}
-            className="mt-6 px-6 py-3 bg-black text-white rounded-xl transition hover:bg-gray-800 hover:cursor-pointer"
+          <Link
+            href={`/shop`}
+            className="mt-8 inline-block px-6 py-3 bg-black text-white rounded-xl transition hover:bg-gray-800 hover:cursor-pointer"
           >
             Shop Now
-          </button>
+          </Link>
         </div>
+
         <div className=" hidden lg:flex items-center gap-4 ">
           <img
             src="/images/heroSection.jpg"
