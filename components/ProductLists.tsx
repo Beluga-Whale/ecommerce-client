@@ -37,7 +37,7 @@ const ProductLists = () => {
                   />
 
                   {product?.isOnSale && (
-                    <p className=" absolute animate-pulse top-2 right-3 bg-red-600 px-4 text-white font-bold">
+                    <p className=" absolute animate-pulse top-4 right-3 bg-red-600 px-4 text-white font-bold rounded-4xl">
                       SALE
                     </p>
                   )}

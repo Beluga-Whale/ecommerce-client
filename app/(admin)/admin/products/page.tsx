@@ -108,8 +108,7 @@ const ProductsPage = () => {
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           pagination={true}
-          paginationPageSize={10}
-          domLayout="autoHeight"
+          paginationPageSize={20}
         />
       </div>
       <DialogDeleteProduct />
