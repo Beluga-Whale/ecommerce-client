@@ -96,6 +96,13 @@ export interface ProductAllResponse {
   success: boolean;
 }
 
+type ProductNoId = Omit<ProductDTO, "id">;
+export interface ProductByIdResponse {
+  data: ProductNoId;
+  message: string;
+  success: boolean;
+}
+
 // NOTE -
 
 export interface IOlympicData {

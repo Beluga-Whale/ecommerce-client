@@ -6,7 +6,11 @@ import {
   getProductID,
   updateProductByID,
 } from "./api/productsApi";
-import { ProductAllResponse, ProductBodyDTO } from "@/types";
+import {
+  ProductAllResponse,
+  ProductBodyDTO,
+  ProductByIdResponse,
+} from "@/types";
 
 const getGetAllProductQueryKey = "getGetAllProductQueryKey";
 const getGetProductByIDQueryKey = "getGetProductByIDQueryKey";
@@ -34,7 +38,7 @@ export const useGetAllProducts = (
 };
 
 export const useGetProductByID = (id: number) => {
-  return useQuery({
+  return useQuery<ProductByIdResponse>({
     queryKey: [getGetProductByIDQueryKey, id],
     queryFn: () => getProductID(id),
   });

@@ -5,8 +5,11 @@ import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 import Pagination from "./Pagination";
 import { useAppSelector } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 
 const ProductLists = () => {
+  const router = useRouter();
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { category, size } = useAppSelector((state) => state.filter);
   const { data: productAll } = useGetAllProducts(
@@ -25,7 +28,11 @@ const ProductLists = () => {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {productAll?.data?.products?.map(
             (product: ProductDTO, index: number) => (
-              <div key={product?.id}>
+              <div
+                key={product?.id}
+                className="hover:cursor-pointer"
+                onClick={() => router.push(`/shop/product/${product.id}`)}
+              >
                 <div className="relative z-0">
                   <CldImage
                     key={index}

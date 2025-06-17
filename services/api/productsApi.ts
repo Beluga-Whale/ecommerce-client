@@ -1,4 +1,8 @@
-import { ProductAllResponse, ProductBodyDTO } from "@/types";
+import {
+  ProductAllResponse,
+  ProductBodyDTO,
+  ProductByIdResponse,
+} from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
 
@@ -38,7 +42,9 @@ export const getAllProducts = async (
     throw error;
   }
 };
-export const getProductID = async (id: number) => {
+export const getProductID = async (
+  id: number
+): Promise<ProductByIdResponse> => {
   try {
     const result = await axios.get(`${apiUrl}/product/${id}`, {
       withCredentials: true,
