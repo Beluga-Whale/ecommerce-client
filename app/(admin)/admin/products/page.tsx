@@ -21,7 +21,12 @@ import DialogDeleteProduct from "@/components/Dialog/DialogDeleteProduct";
 
 const ProductsPage = () => {
   const router = useRouter();
-  const { data: productsData } = useGetAllProducts();
+  const { data: productsData } = useGetAllProducts(
+    undefined,
+    undefined,
+    undefined,
+    0
+  );
   const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
   const [columnDefs] = useState<ColDef[]>([
     { headerName: "Name", field: "name" },
@@ -92,7 +97,6 @@ const ProductsPage = () => {
       minWidth: 100,
     };
   }, []);
-
   return (
     <div className="p-4">
       <Button onClick={() => router.push("/admin/products/addproduct")}>
@@ -104,6 +108,8 @@ const ProductsPage = () => {
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           pagination={true}
+          paginationPageSize={10}
+          domLayout="autoHeight"
         />
       </div>
       <DialogDeleteProduct />

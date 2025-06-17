@@ -14,20 +14,23 @@ export const createProduct = async (data: ProductBodyDTO) => {
 };
 
 export const getAllProducts = async (
-  page?: number | undefined,
-  categoryList?: string[] | undefined,
-  sizeList?: string[] | undefined
+  page?: number,
+  categoryList?: string[],
+  sizeList?: string[],
+  limit?: number
 ): Promise<ProductAllResponse> => {
   const category = categoryList?.join(",");
   const size = sizeList?.join(",");
+  const params: any = {
+    page,
+    category,
+    size,
+    limit: limit === 0 || limit === undefined ? 0 : 12,
+  };
+
   try {
     const result = await axios.get(`${apiUrl}/product`, {
-      params: {
-        page,
-        limit: 12,
-        category,
-        size,
-      },
+      params,
       withCredentials: true,
     });
     return result?.data;
@@ -35,7 +38,6 @@ export const getAllProducts = async (
     throw error;
   }
 };
-
 export const getProductID = async (id: number) => {
   try {
     const result = await axios.get(`${apiUrl}/product/${id}`, {

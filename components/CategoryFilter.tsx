@@ -23,8 +23,7 @@ import {
 } from "@heroicons/react/20/solid";
 import ProductLists from "./ProductLists";
 import { useGetAllCategory } from "@/services/categoryServices";
-import { CategoryDTO, ProductDTO } from "@/types";
-import { useGetAllProducts } from "@/services/productServices";
+import { CategoryDTO } from "@/types";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   setCategoryFilter,

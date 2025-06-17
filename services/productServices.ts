@@ -24,11 +24,12 @@ export const useCreateProduct = () => {
 export const useGetAllProducts = (
   page?: number | undefined,
   category?: string[] | undefined,
-  size?: string[] | undefined
+  size?: string[] | undefined,
+  limit?: number | undefined
 ) => {
   return useQuery<ProductAllResponse>({
     queryKey: [getGetAllProductQueryKey, page, category, size],
-    queryFn: () => getAllProducts(page, category, size),
+    queryFn: () => getAllProducts(page, category, size, limit),
   });
 };
 

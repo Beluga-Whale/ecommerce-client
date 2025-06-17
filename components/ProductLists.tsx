@@ -9,8 +9,12 @@ import { useAppSelector } from "@/lib/hooks";
 const ProductLists = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { category, size } = useAppSelector((state) => state.filter);
-  const { data: productAll } = useGetAllProducts(currentPage, category, size);
-  console.log("productAll?.data?.products", productAll?.data);
+  const { data: productAll } = useGetAllProducts(
+    currentPage,
+    category,
+    size,
+    12
+  );
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-1 sm:px-6  lg:max-w-7xl lg:px-8">
@@ -33,7 +37,7 @@ const ProductLists = () => {
                   />
 
                   {product?.isOnSale && (
-                    <p className=" absolute top-2 right-3 bg-red-600 px-4 text-white font-bold">
+                    <p className=" absolute animate-pulse top-2 right-3 bg-red-600 px-4 text-white font-bold">
                       SALE
                     </p>
                   )}

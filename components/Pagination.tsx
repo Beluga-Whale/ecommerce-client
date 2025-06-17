@@ -1,8 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
-import { ProductDTO } from "@/types";
-import { useGetAllProducts } from "@/services/productServices";
 
 const items = [
   {
