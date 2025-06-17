@@ -56,7 +56,7 @@ const Header = ({ cookie }: HeaderProps) => {
     });
   };
   return (
-    <div className="bg-white sticky top-0 ">
+    <div className="bg-white sticky top-0 z-10 ">
       {/* Mobile menu */}
       <Dialog open={open} onClose={setOpen} className="relative z-40 lg:hidden">
         <DialogBackdrop
