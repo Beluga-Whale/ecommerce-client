@@ -21,10 +21,14 @@ export const useCreateProduct = () => {
   });
 };
 
-export const useGetAllProducts = (page?: number | undefined) => {
+export const useGetAllProducts = (
+  page?: number | undefined,
+  category?: string[] | undefined,
+  size?: string[] | undefined
+) => {
   return useQuery<ProductAllResponse>({
-    queryKey: [getGetAllProductQueryKey, page],
-    queryFn: () => getAllProducts(page),
+    queryKey: [getGetAllProductQueryKey, page, category, size],
+    queryFn: () => getAllProducts(page, category, size),
   });
 };
 

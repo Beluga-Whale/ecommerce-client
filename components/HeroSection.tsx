@@ -29,11 +29,6 @@ const HeroSection = () => {
             alt="Hero Model"
             className="h-[400px] w-auto rounded-xl shadow-sm"
           />
-          {/* <img
-            src="/images/heroSection.jpg"
-            alt="Hero Model"
-            className="h-[360px]  w-auto rounded-xl shadow-md opacity-90"
-          /> */}
         </div>
       </div>
     </section>

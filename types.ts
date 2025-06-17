@@ -20,13 +20,19 @@ export type CreateCategoryDTO = {
   name: string;
 };
 
-export type CategoryResponseDTO = {
+export type CategoryDTO = {
   ID: number;
   CreatedAt: string;
   UpdatedAt: string;
   DeletedAt: null;
   Name: string;
   Slug: string;
+};
+
+export type CategoryResponseDTO = {
+  data: CategoryDTO[];
+  message: string;
+  success: boolean;
 };
 
 // NOTE - Products

@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createCategory, getAllCategory } from "./api/categoryApi";
+import { CategoryResponseDTO } from "@/types";
 
 const getCategoryQueryKey = "getCategoryQueryKey";
 
@@ -19,16 +20,8 @@ export const useCreateCategory = () => {
 };
 
 export const useGetAllCategory = () => {
-  return useQuery({
+  return useQuery<CategoryResponseDTO>({
     queryKey: [getCategoryQueryKey],
     queryFn: () => getAllCategory(),
   });
 };
-
-// export const useGetCompleteTasks = (priority?: string) => {
-//   return useQuery({
-//     queryKey: [getTasksCompleteQueryKey, priority],
-//     queryFn: () => getCompleteTasks(priority ?? ""),
-//     enabled: priority != undefined,
-//   });
-// };

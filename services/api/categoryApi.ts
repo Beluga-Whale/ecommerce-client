@@ -1,4 +1,4 @@
-import { CreateCategoryDTO } from "@/types";
+import { CategoryResponseDTO, CreateCategoryDTO } from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
 
@@ -13,7 +13,7 @@ export const createCategory = async (data: CreateCategoryDTO) => {
   }
 };
 
-export const getAllCategory = async () => {
+export const getAllCategory = async (): Promise<CategoryResponseDTO> => {
   try {
     const result = await axios.get(`${apiUrl}/category`, {
       withCredentials: true,

@@ -18,7 +18,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategory } from "@/services/categoryServices";
 import {
-  CategoryResponseDTO,
+  CategoryDTO,
   ImagesBodyDTO,
   ProductBodyDTO,
   variantsDTO,
@@ -75,7 +75,7 @@ const EditProductPage = () => {
   const [description, setDescription] = useState<string>("");
   const { data: dataCategoryAll } = useGetAllCategory();
   const categoryList: Option[] =
-    dataCategoryAll?.data?.map((item: CategoryResponseDTO) => ({
+    dataCategoryAll?.data?.map((item: CategoryDTO) => ({
       label: item?.Name,
       value: item?.ID,
     })) ?? [];

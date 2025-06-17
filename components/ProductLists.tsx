@@ -4,10 +4,12 @@ import { useGetAllProducts } from "@/services/productServices";
 import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 import Pagination from "./Pagination";
+import { useAppSelector } from "@/lib/hooks";
 
 const ProductLists = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { data: productAll } = useGetAllProducts(currentPage);
+  const { category, size } = useAppSelector((state) => state.filter);
+  const { data: productAll } = useGetAllProducts(currentPage, category, size);
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-1 sm:px-6  lg:max-w-7xl lg:px-8">

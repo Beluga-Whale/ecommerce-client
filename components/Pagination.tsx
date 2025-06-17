@@ -69,12 +69,7 @@ const Pagination = ({
         </a>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">12</span>
-          </p>
-        </div>
+        <div></div>
         <div>
           <nav
             aria-label="Pagination"
@@ -95,7 +90,7 @@ const Pagination = ({
                   className={`relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 hover:cursor-pointer
                     ${
                       currentPage == item
-                        ? " z-10  bg-indigo-600 text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        ? " z-10  bg-amber-400 text-white  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
                         : "text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50  focus:outline-offset-0"
                     }  
                   `}

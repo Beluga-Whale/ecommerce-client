@@ -14,13 +14,19 @@ export const createProduct = async (data: ProductBodyDTO) => {
 };
 
 export const getAllProducts = async (
-  page?: number | undefined
+  page?: number | undefined,
+  categoryList?: string[] | undefined,
+  sizeList?: string[] | undefined
 ): Promise<ProductAllResponse> => {
+  const category = categoryList?.join(",");
+  const size = sizeList?.join(",");
   try {
     const result = await axios.get(`${apiUrl}/product`, {
       params: {
         page,
         limit: 12,
+        category,
+        size,
       },
       withCredentials: true,
     });
