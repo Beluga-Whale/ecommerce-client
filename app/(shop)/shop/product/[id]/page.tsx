@@ -41,11 +41,12 @@ type SizeType = {
 };
 
 export default function ProductDetailByID() {
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
   // NOTE -เก็บไซด์ ไว้เพื่อดึงราคมาโชว์ เอาไป map
-  // const [selectedSize, setSelectedSize] = useState<SizeType | undefined>(
-  //   undefined
-  // );
+  // useState แค่ string
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(
+    undefined
+  );
+
   const { id } = useParams();
   const { data: productByID } = useGetProductByID(Number(id));
 
@@ -57,17 +58,17 @@ export default function ProductDetailByID() {
 
   // NOTE - หาราคา Price
   const priceProductSize = productByID?.data?.variants?.find(
-    (item: ProductVariant) => item?.size == selectedSize?.name
+    (item) => item.size === selectedSize
   );
 
-  console.log("priceProductSize", priceProductSize);
-  // NOTE - เลือกตัวแรกที่มีไซด์
-  // useEffect(() => {
-  //   if (sizeCheck.length > 0 && !selectedSize) {
-  //     setSelectedSize(sizeCheck[0]);
-  //   }
-  // }, [sizeCheck]);
-
+  useEffect(() => {
+    if (sizeCheck.length > 0 && !selectedSize) {
+      const firstAvailable = sizeCheck.find((s) => s.inStock);
+      if (firstAvailable) {
+        setSelectedSize(firstAvailable.name);
+      }
+    }
+  }, [sizeCheck, selectedSize]);
   return (
     <div className="bg-white">
       <div className="pt-6">
@@ -142,56 +143,8 @@ export default function ProductDetailByID() {
                     Size guide
                   </a>
                 </div>
+
                 <fieldset aria-label="Choose a size" className="mt-4">
-                  <RadioGroup
-                    value={selectedSize}
-                    onChange={setSelectedSize}
-                    className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
-                  >
-                    {product.sizes.map((size) => (
-                      <Radio
-                        key={size.name}
-                        value={size}
-                        disabled={!size.inStock}
-                        className={classNames(
-                          size.inStock
-                            ? "cursor-pointer bg-white text-gray-900 shadow-xs"
-                            : "cursor-not-allowed bg-gray-50 text-gray-200",
-                          "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-hidden data-focus:ring-2 data-focus:ring-indigo-500 sm:flex-1 sm:py-6"
-                        )}
-                      >
-                        <span>{size.name}</span>
-                        {size.inStock ? (
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-transparent group-data-checked:border-indigo-500 group-data-focus:border"
-                          />
-                        ) : (
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                          >
-                            <svg
-                              stroke="currentColor"
-                              viewBox="0 0 100 100"
-                              preserveAspectRatio="none"
-                              className="absolute inset-0 size-full stroke-2 text-gray-200"
-                            >
-                              <line
-                                x1={0}
-                                x2={100}
-                                y1={100}
-                                y2={0}
-                                vectorEffect="non-scaling-stroke"
-                              />
-                            </svg>
-                          </span>
-                        )}
-                      </Radio>
-                    ))}
-                  </RadioGroup>
-                </fieldset>
-                {/* <fieldset aria-label="Choose a size" className="mt-4">
                   {selectedSize && (
                     <RadioGroup
                       value={selectedSize}
@@ -201,21 +154,26 @@ export default function ProductDetailByID() {
                       {sizeCheck.map((size) => (
                         <Radio
                           key={size.name}
-                          value={size}
+                          value={size.name}
                           disabled={!size.inStock}
-                          className={classNames(
-                            size.inStock
-                              ? "cursor-pointer bg-white text-gray-900 shadow-xs"
-                              : "cursor-not-allowed bg-gray-50 text-gray-200",
-                            "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-hidden data-focus:ring-2 data-focus:ring-indigo-500 sm:flex-1 sm:py-6"
-                          )}
+                          className={({ checked }) =>
+                            classNames(
+                              size.inStock
+                                ? "cursor-pointer bg-white text-gray-900 shadow-xs"
+                                : "cursor-not-allowed bg-gray-50 text-gray-200",
+                              checked
+                                ? "ring-2 ring-indigo-500 border-indigo-500"
+                                : "",
+                              "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
+                            )
+                          }
                         >
                           <span>{size.name}</span>
                         </Radio>
                       ))}
                     </RadioGroup>
                   )}
-                </fieldset> */}
+                </fieldset>
               </div>
 
               <button
