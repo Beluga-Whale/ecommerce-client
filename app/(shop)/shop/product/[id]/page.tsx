@@ -49,7 +49,7 @@ export default function ProductDetailByID() {
 
   const { id } = useParams();
   const { data: productByID } = useGetProductByID(Number(id));
-
+  console.log("productByID", productByID?.data);
   const sizeCheck: SizeType[] =
     productByID?.data?.variants?.map((item: ProductVariant) => ({
       name: item.size ?? "",
@@ -69,6 +69,7 @@ export default function ProductDetailByID() {
       }
     }
   }, [sizeCheck, selectedSize]);
+
   return (
     <div className="bg-white">
       <div className="pt-6">
@@ -99,9 +100,21 @@ export default function ProductDetailByID() {
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
               {productByID?.data?.name}
             </h1>
-            <p className="text-3xl tracking-tight text-gray-900">
-              {product.price}
-            </p>
+            {productByID?.data?.isOnSale ? (
+              <div className="flex items-center ">
+                <p className="text-3xl">
+                  {" "}
+                  $
+                  {(priceProductSize?.price ?? 0) -
+                    (productByID?.data?.salePrice ?? 0)}
+                </p>
+                <p className="ml-4 line-through text-base text-gray-400 ">
+                  ${priceProductSize?.price ?? 0}
+                </p>
+              </div>
+            ) : (
+              <p className="text-3xl"> ${priceProductSize?.price ?? 0}</p>
+            )}
 
             {/* Reviews */}
             <div className="mt-6">
@@ -124,7 +137,7 @@ export default function ProductDetailByID() {
                 <p className="sr-only">{reviews.average} out of 5 stars</p>
                 <a
                   href={reviews.href}
-                  className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  className="ml-3 text-sm font-medium text-amber-600 hover:text-amber-500"
                 >
                   {reviews.totalCount} reviews
                 </a>
@@ -138,7 +151,7 @@ export default function ProductDetailByID() {
                   <h3 className="text-sm font-medium text-gray-900">Size</h3>
                   <a
                     href="#"
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                    className="text-sm font-medium text-amber-600 hover:text-amber-500"
                   >
                     Size guide
                   </a>
@@ -162,7 +175,7 @@ export default function ProductDetailByID() {
                                 ? "cursor-pointer bg-white text-gray-900 shadow-xs"
                                 : "cursor-not-allowed bg-gray-50 text-gray-200",
                               checked
-                                ? "ring-2 ring-indigo-500 border-indigo-500"
+                                ? "ring-2 ring-amber-500 border-amber-500"
                                 : "",
                               "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
                             )
@@ -178,19 +191,19 @@ export default function ProductDetailByID() {
 
               <button
                 type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-amber-400 px-8 py-3 text-base font-medium text-white hover:bg-amber-500 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-hidden hover:cursor-pointer"
               >
                 Add to bag
               </button>
 
               <div className="mt-10">
                 <h3 className="sr-only">Description</h3>
-
-                <div className="space-y-6">
-                  <p className="text-base text-gray-900">
-                    {product.description}
-                  </p>
-                </div>
+                {/* <div
+                    className="space-y-4"
+                    dangerouslySetInnerHTML={{
+                      __html: productByID?.data?.description || "",
+                    }}
+                  /> */}
               </div>
 
               <div className="mt-10">
