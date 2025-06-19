@@ -1,7 +1,6 @@
 "use client";
 import FormInputField from "@/components/FormInput/FormInputField";
 import ProductVariants from "@/components/ProductVariants";
-import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { Card, CardContent } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -30,6 +29,7 @@ import {
 } from "@/services/productServices";
 import { Bounce, toast } from "react-toastify";
 import { useParams, useRouter } from "next/navigation";
+import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
@@ -240,7 +240,7 @@ const EditProductPage = () => {
                 {/* NOTE - Description */}
                 <div className="max-w-3xl my-5 h-96">
                   <Label>Description Product</Label>
-                  <SimpleEditor
+                  <RichTextEditor
                     onChange={setDescription}
                     description={description}
                   />

@@ -1,7 +1,6 @@
 "use client";
 import FormInputField from "@/components/FormInput/FormInputField";
 import ProductVariants from "@/components/ProductVariants";
-import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { Card, CardContent } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -27,6 +26,7 @@ import FormCheckBoxField from "@/components/FormInput/FormCheckBoxField";
 import { useCreateProduct } from "@/services/productServices";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/components/RichTextEditor/RichTextEditor";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Please enter name product" }),
@@ -69,8 +69,7 @@ const AddProductPage = () => {
   });
   const [description, setDescription] = useState<string>("");
   const { data: dataCategoryAll } = useGetAllCategory();
-  // dataCategoryAll?.data?.data
-  console.log("dataCategoryAll?.data?.data", dataCategoryAll?.data);
+
   const categoryList: Option[] =
     dataCategoryAll?.data?.map((item: CategoryDTO) => ({
       label: item?.Name,
@@ -220,7 +219,7 @@ const AddProductPage = () => {
                 {/* NOTE - Description */}
                 <div className="max-w-3xl my-5 h-96">
                   <Label>Description Product</Label>
-                  <SimpleEditor
+                  <RichTextEditor
                     onChange={setDescription}
                     description={description}
                   />

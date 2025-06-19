@@ -35,6 +35,8 @@ function classNames(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
+const sizeOrder = ["XS", "S", "M", "L", "XL", "XXL"];
+
 type SizeType = {
   name: string;
   inStock: boolean;
@@ -49,12 +51,14 @@ export default function ProductDetailByID() {
 
   const { id } = useParams();
   const { data: productByID } = useGetProductByID(Number(id));
-  console.log("productByID", productByID?.data);
   const sizeCheck: SizeType[] =
-    productByID?.data?.variants?.map((item: ProductVariant) => ({
-      name: item.size ?? "",
-      inStock: item?.stock > 0,
-    })) ?? [];
+    productByID?.data?.variants
+      ?.map((item: ProductVariant) => ({
+        name: item.size ?? "",
+        inStock: item?.stock > 0,
+      }))
+      .sort((a, b) => sizeOrder.indexOf(a.name) - sizeOrder.indexOf(b.name)) ??
+    [];
 
   // NOTE - หาราคา Price
   const priceProductSize = productByID?.data?.variants?.find(
