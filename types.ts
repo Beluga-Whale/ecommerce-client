@@ -65,6 +65,7 @@ export interface ProductImage {
 }
 
 export interface ProductVariant {
+  variantID: number;
   size: string;
   stock: number;
   sku: string;

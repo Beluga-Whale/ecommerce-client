@@ -10,6 +10,8 @@ import { ProductVariant } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { productItem, setCartItem } from "@/lib/features/cart/cartSlice";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -33,6 +35,7 @@ export default function ProductDetailByID() {
   );
 
   const { id } = useParams();
+  const dispatch = useAppDispatch();
   const { data: productByID } = useGetProductByID(Number(id));
   const sizeCheck: SizeType[] =
     productByID?.data?.variants
@@ -57,6 +60,29 @@ export default function ProductDetailByID() {
 
   const handleDecrease = () => {
     setChangeQuantity(changeQuantity - 1);
+  };
+
+  const handleAddToCart = () => {
+    const selectedVariant = productByID?.data?.variants?.find(
+      (v) => v.size === selectedSize
+    );
+
+    console.log("selectedVariant", selectedVariant);
+    if (!selectedVariant) {
+      alert("กรุณาเลือกขนาดที่มีสินค้า");
+      return;
+    }
+
+    const payload: productItem = {
+      productId: productByID?.data?.id ?? 0,
+      variant: [
+        {
+          variantId: selectedVariant.variantID,
+          quantity: changeQuantity,
+        },
+      ],
+    };
+    dispatch(setCartItem(payload));
   };
 
   useEffect(() => {
@@ -215,8 +241,9 @@ export default function ProductDetailByID() {
               </div>
 
               <button
-                type="submit"
+                type="button"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-amber-400 px-8 py-3 text-base font-medium text-white hover:bg-amber-500 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-hidden hover:cursor-pointer"
+                onClick={() => handleAddToCart()}
               >
                 Add to Cart
               </button>
