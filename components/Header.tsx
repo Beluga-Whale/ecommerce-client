@@ -159,13 +159,7 @@ const Header = ({ cookie }: HeaderProps) => {
               <div className="ml-4 flex lg:ml-0">
                 <Link href="/">
                   <span className="sr-only">Your Company</span>
-
                   <p className="text-xl font-bold">BELUGA</p>
-                  {/* <img
-                    alt=""
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                    className="h-8 w-auto"
-                  /> */}
                 </Link>
               </div>
 

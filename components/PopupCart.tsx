@@ -7,6 +7,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { useAppSelector } from "@/lib/hooks";
+import { useEffect, useState } from "react";
+import { ProductDTO } from "@/types";
+import { useGetProductByID } from "@/services/productServices";
+import { getProductID } from "@/services/api/productsApi";
 const cartList = [
   {
     name: "T-shirt",
@@ -23,6 +28,27 @@ const cartList = [
 ];
 
 const PopupCart = () => {
+  const [products, setProducts] = useState<ProductDTO[]>([]);
+  const { cart } = useAppSelector((state) => state);
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      if (!cart?.cartList) return;
+
+      try {
+        const responses = await Promise.all(
+          cart?.cartList.map((item: any) => getProductID(item.productId))
+        );
+
+        const data = responses.map((res) => res.data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch cart products", error);
+      }
+    };
+
+    fetchAllProducts();
+  }, [cartList]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -32,7 +58,7 @@ const PopupCart = () => {
             className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
           />
           <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-            0
+            {cart?.cartList.length}
           </span>
           <span className="sr-only">items in cart, view bag</span>
         </div>
