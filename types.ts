@@ -96,9 +96,8 @@ export interface ProductAllResponse {
   success: boolean;
 }
 
-type ProductNoId = Omit<ProductDTO, "id">;
 export interface ProductByIdResponse {
-  data: ProductNoId;
+  data: ProductDTO;
   message: string;
   success: boolean;
 }

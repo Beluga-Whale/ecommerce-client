@@ -7,6 +7,9 @@ import { useParams } from "next/navigation";
 import { useGetProductByID } from "@/services/productServices";
 import CarouselImage from "@/components/CarouselImage";
 import { ProductVariant } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Minus, Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -22,6 +25,8 @@ type SizeType = {
 };
 
 export default function ProductDetailByID() {
+  const [changeQuantity, setChangeQuantity] = useState<number>(1);
+
   // NOTE -เก็บไซด์ ไว้เพื่อดึงราคมาโชว์ เอาไป map
   const [selectedSize, setSelectedSize] = useState<string | undefined>(
     undefined
@@ -42,6 +47,17 @@ export default function ProductDetailByID() {
   const priceProductSize = productByID?.data?.variants?.find(
     (item) => item.size === selectedSize
   );
+
+  console.log("priceProductSize", priceProductSize);
+  console.log("productByID", productByID);
+
+  const handleIncrease = () => {
+    setChangeQuantity(changeQuantity + 1);
+  };
+
+  const handleDecrease = () => {
+    setChangeQuantity(changeQuantity - 1);
+  };
 
   useEffect(() => {
     if (sizeCheck.length > 0 && !selectedSize) {
@@ -171,11 +187,38 @@ export default function ProductDetailByID() {
                 </fieldset>
               </div>
 
+              <div className="mt-4 flex justify-between items-center max-w-80">
+                <p>Quantity</p>
+                <Button
+                  type="button"
+                  className="rounded-md px-3 bg-amber-400 hover:bg-amber-500  "
+                  onClick={() => handleDecrease()}
+                  disabled={changeQuantity == 1}
+                >
+                  <Minus />
+                </Button>
+                <Input
+                  type="string"
+                  value={changeQuantity}
+                  readOnly
+                  className="w-12 text-center border-x-0 rounded-none"
+                />
+                <Button
+                  type="button"
+                  className="rounded-md px-3 bg-amber-400 hover:bg-amber-500"
+                  onClick={() => handleIncrease()}
+                  disabled={changeQuantity == priceProductSize?.stock}
+                >
+                  <Plus />
+                </Button>
+                <p>{priceProductSize?.stock} in stock</p>
+              </div>
+
               <button
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-amber-400 px-8 py-3 text-base font-medium text-white hover:bg-amber-500 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-hidden hover:cursor-pointer"
               >
-                Add to bag
+                Add to Cart
               </button>
 
               <div className="mt-10">
