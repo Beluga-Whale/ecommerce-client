@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type variantItem = {
+export type variantItem = {
   variantId: number;
   quantity: number;
 };
@@ -49,9 +49,29 @@ const cartSlice = createSlice({
         state.cartList.push(action.payload);
       }
     },
+    removeCardItem: (
+      state,
+      action: PayloadAction<{ productId: number; variantId: number }>
+    ) => {
+      const { productId, variantId } = action.payload;
+      const product = state.cartList.find(
+        (item) => item.productId === productId
+      );
+      if (!product) return;
+
+      product.variant = product.variant.filter(
+        (variant) => variant.variantId !== variantId
+      );
+
+      if (product.variant.length === 0) {
+        state.cartList = state.cartList.filter(
+          (item) => item.productId !== productId
+        );
+      }
+    },
   },
 });
 
-export const { setCartItem } = cartSlice.actions;
+export const { setCartItem, removeCardItem } = cartSlice.actions;
 
 export default cartSlice.reducer;

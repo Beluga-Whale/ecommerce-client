@@ -1,5 +1,3 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import {
   Popover,
@@ -7,29 +5,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect, useState } from "react";
 import { ProductDTO } from "@/types";
-import { useGetProductByID } from "@/services/productServices";
 import { getProductID } from "@/services/api/productsApi";
-const cartList = [
-  {
-    name: "T-shirt",
-    price: "2,000",
-  },
-  {
-    name: "T-shirt",
-    price: "2,000",
-  },
-  {
-    name: "T-shirt",
-    price: "2,000",
-  },
-];
+import { CldImage } from "next-cloudinary";
+import { Button } from "./ui/button";
+import {
+  productItem,
+  removeCardItem,
+  variantItem,
+} from "@/lib/features/cart/cartSlice";
 
 const PopupCart = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]);
-  const { cart } = useAppSelector((state) => state);
+  const cart = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const fetchAllProducts = async () => {
       if (!cart?.cartList) return;
@@ -47,8 +39,7 @@ const PopupCart = () => {
     };
 
     fetchAllProducts();
-  }, [cartList]);
-
+  }, [cart.cartList]);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -66,23 +57,83 @@ const PopupCart = () => {
       <PopoverContent className="w-80 flex justify-between flex-col space-y-5">
         <p>Shopping Cart</p>
         <Separator />
-        {cartList?.map((item, index) => (
+        {cart?.cartList.map((cartItem: productItem, index: any) => {
+          const product = products.find((p) => p.id === cartItem.productId);
+
+          return cartItem.variant.map((v: variantItem) => {
+            const price = product?.variants.find(
+              (item) => item?.variantID == v.variantId
+            );
+            const quantity = cartItem?.variant.find(
+              (item) => item?.variantId == v.variantId
+            );
+            return (
+              <div
+                className="flex justify-between"
+                key={`${cartItem.productId}-${v.variantId}`}
+              >
+                <div className="flex">
+                  <div className="w-14 h-14 rounded-lg">
+                    <CldImage
+                      src={product?.images?.[0].url || ""}
+                      alt="Product image"
+                      width={200}
+                      height={125}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="ml-2 flex flex-col">
+                    <p className="font-medium">{product?.name}</p>
+                    <p className="text-sm text-gray-500">Size: {price?.size}</p>
+                    <p className="text-sm text-gray-500">
+                      Qty: {quantity?.quantity}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end justify-between">
+                  <p className="text-amber-600 text-sm">
+                    ฿{(price?.price ?? 0) * (quantity?.quantity ?? 0)}
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() =>
+                      dispatch(
+                        removeCardItem({
+                          productId: cartItem.productId,
+                          variantId: v.variantId,
+                        })
+                      )
+                    }
+                  >
+                    ❌
+                  </Button>
+                </div>
+              </div>
+            );
+          });
+        })}
+        {/* {products?.map((item, index) => (
           <div className="flex justify-between" key={index}>
             <div className="flex">
-              <div className="w-14 h-14">
-                <img
-                  src="/images/cozy-hoodie.jpg"
-                  alt=""
-                  className="w-full h-full object-contain"
+              <div className="w-14 h-14 rounded-lg">
+                <CldImage
+                  key={index}
+                  src={item?.images?.[0].url}
+                  alt="Product image"
+                  width={200}
+                  height={125}
+                  className="w-full h-full object-contain  "
                 />
               </div>
-              <p>{item.name}</p>
+              <p>{item?.name}</p>
             </div>
             <div>
               <p className="text-amber-600">${item?.price}</p>
             </div>
+            <Button onClick={() => removeCardItem(item?.id)}>X</Button>
           </div>
-        ))}
+        ))} */}
       </PopoverContent>
     </Popover>
   );

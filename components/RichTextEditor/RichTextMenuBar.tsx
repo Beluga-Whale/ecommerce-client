@@ -78,11 +78,6 @@ const RichTextMenuBar = ({ editor }: RichTextMenuBarProps) => {
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
       preesed: editor.isActive("orderedList"),
     },
-    {
-      icon: <Highlighter className="size-4" />,
-      onClick: () => editor.chain().focus().toggleHighlight().run(),
-      preesed: editor.isActive("highlight"),
-    },
   ];
 
   return (

@@ -51,9 +51,6 @@ export default function ProductDetailByID() {
     (item) => item.size === selectedSize
   );
 
-  console.log("priceProductSize", priceProductSize);
-  console.log("productByID", productByID);
-
   const handleIncrease = () => {
     setChangeQuantity(changeQuantity + 1);
   };
@@ -67,7 +64,6 @@ export default function ProductDetailByID() {
       (v) => v.size === selectedSize
     );
 
-    console.log("selectedVariant", selectedVariant);
     if (!selectedVariant) {
       alert("กรุณาเลือกขนาดที่มีสินค้า");
       return;

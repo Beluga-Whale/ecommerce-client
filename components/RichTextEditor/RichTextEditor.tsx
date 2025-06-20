@@ -1,6 +1,5 @@
 "use client";
 
-import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -30,7 +29,6 @@ const RichTextEditor = ({ onChange, description }: RichTextEditorProps) => {
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
-      Highlight,
     ],
     content: description,
     editorProps: {
