@@ -21,7 +21,12 @@ const PopupCart = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]);
   const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-
+  const variantCount = cart.cartList.reduce(
+    (total: number, item: productItem) => {
+      return total + item.variant.length;
+    },
+    0
+  );
   useEffect(() => {
     const fetchAllProducts = async () => {
       if (!cart?.cartList) return;
@@ -49,7 +54,7 @@ const PopupCart = () => {
             className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
           />
           <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-            {cart?.cartList.length}
+            {variantCount}
           </span>
           <span className="sr-only">items in cart, view bag</span>
         </div>
@@ -57,7 +62,7 @@ const PopupCart = () => {
       <PopoverContent className="w-80 flex justify-between flex-col space-y-5">
         <p>Shopping Cart</p>
         <Separator />
-        {cart?.cartList.map((cartItem: productItem, index: any) => {
+        {cart?.cartList.map((cartItem: productItem) => {
           const product = products.find((p) => p.id === cartItem.productId);
 
           return cartItem.variant.map((v: variantItem) => {
@@ -86,7 +91,7 @@ const PopupCart = () => {
                     <p className="font-medium">{product?.name}</p>
                     <p className="text-sm text-gray-500">Size: {price?.size}</p>
                     <p className="text-sm text-gray-500">
-                      Qty: {quantity?.quantity}
+                      Quantity: {quantity?.quantity}
                     </p>
                   </div>
                 </div>
