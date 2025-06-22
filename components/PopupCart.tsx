@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProductDTO } from "@/types";
 import { getProductID } from "@/services/api/productsApi";
 import { CldImage } from "next-cloudinary";
@@ -27,6 +27,22 @@ const PopupCart = () => {
     },
     0
   );
+  const totalPrice = useMemo(() => {
+    return cart.cartList.reduce((sum: number, cartItem: productItem) => {
+      const product = products.find((p) => p.id === cartItem.productId);
+      if (!product) return sum;
+
+      const itemTotal = cartItem.variant.reduce((subTotal, v) => {
+        const variant = product.variants.find(
+          (varnt) => varnt.variantID === v.variantId
+        );
+        return subTotal + (variant?.price ?? 0) * v.quantity;
+      }, 0);
+
+      return sum + itemTotal;
+    }, 0);
+  }, [cart.cartList, products]);
+
   useEffect(() => {
     const fetchAllProducts = async () => {
       if (!cart?.cartList) return;
@@ -45,6 +61,7 @@ const PopupCart = () => {
 
     fetchAllProducts();
   }, [cart.cartList]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -118,27 +135,10 @@ const PopupCart = () => {
             );
           });
         })}
-        {/* {products?.map((item, index) => (
-          <div className="flex justify-between" key={index}>
-            <div className="flex">
-              <div className="w-14 h-14 rounded-lg">
-                <CldImage
-                  key={index}
-                  src={item?.images?.[0].url}
-                  alt="Product image"
-                  width={200}
-                  height={125}
-                  className="w-full h-full object-contain  "
-                />
-              </div>
-              <p>{item?.name}</p>
-            </div>
-            <div>
-              <p className="text-amber-600">${item?.price}</p>
-            </div>
-            <Button onClick={() => removeCardItem(item?.id)}>X</Button>
-          </div>
-        ))} */}
+        <Separator />
+        <Button className="bg-amber-400 font-bold hover:cursor-pointer">
+          Order(${totalPrice.toFixed(2)})
+        </Button>
       </PopoverContent>
     </Popover>
   );
