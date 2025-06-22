@@ -7,7 +7,7 @@ export default async function Layout({
   const cookieStore = await cookies();
   const cookie = cookieStore.get("jwt")?.value;
   return (
-    <main className=" bg-slate-50">
+    <main>
       <Header cookie={cookie} />
       {children}
     </main>

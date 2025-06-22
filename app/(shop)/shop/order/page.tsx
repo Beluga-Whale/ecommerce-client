@@ -4,7 +4,7 @@ import FormAddress from "@/components/FormAddress";
 import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
 import { addressDetail, setAddress } from "@/lib/features/cart/cartSlice";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,6 +25,7 @@ const formSchema = z.object({
 
 const OrderPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const cart = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +70,6 @@ const OrderPage = () => {
       setCurrentStep((prev) => prev - 1);
     }
   };
-
   const renderStepContent = () => {
     switch (currentStep) {
       case 0:
@@ -114,7 +114,7 @@ const OrderPage = () => {
         </button>
         <button
           onClick={handleNext}
-          disabled={currentStep === steps.length - 1}
+          disabled={currentStep === steps.length - 1 || cart?.cartList == 0}
           className="px-4 py-2 bg-amber-400 rounded font-bold disabled:opacity-50"
         >
           Next
