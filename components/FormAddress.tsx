@@ -31,13 +31,7 @@ const FormAddress = ({ form }: FormAddressProps) => {
   return (
     <div className="bg-white text-2xl font-bold p-4 rounded-2xl ">
       <FormProvider {...form}>
-        <form
-          // onSubmit={(e) => {
-          //   e.preventDefault();
-          //   form.handleSubmit(handleSignIn)();
-          // }}
-          className="space-y-5"
-        >
+        <form className="space-y-5">
           <CardContent>
             <div className="grid grid-cols-2 gap-6">
               {/* NOTE - Name */}

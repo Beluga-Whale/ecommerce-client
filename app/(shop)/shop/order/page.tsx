@@ -3,6 +3,8 @@ import CartOrder from "@/components/CartOrder";
 import FormAddress from "@/components/FormAddress";
 import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
+import { addressDetail, setAddress } from "@/lib/features/cart/cartSlice";
+import { useAppDispatch } from "@/lib/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -23,7 +25,7 @@ const formSchema = z.object({
 
 const OrderPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
-
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +45,17 @@ const OrderPage = () => {
     if (currentStep === 1 && isValid) {
       return;
     }
-
+    const values = form.getValues();
+    const payloadAddress: addressDetail = {
+      name: values.name,
+      phone: values.phone,
+      address: values.address,
+      province: values.province,
+      district: values.district,
+      subdistrict: values.subdistrict,
+      zipCode: values.zipCode,
+    };
+    dispatch(setAddress(payloadAddress));
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
     }
