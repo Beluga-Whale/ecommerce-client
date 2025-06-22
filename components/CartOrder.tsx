@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductDTO } from "@/types";
 import { getProductID } from "@/services/api/productsApi";
 import { CldImage } from "next-cloudinary";
@@ -11,7 +11,6 @@ import {
   removeCardItem,
   variantItem,
 } from "@/lib/features/cart/cartSlice";
-import { useRouter } from "next/navigation";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Input } from "./ui/input";
 
@@ -69,7 +68,7 @@ const CartOrder = () => {
           );
           return (
             <div key={`${cartItem.productId}-${v.variantId}`}>
-              <div className="flex justify-between my-5 bg-white p-3 rounded-2xl">
+              <div className="flex justify-between my-5 bg-white p-4 rounded-2xl">
                 <div className="flex">
                   <div className="w-14 h-14 rounded-lg">
                     {product?.images?.[0]?.url && (

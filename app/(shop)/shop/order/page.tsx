@@ -1,5 +1,6 @@
 "use client";
 import CartOrder from "@/components/CartOrder";
+import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
 import { useState } from "react";
 const steps = ["Cart", "Shipping", "Payment"];
@@ -34,19 +35,21 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="container mx-auto min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    <div className="container mx-auto max-w-2xl min-h-screen py-10 px-4 sm:px-6 lg:px-8 md:max-w-7xl ">
       <h1 className="text-2xl font-bold mb-8 text-center">Stepper Demo</h1>
 
-      <div className="grid grid-cols-4 gap-7">
-        <div className="w-full col-span-4 md:col-span-3">
+      <div className="grid grid-cols-5 gap-7">
+        <div className="w-full col-span-5 lg:col-span-3">
           {/* Stepper */}
-          <Stepper steps={steps} currentStep={currentStep} />
+          <div className="max-w-3xl mx-auto ">
+            <Stepper steps={steps} currentStep={currentStep} />
+          </div>
 
           {/* Step Content */}
           <div className="mt-8 rounded-md">{renderStepContent()}</div>
         </div>
-        <div className="col-span-4 bg-green-400 mt-5 md:mt-0 md:col-span-1 ">
-          <p>Test</p>
+        <div className="col-span-5 mt-5 lg:col-span-2 lg:mt-21  ">
+          <SideBarOrder />
         </div>
       </div>
 

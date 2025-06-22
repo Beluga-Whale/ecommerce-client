@@ -98,15 +98,7 @@ export default function ProductDetailByID() {
             role="list"
             className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
           >
-            <li className="text-sm">
-              {/* <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              > */}
-              {productByID?.data?.name}
-              {/* </a> */}
-            </li>
+            <li className="text-sm">{productByID?.data?.name}</li>
           </ol>
         </nav>
         {/* Product info */}
