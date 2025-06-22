@@ -41,21 +41,24 @@ const OrderPage = () => {
 
   const handleNext = async () => {
     // NOTE - เช็คการ validate หน้ากรอก address
-    const isValid = await form.trigger();
-    if (currentStep === 1 && isValid) {
-      return;
+    if (currentStep === 1) {
+      const isValid = await form.trigger();
+      if (!isValid) {
+        return;
+      }
+      const values = form.getValues();
+      const payloadAddress: addressDetail = {
+        name: values.name,
+        phone: values.phone,
+        address: values.address,
+        province: values.province,
+        district: values.district,
+        subdistrict: values.subdistrict,
+        zipCode: values.zipCode,
+      };
+      dispatch(setAddress(payloadAddress));
     }
-    const values = form.getValues();
-    const payloadAddress: addressDetail = {
-      name: values.name,
-      phone: values.phone,
-      address: values.address,
-      province: values.province,
-      district: values.district,
-      subdistrict: values.subdistrict,
-      zipCode: values.zipCode,
-    };
-    dispatch(setAddress(payloadAddress));
+
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
     }

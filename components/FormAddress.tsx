@@ -88,6 +88,15 @@ const FormAddress = ({ form }: FormAddressProps) => {
                   placeholder="District"
                 />
               </div>
+              {/* NOTE - ZipCode */}
+              <div className="col-span-2 sm:col-span-1">
+                <FormInputField
+                  control={form.control}
+                  name="zipCode"
+                  label="Zipcode"
+                  placeholder="Zipcode"
+                />
+              </div>
             </div>
           </CardContent>
         </form>
