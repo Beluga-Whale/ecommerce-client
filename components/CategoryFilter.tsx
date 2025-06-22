@@ -156,7 +156,7 @@ const CategoryFilter = () => {
                                       dispatch(
                                         setCategoryFilter(
                                           category?.filter(
-                                            (item) => item != option.value
+                                            (item: any) => item != option.value
                                           )
                                         )
                                       );
@@ -246,7 +246,7 @@ const CategoryFilter = () => {
                                       dispatch(
                                         setSizeFilter(
                                           size?.filter(
-                                            (item) => item != option.value
+                                            (item: any) => item != option.value
                                           )
                                         )
                                       );
@@ -410,7 +410,7 @@ const CategoryFilter = () => {
                                       dispatch(
                                         setCategoryFilter(
                                           category?.filter(
-                                            (item) => item != option.value
+                                            (item: any) => item != option.value
                                           )
                                         )
                                       );
@@ -500,7 +500,7 @@ const CategoryFilter = () => {
                                       dispatch(
                                         setSizeFilter(
                                           size?.filter(
-                                            (item) => item != option.value
+                                            (item: any) => item != option.value
                                           )
                                         )
                                       );

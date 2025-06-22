@@ -16,10 +16,13 @@ import {
   removeCardItem,
   variantItem,
 } from "@/lib/features/cart/cartSlice";
+import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
 
 const PopupCart = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]);
   const cart = useAppSelector((state) => state.cart);
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const variantCount = cart.cartList.reduce(
     (total: number, item: productItem) => {
@@ -39,7 +42,7 @@ const PopupCart = () => {
         return subTotal + (variant?.price ?? 0) * v.quantity;
       }, 0);
 
-      return sum + itemTotal;
+      return sum + itemTotal - (product?.salePrice ?? 0);
     }, 0);
   }, [cart.cartList, products]);
 
@@ -114,11 +117,14 @@ const PopupCart = () => {
                 </div>
                 <div className="flex flex-col items-end justify-between">
                   <p className="text-amber-600 text-sm">
-                    ฿{(price?.price ?? 0) * (quantity?.quantity ?? 0)}
+                    ฿
+                    {(price?.price ?? 0) * (quantity?.quantity ?? 0) -
+                      (product?.salePrice ?? 0)}
                   </p>
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="lg"
+                    className="hover:cursor-pointer"
                     onClick={() =>
                       dispatch(
                         removeCardItem({
@@ -128,7 +134,7 @@ const PopupCart = () => {
                       )
                     }
                   >
-                    ❌
+                    <Trash2 />
                   </Button>
                 </div>
               </div>
@@ -136,7 +142,10 @@ const PopupCart = () => {
           });
         })}
         <Separator />
-        <Button className="bg-amber-400 font-bold hover:cursor-pointer">
+        <Button
+          className="bg-amber-400 font-bold hover:cursor-pointer"
+          onClick={() => router.push("/shop/order")}
+        >
           Order(${totalPrice.toFixed(2)})
         </Button>
       </PopoverContent>
