@@ -1,14 +1,49 @@
 "use client";
 import CartOrder from "@/components/CartOrder";
+import FormAddress from "@/components/FormAddress";
 import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 const steps = ["Cart", "Shipping", "Payment"];
+
+const formSchema = z.object({
+  name: z.string().min(1, { message: "Please enter name product" }),
+  phone: z
+    .string()
+    .length(10, { message: "Phone number must be exactly 10 digits." }),
+  address: z.string().min(1, { message: "Please enter your address" }),
+  zipCode: z.string().min(1, { message: "Please enter your zipcode" }),
+  province: z.string().min(1, { message: "Please enter your province" }),
+  district: z.string().min(1, { message: "Please enter your district" }),
+  subdistrict: z.string().min(1, { message: "Please enter your subdistrict" }),
+});
 
 const OrderPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const handleNext = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      address: "",
+      province: "",
+      district: "",
+      subdistrict: "",
+      zipCode: "",
+    },
+  });
+
+  const handleNext = async () => {
+    // NOTE - เช็คการ validate หน้ากรอก address
+    const isValid = await form.trigger();
+    if (currentStep === 1 && isValid) {
+      return;
+    }
+
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1);
     }
@@ -25,7 +60,7 @@ const OrderPage = () => {
       case 0:
         return <CartOrder />;
       case 1:
-        return <div>🚚 Shipping content here</div>;
+        return <FormAddress form={form} />;
       case 2:
         return <div>💳 Payment content here</div>;
 
