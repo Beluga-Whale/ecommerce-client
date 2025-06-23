@@ -3,12 +3,7 @@ import CartOrder from "@/components/CartOrder";
 import FormAddress from "@/components/FormAddress";
 import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
-import {
-  addressDetail,
-  setAddress,
-  setPriceTotal,
-  // setPriceTotal,
-} from "@/lib/features/cart/cartSlice";
+import { setPriceTotal } from "@/lib/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useCreateOrder } from "@/services/orderService";
 import { OrderDto } from "@/types";
@@ -35,10 +30,7 @@ const formSchema = z.object({
 const OrderPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const cart = useAppSelector((state) => state.cart);
-  console.log(
-    "cart",
-    cart?.cartList.map((item) => item?.variant)
-  );
+
   const router = useRouter();
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,12 +66,15 @@ const OrderPage = () => {
         zipcode: values.zipCode,
         items: variantList,
       };
-      createOrderMutate(payloadAddress).then((res) => {
-        if (res.success === true && res.data?.orderID !== undefined) {
-          router.push(`/payment/${res.data?.orderID}`);
-          dispatch(setPriceTotal(res.data?.totalPrice ?? 0.0));
-        } else {
-          toast.error(res?.message, {
+      createOrderMutate(payloadAddress)
+        .then((res) => {
+          if (res.success === true && res.data?.orderID !== undefined) {
+            router.push(`/payment/${res.data?.orderID}`);
+            dispatch(setPriceTotal(res.data?.totalPrice ?? 0.0));
+          }
+        })
+        .catch((error: any) => {
+          toast.error(error?.response?.data?.message, {
             position: "top-center",
             autoClose: 2000,
             hideProgressBar: false,
@@ -90,8 +85,7 @@ const OrderPage = () => {
             theme: "light",
             transition: Bounce,
           });
-        }
-      });
+        });
     }
 
     if (currentStep < steps.length - 1) {

@@ -20,9 +20,6 @@ const SideBarOrder = () => {
         return (
           subTotal +
           ((variant?.price ?? 0) - (product?.salePrice ?? 0)) * v.quantity
-        );return (
-          subTotal +
-          ((variant?.price ?? 0) - (product?.salePrice ?? 0)) * v.quantity
         );
       }, 0);
       return sum + itemTotal;

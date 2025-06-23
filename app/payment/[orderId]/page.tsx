@@ -15,7 +15,6 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 const PaymentPage = () => {
   const cart = useAppSelector((state) => state.cart);
   const amount = parseFloat(cart.priceTotal.toFixed(2));
-  console.log("cart.priceTotal", cart.priceTotal);
   return (
     <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
       <div className="mb-10">
