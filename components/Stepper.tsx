@@ -1,7 +1,5 @@
-import { Check, Circle } from "lucide-react";
+import { Check } from "lucide-react";
 
-const steps = ["Cart", "Shipping", "Payment", "Done"];
-const currentStep = 2; // index เริ่มที่ 0
 type StepperProps = {
   steps: string[];
   currentStep: number;
@@ -30,11 +28,6 @@ const Stepper = ({ steps, currentStep }: StepperProps) => {
 
             {/* Step Label */}
             <div className="text-xs text-center">{label}</div>
-
-            {/* Line (except last) */}
-            {index !== steps.length - 1 && (
-              <div className="h-1 w-full bg-gray-200 absolute top-4 left-1/2 right-0 z-[-1]"></div>
-            )}
           </div>
         );
       })}

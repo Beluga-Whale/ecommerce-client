@@ -117,3 +117,30 @@ export interface IOlympicData {
   bronze: number;
   total: number;
 }
+
+// NOTE  - Order
+
+export interface item {
+  variantId: number;
+  quantity: number;
+}
+export interface OrderDto {
+  fullName?: string;
+  phone?: string;
+  address?: string;
+  province?: string;
+  district?: string;
+  subdistrict?: string;
+  zipcode?: string;
+  items?: item[];
+  orderID?: number;
+  status?: string;
+  totalPrice?: number;
+  user?: number;
+}
+
+export interface OrderResponseDto {
+  data: OrderDto;
+  message: string;
+  success: boolean;
+}

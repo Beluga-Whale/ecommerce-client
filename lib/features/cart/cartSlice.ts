@@ -15,7 +15,7 @@ export type cartListState = {
 };
 
 export type addressDetail = {
-  name: string;
+  fullName: string;
   phone: string;
   address: string;
   province: string;
@@ -28,11 +28,16 @@ export type addressUser = {
   addressDetail: addressDetail | null;
 };
 
-type allState = cartListState & addressUser;
+export type priceTotalState = {
+  priceTotal: number;
+};
+
+type allState = cartListState & addressUser & priceTotalState;
 
 export const initialState: allState = {
   cartList: [],
   addressDetail: null,
+  priceTotal: 0,
 };
 
 const cartSlice = createSlice({
@@ -125,6 +130,9 @@ const cartSlice = createSlice({
     setAddress: (state, action: PayloadAction<addressDetail>) => {
       state.addressDetail = action.payload;
     },
+    setPriceTotal: (state, action: PayloadAction<number>) => {
+      state.priceTotal = action.payload;
+    },
   },
 });
 
@@ -134,6 +142,7 @@ export const {
   deCreaseCartItemQuantity,
   inCreaseCartItemQuantity,
   setAddress,
+  setPriceTotal,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -3,11 +3,20 @@ import CartOrder from "@/components/CartOrder";
 import FormAddress from "@/components/FormAddress";
 import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
-import { addressDetail, setAddress } from "@/lib/features/cart/cartSlice";
+import {
+  addressDetail,
+  setAddress,
+  setPriceTotal,
+  // setPriceTotal,
+} from "@/lib/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useCreateOrder } from "@/services/orderService";
+import { OrderDto } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Bounce, toast } from "react-toastify";
 import z from "zod";
 const steps = ["Cart", "Shipping", "Payment"];
 
@@ -26,6 +35,11 @@ const formSchema = z.object({
 const OrderPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const cart = useAppSelector((state) => state.cart);
+  console.log(
+    "cart",
+    cart?.cartList.map((item) => item?.variant)
+  );
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +53,8 @@ const OrderPage = () => {
       zipCode: "",
     },
   });
-
+  const { mutateAsync: createOrderMutate, data: dataCreateOrder } =
+    useCreateOrder();
   const handleNext = async () => {
     // NOTE - เช็คการ validate หน้ากรอก address
     if (currentStep === 1) {
@@ -48,16 +63,35 @@ const OrderPage = () => {
         return;
       }
       const values = form.getValues();
-      const payloadAddress: addressDetail = {
-        name: values.name,
+      const variantList = cart?.cartList.flatMap((item) => item.variant);
+      const payloadAddress: OrderDto = {
+        fullName: values.name,
         phone: values.phone,
         address: values.address,
         province: values.province,
         district: values.district,
         subdistrict: values.subdistrict,
-        zipCode: values.zipCode,
+        zipcode: values.zipCode,
+        items: variantList,
       };
-      dispatch(setAddress(payloadAddress));
+      createOrderMutate(payloadAddress).then((res) => {
+        if (res.success === true && res.data?.orderID !== undefined) {
+          router.push(`/payment/${res.data?.orderID}`);
+          dispatch(setPriceTotal(res.data?.totalPrice ?? 0.0));
+        } else {
+          toast.error(res?.message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+        }
+      });
     }
 
     if (currentStep < steps.length - 1) {
@@ -77,7 +111,7 @@ const OrderPage = () => {
       case 1:
         return <FormAddress form={form} />;
       case 2:
-        return <div>💳 Payment content here</div>;
+        return null;
 
       default:
         return null;
@@ -114,7 +148,9 @@ const OrderPage = () => {
         </button>
         <button
           onClick={handleNext}
-          disabled={currentStep === steps.length - 1 || cart?.cartList == 0}
+          disabled={
+            currentStep === steps.length - 1 || cart?.cartList.length == 0
+          }
           className="px-4 py-2 bg-amber-400 rounded font-bold disabled:opacity-50"
         >
           Next
