@@ -89,8 +89,8 @@ const CartOrder = () => {
                 <div className="flex flex-col items-end justify-between">
                   <p className="text-amber-600 text-lg font-bold ">
                     ฿
-                    {(price?.price ?? 0) * (quantity?.quantity ?? 0) -
-                      (product?.salePrice ?? 0)}
+                    {((price?.price ?? 0) - (product?.salePrice ?? 0)) *
+                      (quantity?.quantity ?? 0)}
                   </p>
 
                   {product?.isOnSale && (

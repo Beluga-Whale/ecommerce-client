@@ -13,15 +13,19 @@ const SideBarOrder = () => {
     return cart.cartList.reduce((sum: number, cartItem: productItem) => {
       const product = products.find((p) => p.id === cartItem.productId);
       if (!product) return sum;
-
       const itemTotal = cartItem.variant.reduce((subTotal, v) => {
         const variant = product.variants.find(
           (varnt) => varnt.variantID === v.variantId
         );
-        return subTotal + (variant?.price ?? 0) * v.quantity;
+        return (
+          subTotal +
+          ((variant?.price ?? 0) - (product?.salePrice ?? 0)) * v.quantity
+        );return (
+          subTotal +
+          ((variant?.price ?? 0) - (product?.salePrice ?? 0)) * v.quantity
+        );
       }, 0);
-
-      return sum + itemTotal - (product?.salePrice ?? 0);
+      return sum + itemTotal;
     }, 0);
   }, [cart.cartList, products]);
 

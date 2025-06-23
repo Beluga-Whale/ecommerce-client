@@ -39,10 +39,13 @@ const PopupCart = () => {
         const variant = product.variants.find(
           (varnt) => varnt.variantID === v.variantId
         );
-        return subTotal + (variant?.price ?? 0) * v.quantity;
+        return (
+          subTotal +
+          ((variant?.price ?? 0) - (product?.salePrice ?? 0)) * v.quantity
+        );
       }, 0);
 
-      return sum + itemTotal - (product?.salePrice ?? 0);
+      return sum + itemTotal;
     }, 0);
   }, [cart.cartList, products]);
 
@@ -118,8 +121,8 @@ const PopupCart = () => {
                 <div className="flex flex-col items-end justify-between">
                   <p className="text-amber-600 text-sm">
                     ฿
-                    {(price?.price ?? 0) * (quantity?.quantity ?? 0) -
-                      (product?.salePrice ?? 0)}
+                    {((price?.price ?? 0) - (product?.salePrice ?? 0)) *
+                      (quantity?.quantity ?? 0)}
                   </p>
                   <Button
                     variant="ghost"
