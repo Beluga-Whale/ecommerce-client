@@ -71,7 +71,12 @@ const PopupCart = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="group -m-2 flex items-center p-2">
+        <div
+          className={`
+        group -m-2 flex items-center p-2
+        ${variantCount === 0 ? "pointer-events-none opacity-50" : ""}
+      `}
+        >
           <ShoppingBagIcon
             aria-hidden="true"
             className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -82,6 +87,7 @@ const PopupCart = () => {
           <span className="sr-only">items in cart, view bag</span>
         </div>
       </PopoverTrigger>
+
       <PopoverContent className="w-80 flex justify-between flex-col space-y-5">
         <p>Shopping Cart</p>
         <Separator />

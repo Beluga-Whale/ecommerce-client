@@ -12,6 +12,8 @@ import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { productItem, setCartItem } from "@/lib/features/cart/cartSlice";
+import { getCookie } from "@/lib/getCookie";
+import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -59,7 +61,13 @@ export default function ProductDetailByID() {
     setChangeQuantity(changeQuantity - 1);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    const cookie = await getCookie();
+
+    if (cookie == undefined) {
+      return dispatch(setDialogLoginOpen());
+    }
+
     const selectedVariant = productByID?.data?.variants?.find(
       (v) => v.size === selectedSize
     );

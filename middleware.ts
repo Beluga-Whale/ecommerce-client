@@ -30,6 +30,10 @@ export async function middleware(req: NextRequest) {
     return redirectToHome(req);
   }
 
+  if (!token && req.nextUrl.pathname.match("/shop/order")) {
+    return redirectToHome(req);
+  }
+
   try {
     const decoded = jwtDecode<{ exp: number; role?: string }>(token ?? "");
 
@@ -58,5 +62,5 @@ function redirectToHome(req: NextRequest) {
 
 //NOTE - Apply middleware เฉพาะหน้า /tasks
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*", "/shop/order"],
 };
