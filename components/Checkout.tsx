@@ -7,8 +7,15 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToCurrency";
+import { ParamValue } from "next/dist/server/request/params";
 
-const Checkout = ({ amount }: { amount: number }) => {
+const Checkout = ({
+  amount,
+  orderId,
+}: {
+  amount: number;
+  orderId: ParamValue;
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -21,7 +28,10 @@ const Checkout = ({ amount }: { amount: number }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+      body: JSON.stringify({
+        amount: convertToSubcurrency(amount),
+        orderId: orderId,
+      }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));
@@ -47,7 +57,7 @@ const Checkout = ({ amount }: { amount: number }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/payment-success?amount=${amount}`,
       },
     });
 

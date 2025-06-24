@@ -55,7 +55,7 @@ const OrderPage = () => {
         return;
       }
       const values = form.getValues();
-      const variantList = cart?.cartList.flatMap((item) => item.variant);
+      const variantList = cart?.cartList.flatMap((item: any) => item.variant);
       const payloadAddress: OrderDto = {
         fullName: values.name,
         phone: values.phone,

@@ -22,9 +22,10 @@ export async function POST(req: NextRequest) {
     console.error("Webhook Error:", err.message);
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
-
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    const orderId = paymentIntent.metadata?.orderId;
+
     console.log("✅ Payment succeeded:", paymentIntent.id);
     // TODO: อัปเดตคำสั่งซื้อใน DB โดยใช้ paymentIntent.id
   }

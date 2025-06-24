@@ -1,8 +1,10 @@
-export default function PaymentSuccess({
-  searchParams: { amount },
-}: {
-  searchParams: { amount: string };
-}) {
+"use client";
+import { useSearchParams } from "next/navigation";
+import React from "react";
+
+const PaymentSuccess = () => {
+  const searchParams = useSearchParams();
+  const amount = searchParams.get("amount");
   return (
     <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
       <div className="mb-10">
@@ -15,4 +17,6 @@ export default function PaymentSuccess({
       </div>
     </main>
   );
-}
+};
+
+export default PaymentSuccess;
