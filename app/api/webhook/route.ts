@@ -5,7 +5,6 @@ import Stripe from "stripe";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const apiUrl: string = process.env.PUBLIC_PORT || "";
 export async function POST(req: NextRequest) {
-  console.log("apiUrl", apiUrl);
   const body = await req.text();
   const signature = req.headers.get("stripe-signature") as string;
   if (!signature) {
@@ -28,18 +27,20 @@ export async function POST(req: NextRequest) {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
     // NOTE - อัปเดตคำสั่งซื้อใน DB โดยใช้ paymentIntent.id
-    const payload = {
-      orderId: paymentIntent.metadata.orderId,
-      status: "paid",
-    };
-    // FIXME - เปลี่ยนเป็น apiUrl
     try {
       await axios
-        .patch(`${apiUrl}/user/order`, payload, {
-          headers: {
-            Authorization: `Bearer ${process.env.STRIPE_WEBHOOK_SECRET}`,
+        .patch(
+          `${apiUrl}/user/order`,
+          {
+            orderId: Number(paymentIntent.metadata.orderId),
+            status: "paid",
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.STRIPE_WEBHOOK_SECRET}`,
+            },
+          }
+        )
         .then((response) =>
           console.log("Order updated successfully:", response.data)
         );
