@@ -5,6 +5,7 @@ import Stripe from "stripe";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const apiUrl: string = process.env.PUBLIC_PORT || "";
 export async function POST(req: NextRequest) {
+  console.log("apiUrl", apiUrl);
   const body = await req.text();
   const signature = req.headers.get("stripe-signature") as string;
   if (!signature) {
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
     // FIXME - เปลี่ยนเป็น apiUrl
     try {
       await axios
-        .patch(`${apiUrl}/api/user/order`, payload, {
+        .patch(`${apiUrl}/user/order`, payload, {
           headers: {
             Authorization: `Bearer ${process.env.STRIPE_WEBHOOK_SECRET}`,
           },
