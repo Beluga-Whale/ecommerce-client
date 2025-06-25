@@ -144,3 +144,39 @@ export interface OrderResponseDto {
   message: string;
   success: boolean;
 }
+
+export interface Coupon {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
+  Code: string;
+  DiscountAmount: number;
+  ExpiredAt: string;
+}
+
+export interface OrderItemResponse {
+  variantID: number;
+  productName: string;
+  size: string;
+  quantity: number;
+  priceAtPurchase: number;
+}
+
+export interface OrderDtoById {
+  orderID?: number;
+  status?: string;
+  fullName?: string;
+  phone?: string;
+  address?: string;
+  province?: string;
+  district?: string;
+  subdistrict?: string;
+  zipcode?: string;
+  user?: number;
+  totalPrice?: number;
+
+  coupon?: Coupon;
+  orderItem?: OrderItemResponse[];
+  paymentExpireAt?: string;
+}

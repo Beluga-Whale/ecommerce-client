@@ -1,6 +1,8 @@
-import { OrderDto } from "@/types";
-import { useMutation } from "@tanstack/react-query";
-import { createOrder } from "./api/orderApi";
+import { OrderDto, OrderDtoById } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createOrder, getOrders } from "./api/orderApi";
+
+const getOrderByIdQueryKey = "getOrderByIdQueryKey";
 
 export const useCreateOrder = () => {
   return useMutation({
@@ -9,5 +11,13 @@ export const useCreateOrder = () => {
     onError: (error: Error) => {
       console.log("Create Product Failed: ", error.message);
     },
+  });
+};
+
+export const useGetOrderById = (orderId: number) => {
+  return useQuery<OrderDtoById>({
+    queryKey: [getOrderByIdQueryKey, orderId],
+    queryFn: () => getOrders(orderId),
+    enabled: orderId !== 0 && orderId !== undefined,
   });
 };

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
+const apiUrl: string = process.env.PUBLIC_PORT || "";
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const signature = req.headers.get("stripe-signature") as string;
@@ -26,15 +26,15 @@ export async function POST(req: NextRequest) {
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-    console.log("✅ Payment succeeded:", paymentIntent.id);
     // NOTE - อัปเดตคำสั่งซื้อใน DB โดยใช้ paymentIntent.id
     const payload = {
-      orderId: paymentIntent.metadata.order_id,
+      orderId: paymentIntent.metadata.orderId,
       status: "paid",
     };
+    // FIXME - เปลี่ยนเป็น apiUrl
     try {
       await axios
-        .patch(`http://127.0.0.1:8080/api/user/order`, payload, {
+        .patch(`${apiUrl}/api/user/order`, payload, {
           headers: {
             Authorization: `Bearer ${process.env.STRIPE_WEBHOOK_SECRET}`,
           },
