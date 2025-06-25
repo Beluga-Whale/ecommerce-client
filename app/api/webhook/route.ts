@@ -1,8 +1,9 @@
+import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
+const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const signature = req.headers.get("stripe-signature") as string;
@@ -24,15 +25,33 @@ export async function POST(req: NextRequest) {
   }
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
-    const orderId = paymentIntent.metadata?.orderId;
 
     console.log("✅ Payment succeeded:", paymentIntent.id);
-    // TODO: อัปเดตคำสั่งซื้อใน DB โดยใช้ paymentIntent.id
+    // NOTE - อัปเดตคำสั่งซื้อใน DB โดยใช้ paymentIntent.id
+    const payload = {
+      orderId: paymentIntent.metadata.order_id,
+      status: "paid",
+    };
+    try {
+      await axios
+        .patch(`http://127.0.0.1:8080/api/user/order`, payload, {
+          headers: {
+            Authorization: `Bearer ${process.env.STRIPE_WEBHOOK_SECRET}`,
+          },
+        })
+        .then((response) =>
+          console.log("Order updated successfully:", response.data)
+        );
+    } catch (error: any) {
+      console.error("Unknown error:", error);
+      return new NextResponse("Failed to update order", { status: 500 });
+    }
   }
 
   if (event.type === "payment_intent.payment_failed") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
     console.log("❌ Payment failed:", paymentIntent.id);
+    return new NextResponse("Payment failed", { status: 500 });
   }
   return new NextResponse("Received", { status: 200 });
 }
