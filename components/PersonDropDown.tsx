@@ -6,6 +6,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteCookie } from "@/lib/clearCookie";
+import { setUserId } from "@/lib/features/user/userSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 import { UserIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
@@ -13,8 +15,10 @@ import { Bounce, toast } from "react-toastify";
 
 export function PersonDropDown() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const handleLogout = async () => {
     await deleteCookie();
+    dispatch(setUserId(undefined));
     router.refresh();
     toast.success("Logged out successfully.", {
       position: "top-center",

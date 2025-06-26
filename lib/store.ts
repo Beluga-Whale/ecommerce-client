@@ -5,17 +5,19 @@ import { combineReducers } from "redux";
 import dialogReducer from "./features/dialog/dialogSlice";
 import filterReducer from "./features/filter/filerSlice";
 import cartReducer from "./features/cart/cartSlice";
+import userReducer from "./features/user/userSlice";
 
 const rootReducer = combineReducers({
   dialog: dialogReducer,
   filter: filterReducer,
   cart: cartReducer,
+  user: userReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart"],
+  whitelist: ["cart", "user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -25,8 +25,9 @@ export async function POST(req: NextRequest) {
   }
   if (event.type === "payment_intent.succeeded") {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
-
+    console.log("✅ apiUrl", apiUrl);
     // NOTE - อัปเดตคำสั่งซื้อใน DB โดยใช้ paymentIntent.id
+
     try {
       await axios
         .patch(
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
           {
             orderId: Number(paymentIntent.metadata.orderId),
             status: "paid",
+            userId: Number(paymentIntent.metadata.userId),
           },
           {
             headers: {

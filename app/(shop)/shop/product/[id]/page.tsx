@@ -10,7 +10,7 @@ import { ProductVariant } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { productItem, setCartItem } from "@/lib/features/cart/cartSlice";
 import { getCookie } from "@/lib/getCookie";
 import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";

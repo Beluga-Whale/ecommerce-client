@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useSignIn } from "@/services/authServices";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setDialogLoginClose } from "@/lib/features/dialog/dialogSlice";
+import { setUserId } from "@/lib/features/user/userSlice";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email format. Please enter a valid email."),
@@ -45,7 +46,7 @@ const DialogLogin = () => {
   const { mutateAsync: loginMutate, error, isError } = useSignIn();
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await loginMutate(data).then(() => {
+      await loginMutate(data).then((res) => {
         router.refresh();
         toast.success("Login Success", {
           position: "top-center",
@@ -58,6 +59,8 @@ const DialogLogin = () => {
           theme: "light",
           transition: Bounce,
         });
+        console.log("Login Success", res);
+        dispatch(setUserId(res.data.userId));
         dispatch(setDialogLoginClose());
         form.reset();
       });

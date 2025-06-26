@@ -9,6 +9,7 @@ export async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === "/admin/login" && token) {
     try {
       const decoded = jwtDecode<{ exp: number; role?: string }>(token ?? "");
+      console.log("Decoded token:", decoded);
       if (
         decoded &&
         (!decoded.exp || decoded.exp * 1000 > Date.now()) &&

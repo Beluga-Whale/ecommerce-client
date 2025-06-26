@@ -8,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToCurrency";
 import { ParamValue } from "next/dist/server/request/params";
+import { useAppSelector } from "@/lib/hooks";
 
 const Checkout = ({
   amount,
@@ -22,6 +23,9 @@ const Checkout = ({
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const userId = useAppSelector((state) => state.user.userId);
+
+  console.log("User ID in Checkout:", userId);
   useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
@@ -31,6 +35,7 @@ const Checkout = ({
       body: JSON.stringify({
         amount: convertToSubcurrency(amount),
         orderId: orderId,
+        userId: userId,
       }),
     })
       .then((res) => res.json())

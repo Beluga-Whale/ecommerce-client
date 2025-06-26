@@ -14,6 +14,7 @@ import { UserIcon } from "lucide-react";
 import { useAppDispatch } from "@/lib/hooks";
 import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 import PopupCart from "./PopupCart";
+import { setUserId } from "@/lib/features/user/userSlice";
 
 type HeaderProps = {
   cookie: string | undefined;
@@ -39,6 +40,7 @@ const Header = ({ cookie }: HeaderProps) => {
   const router = useRouter();
   const handleLogout = async () => {
     await deleteCookie();
+    dispatch(setUserId(undefined));
     router.refresh();
     toast.success("Logged out successfully.", {
       position: "top-center",
