@@ -118,12 +118,10 @@ const OrderPage = () => {
 
       <div className="grid grid-cols-5 gap-7">
         <div className="w-full col-span-5 lg:col-span-3">
-          {/* Stepper */}
           <div className="max-w-3xl mx-auto ">
             <Stepper steps={steps} currentStep={currentStep} />
           </div>
 
-          {/* Step Content */}
           <div className="mt-8 rounded-md">{renderStepContent()}</div>
         </div>
         <div className="col-span-5 mt-5 lg:col-span-2 lg:mt-21  ">
@@ -131,7 +129,6 @@ const OrderPage = () => {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="mt-4 flex justify-between">
         <button
           onClick={handlePrevious}

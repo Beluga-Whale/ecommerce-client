@@ -19,26 +19,27 @@ const PaymentPage = () => {
   const { orderId } = useParams();
 
   return (
-    <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
-      <div className="mb-10">
-        <h1 className="text-4xl font-extrabold mb-2">Sonny</h1>
-        <h2 className="text-2xl">
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 px-4">
+      <div className="bg-white max-w-xl w-full p-10 rounded-xl shadow-md text-center border border-amber-200">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Beluga</h1>
+        <h2 className="text-xl text-gray-700 mb-6">
           has requested
-          <span className="font-bold"> ${amount}</span>
+          <span className="font-bold text-amber-600"> ${amount}</span>
         </h2>
-      </div>
 
-      <Elements
-        stripe={stripePromise}
-        options={{
-          mode: "payment",
-          amount: convertToSubcurrency(amount),
-          currency: "usd",
-        }}
-      >
-        <Checkout amount={amount} orderId={orderId} />
-      </Elements>
+        <Elements
+          stripe={stripePromise}
+          options={{
+            mode: "payment",
+            amount: convertToSubcurrency(amount),
+            currency: "usd",
+          }}
+        >
+          <Checkout amount={amount} orderId={orderId} />
+        </Elements>
+      </div>
     </main>
   );
 };
+
 export default PaymentPage;
