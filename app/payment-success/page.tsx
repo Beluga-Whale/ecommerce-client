@@ -1,14 +1,20 @@
 "use client";
+import { useAppSelector } from "@/lib/hooks";
 import { useGetOrderById } from "@/services/orderService";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 
 const PaymentSuccess = () => {
   const searchParams = useSearchParams();
   const amount = searchParams.get("amount");
   const orderId = searchParams.get("orderId");
 
-  const { data: orderIdData } = useGetOrderById(Number(orderId));
+  const user = useAppSelector((state) => state.user);
+
+  const { data: orderIdData } = useGetOrderById(
+    Number(orderId),
+    Number(user.userId)
+  );
   if (orderIdData?.data?.status == "paid") {
     return (
       <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">

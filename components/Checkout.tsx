@@ -9,6 +9,8 @@ import {
 import convertToSubcurrency from "@/lib/convertToCurrency";
 import { ParamValue } from "next/dist/server/request/params";
 import { useAppSelector } from "@/lib/hooks";
+import { usePaymentServices } from "@/services/paymentServices";
+import { PaymentIntentDto } from "@/types";
 
 const Checkout = ({
   amount,
@@ -25,22 +27,28 @@ const Checkout = ({
 
   const userId = useAppSelector((state) => state.user.userId);
 
-  console.log("User ID in Checkout:", userId);
+  const { mutateAsync: paymentMutate } = usePaymentServices();
+
   useEffect(() => {
-    fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const createIntent = async () => {
+      const payload: PaymentIntentDto = {
         amount: convertToSubcurrency(amount),
-        orderId: orderId,
-        userId: userId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, [amount]);
+        orderId: Number(orderId),
+        userId: Number(userId),
+      };
+
+      try {
+        const data = await paymentMutate(payload); // 👈 data คือ { clientSecret }
+        setClientSecret(data.clientSecret);
+      } catch (err) {
+        console.error("❌ Error creating payment intent", err);
+      }
+    };
+
+    if (userId && orderId && amount > 0) {
+      createIntent();
+    }
+  }, [amount, orderId, userId]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

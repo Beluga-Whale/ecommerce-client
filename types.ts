@@ -186,3 +186,10 @@ export interface OrderByIdResponse {
   message: string;
   success: boolean;
 }
+
+// NOTE - Payment
+export interface PaymentIntentDto {
+  amount: number;
+  orderId: number;
+  userId: number;
+}

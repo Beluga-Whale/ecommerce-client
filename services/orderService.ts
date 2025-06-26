@@ -14,10 +14,10 @@ export const useCreateOrder = () => {
   });
 };
 
-export const useGetOrderById = (orderId: number) => {
+export const useGetOrderById = (orderId: number, userId: number) => {
   return useQuery<OrderByIdResponse>({
     queryKey: [getOrderByIdQueryKey, orderId],
-    queryFn: () => getOrders(orderId),
+    queryFn: () => getOrders(orderId, userId),
     enabled: orderId !== 0 && orderId !== undefined,
   });
 };

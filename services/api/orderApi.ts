@@ -16,12 +16,16 @@ export const createOrder = async (
 };
 
 export const getOrders = async (
-  orderId: number
+  orderId: number,
+  userId: number
 ): Promise<OrderByIdResponse> => {
   try {
-    const result = await axios.get(`${apiUrl}/user/order/${orderId}`, {
-      withCredentials: true,
-    });
+    const result = await axios.get(
+      `${apiUrl}/user/order/${orderId}?userId=${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
     return result?.data;
   } catch (error) {
     throw error;
