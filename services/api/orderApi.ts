@@ -1,4 +1,4 @@
-import { OrderDto, OrderDtoById, OrderResponseDto } from "@/types";
+import { OrderByIdResponse, OrderDto, OrderResponseDto } from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
 
@@ -15,7 +15,9 @@ export const createOrder = async (
   }
 };
 
-export const getOrders = async (orderId: number): Promise<OrderDtoById> => {
+export const getOrders = async (
+  orderId: number
+): Promise<OrderByIdResponse> => {
   try {
     const result = await axios.get(`${apiUrl}/user/order/${orderId}`, {
       withCredentials: true,

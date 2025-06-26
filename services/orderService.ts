@@ -1,4 +1,4 @@
-import { OrderDto, OrderDtoById } from "@/types";
+import { OrderByIdResponse, OrderDto, OrderDtoById } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createOrder, getOrders } from "./api/orderApi";
 
@@ -15,7 +15,7 @@ export const useCreateOrder = () => {
 };
 
 export const useGetOrderById = (orderId: number) => {
-  return useQuery<OrderDtoById>({
+  return useQuery<OrderByIdResponse>({
     queryKey: [getOrderByIdQueryKey, orderId],
     queryFn: () => getOrders(orderId),
     enabled: orderId !== 0 && orderId !== undefined,

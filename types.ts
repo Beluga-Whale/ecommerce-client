@@ -180,3 +180,9 @@ export interface OrderDtoById {
   orderItem?: OrderItemResponse[];
   paymentExpireAt?: string;
 }
+
+export interface OrderByIdResponse {
+  data: OrderDtoById;
+  message: string;
+  success: boolean;
+}
