@@ -10,6 +10,7 @@ import { setUserId } from "@/lib/features/user/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
 
 import { UserIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bounce, toast } from "react-toastify";
 
@@ -44,6 +45,10 @@ export function PersonDropDown() {
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuItem>Profile</DropdownMenuItem>
+
+        <Link href={"/myorder"} className="hover:cursor-pointer">
+          <DropdownMenuItem>My Order History</DropdownMenuItem>
+        </Link>
 
         <DropdownMenuItem onClick={() => handleLogout()}>
           Log out

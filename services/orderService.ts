@@ -1,8 +1,20 @@
-import { OrderByIdResponse, OrderDto, OrderDtoById } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createOrder, getOrders } from "./api/orderApi";
+import {
+  OderAllByUserIdResponse,
+  OrderByIdResponse,
+  OrderDto,
+  OrderDtoById,
+  UpdateStatusOrderDTO,
+} from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  createOrder,
+  getAllOrderUserId,
+  getOrders,
+  updateStatusOrder,
+} from "./api/orderApi";
 
 const getOrderByIdQueryKey = "getOrderByIdQueryKey";
+const getOrderAllByUserIdQueryKey = "getOrderAllByUserIdQueryKey";
 
 export const useCreateOrder = () => {
   return useMutation({
@@ -16,8 +28,34 @@ export const useCreateOrder = () => {
 
 export const useGetOrderById = (orderId: number, userId: number) => {
   return useQuery<OrderByIdResponse>({
-    queryKey: [getOrderByIdQueryKey, orderId],
+    queryKey: [getOrderByIdQueryKey, orderId, userId],
     queryFn: () => getOrders(orderId, userId),
     enabled: orderId !== 0 && orderId !== undefined,
+  });
+};
+
+export const useGetOrderAllByUserId = () => {
+  return useQuery<OderAllByUserIdResponse>({
+    queryKey: [getOrderAllByUserIdQueryKey],
+    queryFn: getAllOrderUserId,
+  });
+};
+
+export const useUpdateStatusOder = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: UpdateStatusOrderDTO) =>
+      updateStatusOrder(payload.orderId, payload.status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByUserIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderByIdQueryKey],
+      });
+    },
+    onError: (error: Error) => {
+      console.log("Update Status Order Failed: ", error.message);
+    },
   });
 };

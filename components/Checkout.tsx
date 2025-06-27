@@ -38,7 +38,7 @@ const Checkout = ({
       };
 
       try {
-        const data = await paymentMutate(payload); // 👈 data คือ { clientSecret }
+        const data = await paymentMutate(payload);
         setClientSecret(data.clientSecret);
       } catch (err) {
         console.error("❌ Error creating payment intent", err);

@@ -1,7 +1,7 @@
 "use client";
 import { useAppSelector } from "@/lib/hooks";
 import { useGetOrderById } from "@/services/orderService";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import React from "react";
 import { CircleCheck } from "lucide-react";
@@ -11,14 +11,12 @@ const PaymentSuccess = () => {
   const searchParams = useSearchParams();
   const amount = searchParams.get("amount");
   const orderId = searchParams.get("orderId");
-
+  const router = useRouter();
   const user = useAppSelector((state) => state.user);
   const { data: orderIdData } = useGetOrderById(
     Number(orderId),
     Number(user.userId)
   );
-
-  console.log("Order ID Data:", orderIdData);
 
   if (orderIdData?.data?.status === "paid") {
     return (
@@ -64,7 +62,10 @@ const PaymentSuccess = () => {
             {orderIdData?.data?.province} {orderIdData?.data?.zipcode}
           </p>
           <Separator className="mt-5" />
-          <button className="bg-amber-500 mt-5 hover:bg-amber-600 text-white px-4 py-2 rounded-md">
+          <button
+            className="bg-amber-500 mt-5 hover:bg-amber-600 text-white px-4 py-2 rounded-md hover:cursor-pointer"
+            onClick={() => router.push(`/myorder/${Number(orderId)}`)}
+          >
             ดูคำสั่งซื้อของฉัน
           </button>
         </div>

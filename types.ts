@@ -175,16 +175,35 @@ export interface OrderDtoById {
   zipcode?: string;
   user?: number;
   totalPrice?: number;
-
   coupon?: Coupon;
   orderItem?: OrderItemResponse[];
   paymentExpireAt?: string;
+  createdAt?: string;
 }
 
 export interface OrderByIdResponse {
   data: OrderDtoById;
   message: string;
   success: boolean;
+}
+
+export interface OrderAllByUserId {
+  orderID: number;
+  totalPrice: number;
+  status: string;
+  itemCount: number;
+  createdAt: dayjs.Dayjs;
+}
+
+export interface OderAllByUserIdResponse {
+  data: OrderAllByUserId[];
+  message: string;
+  success: boolean;
+}
+
+export interface UpdateStatusOrderDTO {
+  orderId: number;
+  status: string;
 }
 
 // NOTE - Payment
