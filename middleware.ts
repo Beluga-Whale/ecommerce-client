@@ -9,7 +9,6 @@ export async function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === "/admin/login" && token) {
     try {
       const decoded = jwtDecode<{ exp: number; role?: string }>(token ?? "");
-      console.log("Decoded token:", decoded);
       if (
         decoded &&
         (!decoded.exp || decoded.exp * 1000 > Date.now()) &&
@@ -32,6 +31,14 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!token && req.nextUrl.pathname.match("/shop/order")) {
+    return redirectToHome(req);
+  }
+
+  if (!token && req.nextUrl.pathname.startsWith("/payment")) {
+    return redirectToHome(req);
+  }
+
+  if (!token && req.nextUrl.pathname.match("/payment-success")) {
     return redirectToHome(req);
   }
 
@@ -63,5 +70,12 @@ function redirectToHome(req: NextRequest) {
 
 //NOTE - Apply middleware เฉพาะหน้า /tasks
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/shop/order"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/shop/order",
+    "/myorder/:path*",
+    "/payment",
+    "/payment-success",
+  ],
 };

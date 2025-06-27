@@ -9,7 +9,7 @@ import { useCreateOrder } from "@/services/orderService";
 import { OrderDto } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Bounce, toast } from "react-toastify";
 import z from "zod";
@@ -111,6 +111,20 @@ const OrderPage = () => {
         return null;
     }
   };
+  console.log("cart?.addressDetail", cart);
+  useEffect(() => {
+    if (cart?.addressDetail) {
+      form.reset({
+        name: cart?.addressDetail?.fullName,
+        phone: cart?.addressDetail?.phone,
+        address: cart?.addressDetail?.address,
+        district: cart?.addressDetail?.district,
+        subdistrict: cart?.addressDetail?.subdistrict,
+        province: cart?.addressDetail?.province,
+        zipCode: cart?.addressDetail?.zipCode,
+      });
+    }
+  }, [cart?.addressDetail]);
 
   return (
     <div className="container mx-auto max-w-2xl min-h-screen py-10 px-4 sm:px-6 lg:px-8 md:max-w-7xl ">

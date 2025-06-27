@@ -18,6 +18,8 @@ import {
 } from "@/lib/features/cart/cartSlice";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
+import { getCookie } from "@/lib/getCookie";
+import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 
 const PopupCart = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]);
@@ -48,6 +50,16 @@ const PopupCart = () => {
       return sum + itemTotal;
     }, 0);
   }, [cart.cartList, products]);
+
+  const handlerOrderClick = async () => {
+    const cookie = await getCookie();
+
+    if (cookie == undefined) {
+      return dispatch(setDialogLoginOpen());
+    }
+
+    router.push("/shop/order");
+  };
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -153,7 +165,7 @@ const PopupCart = () => {
         <Separator />
         <Button
           className="bg-amber-400 font-bold hover:cursor-pointer"
-          onClick={() => router.push("/shop/order")}
+          onClick={() => handlerOrderClick()}
         >
           Order(${totalPrice.toFixed(2)})
         </Button>
