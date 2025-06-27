@@ -13,13 +13,29 @@ export type productID = {
   productName: string;
 };
 
-type allState = dialogLoginState & dialogDeleteProductState & productID;
+export type dialogEditStatusState = {
+  editStatusToggle: boolean;
+};
+
+export type orderStatusState = {
+  orderId: number;
+  status: string;
+};
+
+type allState = dialogLoginState &
+  dialogDeleteProductState &
+  productID &
+  dialogEditStatusState &
+  orderStatusState;
 
 export const initialState: allState = {
   loginToggle: false,
   deleteProductToggle: false,
   productID: undefined,
   productName: "",
+  editStatusToggle: false,
+  orderId: 0,
+  status: "",
 };
 
 // NOTE - create Slice
@@ -45,6 +61,19 @@ const dialogSlice = createSlice({
     setProductName: (state, action: PayloadAction<string>) => {
       state.productName = action.payload;
     },
+    setDialogEditStatusOpen: (state) => {
+      state.editStatusToggle = true;
+    },
+    setDialogEditStatusClose: (state) => {
+      state.editStatusToggle = false;
+    },
+    setStatusOrder: (
+      state,
+      action: PayloadAction<{ orderId: number; status: string }>
+    ) => {
+      state.orderId = action.payload.orderId ?? 0;
+      state.status = action.payload.status;
+    },
   },
 });
 
@@ -55,6 +84,9 @@ export const {
   setDialogDeleteProductClose,
   setProductID,
   setProductName,
+  setDialogEditStatusClose,
+  setDialogEditStatusOpen,
+  setStatusOrder,
 } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

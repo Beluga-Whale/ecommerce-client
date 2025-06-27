@@ -6,11 +6,14 @@ import { AgGridReact } from "ag-grid-react";
 import { useMemo, useState } from "react";
 
 import { OrderAllByAdminDTO } from "../../../../types";
-import { Pencil, Trash2 } from "lucide-react";
+import { useAppDispatch } from "@/lib/hooks";
+import { setDialogEditStatusOpen } from "@/lib/features/dialog/dialogSlice";
+import DialogEditStatus from "@/components/Dialog/DialogEditStatus";
+import DropdownDataTableOrder from "@/components/DropDownDataTable/DropdownDataTableOrder";
 
 const OrdersPage = () => {
   const { data: orders } = useGetOrderAllByAdmin();
-
+  const dispatch = useAppDispatch();
   const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
 
   const [columnDefs] = useState<ColDef[]>([
@@ -37,15 +40,13 @@ const OrdersPage = () => {
     {
       headerName: "Actions",
       field: "actions",
-      cellRenderer: () => {
+      cellRenderer: (params: any) => {
         return (
           <div className="flex items-center h-full space-x-5">
-            <div className="bg-yellow-100 text-yellow-400 rounded-full p-1">
-              <Pencil />
-            </div>
-            <div className="bg-red-100 text-red-700 rounded-full p-1">
-              <Trash2 />
-            </div>
+            <DropdownDataTableOrder
+              orderId={params?.data?.orderID}
+              status={params?.data?.status}
+            />
           </div>
         );
       },
@@ -69,6 +70,7 @@ const OrdersPage = () => {
           paginationPageSize={20}
         />
       </div>
+      <DialogEditStatus />
     </div>
   );
 };

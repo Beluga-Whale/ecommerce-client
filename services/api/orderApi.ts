@@ -74,3 +74,21 @@ export const getAllOrderAdmin = async (): Promise<OrderAddByAdminResponse> => {
     throw error;
   }
 };
+
+export const updateStatusOrderByAdmin = async (
+  orderId: number,
+  status: string
+) => {
+  try {
+    const result = await axios.patch(
+      `${apiUrl}/admin/order/${orderId}/status`,
+      { status },
+      {
+        withCredentials: true,
+      }
+    );
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};

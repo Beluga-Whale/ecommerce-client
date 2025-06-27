@@ -12,6 +12,7 @@ import {
   getAllOrderUserId,
   getOrders,
   updateStatusOrder,
+  updateStatusOrderByAdmin,
 } from "./api/orderApi";
 
 const getOrderByIdQueryKey = "getOrderByIdQueryKey";
@@ -54,6 +55,28 @@ export const useUpdateStatusOder = () => {
       });
       queryClient.invalidateQueries({
         queryKey: [getOrderByIdQueryKey],
+      });
+    },
+    onError: (error: Error) => {
+      console.log("Update Status Order Failed: ", error.message);
+    },
+  });
+};
+
+export const useUpdateStatusOrderAdmin = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: UpdateStatusOrderDTO) =>
+      updateStatusOrderByAdmin(payload.orderId, payload.status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByUserIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderByIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByAdminQueryKey],
       });
     },
     onError: (error: Error) => {
