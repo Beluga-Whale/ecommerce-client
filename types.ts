@@ -206,6 +206,28 @@ export interface UpdateStatusOrderDTO {
   status: string;
 }
 
+export interface OrderItemDTO {
+  variantID: number;
+  productName: string;
+  size: string;
+  quantity: number;
+  priceAtPurchase: number;
+}
+export interface OrderAllByAdminDTO {
+  orderID: number;
+  createdAt: dayjs.Dayjs;
+  userName: string;
+  status: string;
+  totalPrice: number;
+  orderItem: OrderItemDTO[];
+}
+
+export interface OrderAddByAdminResponse {
+  data: OrderAllByAdminDTO[];
+  message: string;
+  success: boolean;
+}
+
 // NOTE - Payment
 export interface PaymentIntentDto {
   amount: number;

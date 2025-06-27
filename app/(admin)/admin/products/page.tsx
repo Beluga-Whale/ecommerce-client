@@ -29,8 +29,8 @@ const ProductsPage = () => {
   );
   const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
   const [columnDefs] = useState<ColDef[]>([
-    { headerName: "Name", field: "name" },
-    { headerName: "Title", field: "title" },
+    { headerName: "Name", field: "name", filter: true },
+    { headerName: "Title", field: "title", filter: true },
     {
       headerName: "Image",
       field: "images",
@@ -57,6 +57,7 @@ const ProductsPage = () => {
         );
         return <>{category?.Name ?? "-"}</>;
       },
+      filter: true,
     },
     {
       headerName: "Stock",

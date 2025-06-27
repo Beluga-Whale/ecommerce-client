@@ -1,5 +1,6 @@
 import {
   OderAllByUserIdResponse,
+  OrderAddByAdminResponse,
   OrderByIdResponse,
   OrderDto,
   OrderResponseDto,
@@ -57,6 +58,17 @@ export const updateStatusOrder = async (orderId: number, status: string) => {
         withCredentials: true,
       }
     );
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllOrderAdmin = async (): Promise<OrderAddByAdminResponse> => {
+  try {
+    const result = await axios.get(`${apiUrl}/admin/order`, {
+      withCredentials: true,
+    });
     return result?.data;
   } catch (error) {
     throw error;
