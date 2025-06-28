@@ -4,6 +4,7 @@ import {
   OrderByIdResponse,
   OrderDto,
   OrderResponseDto,
+  summaryDashboardResponse,
 } from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
@@ -92,3 +93,15 @@ export const updateStatusOrderByAdmin = async (
     throw error;
   }
 };
+
+export const getSummaryDashboard =
+  async (): Promise<summaryDashboardResponse> => {
+    try {
+      const result = await axios.get(`${apiUrl}/admin/dashboard`, {
+        withCredentials: true,
+      });
+      return result?.data;
+    } catch (error) {
+      throw error;
+    }
+  };

@@ -3,6 +3,7 @@ import {
   OrderByIdResponse,
   OrderDto,
   OrderDtoById,
+  summaryDashboardResponse,
   UpdateStatusOrderDTO,
 } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import {
   getAllOrderAdmin,
   getAllOrderUserId,
   getOrders,
+  getSummaryDashboard,
   updateStatusOrder,
   updateStatusOrderByAdmin,
 } from "./api/orderApi";
@@ -18,6 +20,7 @@ import {
 const getOrderByIdQueryKey = "getOrderByIdQueryKey";
 const getOrderAllByUserIdQueryKey = "getOrderAllByUserIdQueryKey";
 const getOrderAllByAdminQueryKey = "getOrderAllByAdminQueryKey";
+const getSummaryDashboardQueryKey = "getSummaryDashboardQueryKey";
 
 export const useCreateOrder = () => {
   return useMutation({
@@ -89,5 +92,12 @@ export const useGetOrderAllByAdmin = () => {
   return useQuery({
     queryKey: [getOrderAllByAdminQueryKey],
     queryFn: getAllOrderAdmin,
+  });
+};
+
+export const useGetSummaryDashboard = () => {
+  return useQuery<summaryDashboardResponse>({
+    queryKey: [getSummaryDashboardQueryKey],
+    queryFn: getSummaryDashboard,
   });
 };

@@ -5,14 +5,12 @@ import { usePathname } from "next/navigation";
 
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 
-// Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   if (pathname === "/admin/login") return <main>{children}</main>;
-
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
@@ -22,7 +20,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <SidebarTrigger />
           </div>
 
-          <main className="p-4 w-[calc(100%-350px)]">{children}</main>
+          <main className={`p-4 w-[calc(100%-100px)]  md:w-[calc(100%-350px)]`}>
+            {children}
+          </main>
         </div>
       </div>
     </SidebarProvider>

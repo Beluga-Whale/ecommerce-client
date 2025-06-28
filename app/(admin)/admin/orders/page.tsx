@@ -7,13 +7,11 @@ import { useMemo, useState } from "react";
 
 import { OrderAllByAdminDTO } from "../../../../types";
 import { useAppDispatch } from "@/lib/hooks";
-import { setDialogEditStatusOpen } from "@/lib/features/dialog/dialogSlice";
 import DialogEditStatus from "@/components/Dialog/DialogEditStatus";
 import DropdownDataTableOrder from "@/components/DropDownDataTable/DropdownDataTableOrder";
 
 const OrdersPage = () => {
   const { data: orders } = useGetOrderAllByAdmin();
-  const dispatch = useAppDispatch();
   const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
 
   const [columnDefs] = useState<ColDef[]>([

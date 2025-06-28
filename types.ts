@@ -234,3 +234,24 @@ export interface PaymentIntentDto {
   orderId: number;
   userId: number;
 }
+
+// NOTE - Dashboard
+export type DashboardSummaryDTO = {
+  orderTotal: number;
+  ordersThisMonth: number;
+  ordersLastMonth: number;
+  orderGrowthPercent: number;
+
+  revenueThisMonth: number;
+  revenueLastMonth: number;
+  revenueGrowthPercent: number;
+
+  customersThisMonth: number;
+  customersLastMonth: number;
+  customerGrowthPercent: number;
+};
+export interface summaryDashboardResponse {
+  data: DashboardSummaryDTO;
+  message: string;
+  success: boolean;
+}
