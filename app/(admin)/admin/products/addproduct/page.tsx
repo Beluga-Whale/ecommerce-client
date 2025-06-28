@@ -139,15 +139,43 @@ const AddProductPage = () => {
       <div className="  ">
         <Card className="w-full  ">
           <FormProvider {...form}>
-            <form className="inline-block md:flex md:flex-row-reverse ">
-              {/* NOTE - left */}
-              <CardContent className="flex flex-col h-full my-5 md:w-1/2 ">
-                <Label>Upload Image</Label>
-                {imageUpload.length < 3 && (
-                  <UploadImage setImageUpload={setImageUpload} />
-                )}
-                {imageUpload && (
-                  <div className="flex gap-1.5">
+            <form
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6"
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
+              {/* RIGHT Column: Basic Info */}
+              <div className="space-y-5">
+                <FormInputField
+                  control={form.control}
+                  name="name"
+                  label="Name Product"
+                  placeholder="Name of product"
+                  type="text"
+                />
+                <FormInputField
+                  control={form.control}
+                  name="title"
+                  label="Title Product"
+                  placeholder="Title of product"
+                  type="text"
+                />
+                <div className="h-96">
+                  <Label>Description Product</Label>
+                  <RichTextEditor
+                    onChange={setDescription}
+                    description={description}
+                  />
+                </div>
+              </div>
+
+              {/* LEFT Column: Image + Variant + Category */}
+              <div className="space-y-5">
+                <div>
+                  <Label>Upload Image</Label>
+                  {imageUpload.length < 3 && (
+                    <UploadImage setImageUpload={setImageUpload} />
+                  )}
+                  <div className="flex flex-wrap gap-3 mt-3">
                     {imageUpload.map((url, idx) => (
                       <CldImage
                         key={idx}
@@ -155,86 +183,47 @@ const AddProductPage = () => {
                         alt="Product image"
                         width={200}
                         height={125}
-                        className="rounded-xl border w-[200px] h-[125px] my-5 object-cover"
+                        className="rounded-xl border w-[200px] h-[125px] object-cover"
                       />
                     ))}
                   </div>
-                )}
-                <div className="flex items-center space-x-4">
-                  <Info size={35} className="text-gray-400" />
-                  <p className="text-sm text-gray-400">
-                    You need to add image 3 images. Pay attention to the quality
-                    and size of picture you add (important)
-                  </p>
+                  <div className="flex items-start space-x-4 mt-2">
+                    <Info size={25} className="text-gray-400 mt-1" />
+                    <p className="text-sm text-gray-400">
+                      Add at least 3 images. Focus on quality and size.
+                    </p>
+                  </div>
                 </div>
-                {/* NOTE - Add Product Size */}
-                <div className="my-5">
-                  <ProductVariants formProductVariants={form} />
-                </div>
-                <div className="my-5">
-                  <FormInputField
-                    control={form.control}
-                    name="salePrice"
-                    label="Sale Price"
-                    placeholder="Sale price all size"
-                    type="number"
-                  />
-                </div>
-                <div className="my-5">
-                  <FormSelectField
-                    control={form.control}
-                    name="category"
-                    label="Select Category"
-                    options={categoryList}
-                  />
-                </div>
-                <div className="my-5">
-                  <FormCheckBoxField
-                    control={form.control}
-                    name="isFeature"
-                    label="Feature"
-                  />
-                </div>
-              </CardContent>
-              {/* NOTE - right */}
-              <CardContent className="  h-full md:w-1/2 ">
-                <div className="my-5">
-                  <FormInputField
-                    control={form.control}
-                    name="name"
-                    label="Name Product"
-                    placeholder="name of product"
-                    type="text"
-                  />
-                </div>
-                <div className="my-5">
-                  <FormInputField
-                    control={form.control}
-                    name="title"
-                    label="Title Product"
-                    placeholder="Title of product"
-                    type="text"
-                  />
-                </div>
-                {/* NOTE - Description */}
-                <div className="max-w-3xl my-5 h-96">
-                  <Label>Description Product</Label>
-                  <RichTextEditor
-                    onChange={setDescription}
-                    description={description}
-                  />
-                </div>
-              </CardContent>
-            </form>
-            <DialogFooter className="self-end">
-              <div className="flex flex-col w-full gap-3">
-                <Button
-                  className="w-full"
-                  onClick={() => form.handleSubmit(handleSubmit)()}
-                >
-                  Create Products
-                </Button>
+
+                <ProductVariants formProductVariants={form} />
+
+                <FormInputField
+                  control={form.control}
+                  name="salePrice"
+                  label="Sale Price"
+                  placeholder="Sale price"
+                  type="number"
+                />
+
+                <FormSelectField
+                  control={form.control}
+                  name="category"
+                  label="Select Category"
+                  options={categoryList}
+                />
+
+                <FormCheckBoxField
+                  control={form.control}
+                  name="isFeature"
+                  label="Feature"
+                />
               </div>
+            </form>
+
+            <DialogFooter className="px-6 pb-6">
+              <Button type="submit" className="w-full md:w-1/3 ml-auto">
+                Create Product
+              </Button>
             </DialogFooter>
           </FormProvider>
           {/* <DialogCreateCategory /> */}

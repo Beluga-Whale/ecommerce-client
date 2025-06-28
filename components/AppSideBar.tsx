@@ -1,5 +1,8 @@
 "use client";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+
+import { Home, Inbox, Calendar, Search } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -11,66 +14,52 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { usePathname } from "next/navigation";
 
-// Menu items.
+const menuItems = [
+  { title: "Dashboard", path: "/admin", icon: Home },
+  { title: "Orders", path: "/admin/orders", icon: Inbox },
+  { title: "Products", path: "/admin/products", icon: Calendar },
+  { title: "Customers", path: "/admin/customers", icon: Search },
+];
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const activeColor = (path: string) => {
-    return pathname == path ? "text-white " : "text-black";
-  };
 
-  const activeBgColor = (path: string) => {
-    return pathname == path ? "bg-amber-400 text-white rounded-md " : "bg-none";
-  };
-
-  const items = [
-    {
-      title: "Dashboard",
-      path: "/admin",
-      icon: <Home className={activeColor("/admin")} />,
-    },
-    {
-      title: "Orders",
-      path: "/admin/orders",
-      icon: <Inbox className={activeColor("/admin/orders")} />,
-    },
-    {
-      title: "Products",
-      path: "/admin/products",
-      icon: <Calendar className={activeColor("/admin/products")} />,
-    },
-    {
-      title: "Customers",
-      path: "/admin/customers",
-      icon: <Search className={activeColor("/admin/customers")} />,
-    },
-  ];
   return (
-    <Sidebar className=" ">
-      <SidebarContent className="font-semibold p-2 ">
+    <Sidebar className="bg-white border-r shadow-sm w-[250px] h-full">
+      <SidebarContent className="p-4">
         <SidebarGroup>
-          <SidebarGroupLabel className="font-bold text-xl">
+          <SidebarGroupLabel className="text-2xl font-bold">
             <span className="text-amber-400">B</span>E
             <span className="text-amber-400">L</span>U
             <span className="text-amber-400">G</span>A
           </SidebarGroupLabel>
-          <SidebarGroupContent className="mt-5">
+          <SidebarGroupContent className="mt-6">
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem
-                  key={item.title}
-                  className={activeBgColor(item?.path)}
-                >
-                  <SidebarMenuButton asChild>
-                    <a href={item.path}>
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.map(({ title, path, icon: Icon }) => {
+                const isActive = pathname === path;
+
+                return (
+                  <SidebarMenuItem
+                    key={title}
+                    className={`${
+                      isActive
+                        ? "bg-amber-400 text-white"
+                        : "hover:bg-gray-100 text-gray-700"
+                    } rounded-md transition`}
+                  >
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={path}
+                        className="flex items-center gap-3 px-3 py-2"
+                      >
+                        <Icon className="w-5 h-5" />
+                        <span className="text-sm font-medium">{title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -35,6 +35,15 @@ export function UploadImage({ setImageUpload }: UploadImageProps) {
               <p className="text-slate-400 text-sm ">Chose your images</p>
               <p className="text-blue-400 text-sm">Click to browse</p>
             </div>
+
+            //             <div
+            //   className="flex flex-col justify-center items-center w-full sm:w-[200px] h-[125px] border-2 border-dashed border-blue-300 rounded-lg my-5 hover:cursor-pointer hover:bg-blue-50 transition"
+            //   onClick={() => open?.()}
+            // >
+            //   <Images size={30} className="text-blue-400" />
+            //   <p className="text-slate-500 text-sm mt-2">Choose your image</p>
+            //   <p className="text-blue-500 text-xs italic">Click to upload</p>
+            // </div>
           );
         }}
       </CldUploadWidget>
