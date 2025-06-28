@@ -4,7 +4,9 @@ import {
   OrderByIdResponse,
   OrderDto,
   OrderResponseDto,
+  salePerDayResponse,
   summaryDashboardResponse,
+  topProductResponse,
 } from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
@@ -105,3 +107,24 @@ export const getSummaryDashboard =
       throw error;
     }
   };
+
+export const getProductTop = async (): Promise<topProductResponse> => {
+  try {
+    const result = await axios.get(`${apiUrl}/admin/dashboard/topproduct`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getSalePerDay = async (): Promise<salePerDayResponse> => {
+  try {
+    const result = await axios.get(`${apiUrl}/admin/dashboard/slatePerday`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};

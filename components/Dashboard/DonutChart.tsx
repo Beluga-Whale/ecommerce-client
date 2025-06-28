@@ -3,7 +3,6 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { useGetSummaryDashboard } from "@/services/orderService";
-
 const DonutChart = () => {
   const { data: summaryData } = useGetSummaryDashboard();
 
@@ -17,7 +16,7 @@ const DonutChart = () => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 200,
+            width: 237,
           },
           legend: {
             position: "bottom",
@@ -35,12 +34,14 @@ const DonutChart = () => {
   ];
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full max-w-2xlmx-auto p-4 bg-white rounded-xl shadow-md">
+      <h2 className="text-center font-semibold text-xl mb-2">Order Status</h2>
       <ReactApexChart
         options={options}
         series={series}
         type="donut"
-        width={380}
+        width="100%"
+        height={237}
       />
     </div>
   );

@@ -2,8 +2,9 @@ import {
   OderAllByUserIdResponse,
   OrderByIdResponse,
   OrderDto,
-  OrderDtoById,
+  salePerDayResponse,
   summaryDashboardResponse,
+  topProductResponse,
   UpdateStatusOrderDTO,
 } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +13,8 @@ import {
   getAllOrderAdmin,
   getAllOrderUserId,
   getOrders,
+  getProductTop,
+  getSalePerDay,
   getSummaryDashboard,
   updateStatusOrder,
   updateStatusOrderByAdmin,
@@ -21,6 +24,8 @@ const getOrderByIdQueryKey = "getOrderByIdQueryKey";
 const getOrderAllByUserIdQueryKey = "getOrderAllByUserIdQueryKey";
 const getOrderAllByAdminQueryKey = "getOrderAllByAdminQueryKey";
 const getSummaryDashboardQueryKey = "getSummaryDashboardQueryKey";
+const getProductTopQueryKey = "getProductTopQueryKey";
+const getSalePerDayQueryKey = "getSalePerDayQueryKey";
 
 export const useCreateOrder = () => {
   return useMutation({
@@ -99,5 +104,19 @@ export const useGetSummaryDashboard = () => {
   return useQuery<summaryDashboardResponse>({
     queryKey: [getSummaryDashboardQueryKey],
     queryFn: getSummaryDashboard,
+  });
+};
+
+export const useGetProductTop = () => {
+  return useQuery<topProductResponse>({
+    queryKey: [getProductTopQueryKey],
+    queryFn: getProductTop,
+  });
+};
+
+export const useGetSalePerDay = () => {
+  return useQuery<salePerDayResponse>({
+    queryKey: [getSalePerDayQueryKey],
+    queryFn: getSalePerDay,
   });
 };

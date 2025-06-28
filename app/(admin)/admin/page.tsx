@@ -1,6 +1,8 @@
 "use client";
+import BarChartTopProduct from "@/components/Dashboard/BarChartTopProduct";
 import CardDashBoard from "@/components/Dashboard/CardDashBoard";
 import DonutChart from "@/components/Dashboard/DonutChart";
+import LineCartSale from "@/components/Dashboard/LineCartSale";
 import { useGetSummaryDashboard } from "@/services/orderService";
 const AdminPage = () => {
   const { data: summaryData } = useGetSummaryDashboard();
@@ -37,8 +39,16 @@ const AdminPage = () => {
           icon="delivery"
         />
       </div>
-      <div className="flex justify-center items-center w-full">
-        <DonutChart />
+      <div className="grid grid-cols-1  xl:grid-cols-3 gap-4 p-4">
+        <div className="">
+          <BarChartTopProduct />
+        </div>
+        <div className="">
+          <DonutChart />
+        </div>
+        <div className="">
+          <LineCartSale />
+        </div>
       </div>
     </div>
   );

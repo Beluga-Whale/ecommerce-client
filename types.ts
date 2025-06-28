@@ -260,3 +260,25 @@ export interface summaryDashboardResponse {
   message: string;
   success: boolean;
 }
+
+export interface topProductDTO {
+  productId: number;
+  name: string;
+  totalSold: number;
+}
+
+export interface topProductResponse {
+  data: topProductDTO[];
+  message: string;
+  success: boolean;
+}
+
+export interface salePerDayDTO {
+  date: dayjs.Dayjs;
+  totalSale: number;
+}
+export interface salePerDayResponse {
+  data: salePerDayDTO[];
+  message: string;
+  success: boolean;
+}
