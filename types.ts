@@ -249,6 +249,11 @@ export type DashboardSummaryDTO = {
   customersThisMonth: number;
   customersLastMonth: number;
   customerGrowthPercent: number;
+
+  statusPending: number;
+  statusPaid: number;
+  statusShipped: number;
+  statusCancel: number;
 };
 export interface summaryDashboardResponse {
   data: DashboardSummaryDTO;
