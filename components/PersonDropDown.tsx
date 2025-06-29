@@ -42,12 +42,15 @@ export function PersonDropDown() {
       <DropdownMenuTrigger asChild>
         {userProfile?.data?.avatar !== "" ? (
           <Avatar className="hover:cursor-pointer">
-            <AvatarImage src={userProfile?.data?.avatar} />
+            <AvatarImage
+              src={userProfile?.data?.avatar}
+              className="w-full h-full object-cover"
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         ) : (
           <UserIcon
-            className="size-7 bg-amber-400 text-white hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 hover:cursor-pointer"
+            className="size-7 bg-amber-400 text-white hover:bg-gray-200 rounded-full p-1 hover:cursor-pointer"
             aria-describedby="login"
           />
         )}
