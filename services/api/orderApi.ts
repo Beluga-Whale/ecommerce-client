@@ -1,4 +1,5 @@
 import {
+  customerDetailResponse,
   OderAllByUserIdResponse,
   OrderAddByAdminResponse,
   OrderByIdResponse,
@@ -133,6 +134,17 @@ export const getSalePerDay = async (): Promise<salePerDayResponse> => {
 export const deleteOrder = async (id: number) => {
   try {
     const result = await axios.delete(`${apiUrl}/admin/order/${id}`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCustomerDetail = async (): Promise<customerDetailResponse> => {
+  try {
+    const result = await axios.get(`${apiUrl}/admin/dashboard/customer`, {
       withCredentials: true,
     });
     return result?.data;

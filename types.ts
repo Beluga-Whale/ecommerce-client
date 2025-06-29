@@ -282,3 +282,22 @@ export interface salePerDayResponse {
   message: string;
   success: boolean;
 }
+
+//NOTE - Customer
+export interface CustomerDTO {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  orders: number;
+  totalSpent: number;
+  lastOrderDate: dayjs.Dayjs;
+}
+
+export interface customerDetailResponse {
+  data: CustomerDTO[];
+  message: string;
+  success: boolean;
+}

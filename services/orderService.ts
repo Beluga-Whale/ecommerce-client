@@ -1,4 +1,5 @@
 import {
+  customerDetailResponse,
   OderAllByUserIdResponse,
   OrderByIdResponse,
   OrderDto,
@@ -13,6 +14,7 @@ import {
   deleteOrder,
   getAllOrderAdmin,
   getAllOrderUserId,
+  getCustomerDetail,
   getOrders,
   getProductTop,
   getSalePerDay,
@@ -27,6 +29,7 @@ const getOrderAllByAdminQueryKey = "getOrderAllByAdminQueryKey";
 const getSummaryDashboardQueryKey = "getSummaryDashboardQueryKey";
 const getProductTopQueryKey = "getProductTopQueryKey";
 const getSalePerDayQueryKey = "getSalePerDayQueryKey";
+const getCustomerDetailQueryKey = "getCustomerDetailQueryKey";
 
 export const useCreateOrder = () => {
   return useMutation({
@@ -140,5 +143,12 @@ export const useGetSalePerDay = () => {
   return useQuery<salePerDayResponse>({
     queryKey: [getSalePerDayQueryKey],
     queryFn: getSalePerDay,
+  });
+};
+
+export const useGetCustomerDetail = () => {
+  return useQuery<customerDetailResponse>({
+    queryKey: [getCustomerDetailQueryKey],
+    queryFn: getCustomerDetail,
   });
 };
