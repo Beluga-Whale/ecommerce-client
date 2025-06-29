@@ -14,6 +14,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Separator } from "./ui/separator";
+import { Button } from "./ui/button";
+import { deleteCookie } from "@/lib/clearCookie";
+import { Bounce, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const menuItems = [
   { title: "Dashboard", path: "/admin", icon: Home },
@@ -24,6 +29,24 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handlerLogout = async () => {
+    await deleteCookie();
+
+    toast.success("Logged out successfully.", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+    router.refresh();
+  };
 
   return (
     <Sidebar className="bg-white border-r shadow-sm w-[250px] h-full">
@@ -60,6 +83,13 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 );
               })}
+              <Separator />
+              <Button
+                className="hover:cursor-pointer mt-5"
+                onClick={() => handlerLogout()}
+              >
+                Logout
+              </Button>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
