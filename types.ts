@@ -301,3 +301,28 @@ export interface customerDetailResponse {
   message: string;
   success: boolean;
 }
+
+// NOTE - user Profile
+export interface UserProfileDTO {
+  userId: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  birthDate: dayjs.Dayjs;
+  avatar: string;
+}
+
+export interface userProfileResponse {
+  data: UserProfileDTO;
+  message: string;
+  success: boolean;
+}
+
+export interface userProfileUpdateDTO {
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  birthDate?: dayjs.Dayjs;
+  avatar?: string;
+}

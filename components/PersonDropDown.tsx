@@ -8,7 +8,8 @@ import {
 import { deleteCookie } from "@/lib/clearCookie";
 import { setUserId } from "@/lib/features/user/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
-
+import { useGetProfileUser } from "@/services/authServices";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,6 +18,8 @@ import { Bounce, toast } from "react-toastify";
 export function PersonDropDown() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const { data: userProfile } = useGetProfileUser();
   const handleLogout = async () => {
     await deleteCookie();
     dispatch(setUserId(undefined));
@@ -37,17 +40,31 @@ export function PersonDropDown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <UserIcon
-          className="size-7 bg-amber-400 text-white hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 "
-          aria-describedby="login"
-        />
+        {userProfile?.data?.avatar !== "" ? (
+          <Avatar className="hover:cursor-pointer">
+            <AvatarImage src={userProfile?.data?.avatar} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        ) : (
+          <UserIcon
+            className="size-7 bg-amber-400 text-white hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 hover:cursor-pointer"
+            aria-describedby="login"
+          />
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <Link href={"/profile"}>
+          <DropdownMenuItem className="hover:cursor-pointer">
+            Profile
+          </DropdownMenuItem>
+        </Link>
 
-        <Link href={"/myorder"} className="hover:cursor-pointer">
-          <DropdownMenuItem>My Order History</DropdownMenuItem>
+        <Link href={"/myorder"}>
+          <DropdownMenuItem className="hover:cursor-pointer">
+            {" "}
+            My Order History
+          </DropdownMenuItem>
         </Link>
 
         <DropdownMenuItem onClick={() => handleLogout()}>

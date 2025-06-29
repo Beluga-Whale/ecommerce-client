@@ -17,6 +17,7 @@ type FormInputFieldProps<T extends FieldValues> = {
   type?: HTMLInputTypeAttribute;
   placeholder: string;
   description?: string;
+  disable?: boolean;
 };
 
 const FormInputField = <T extends FieldValues>({
@@ -26,6 +27,7 @@ const FormInputField = <T extends FieldValues>({
   type,
   placeholder,
   description,
+  disable,
 }: FormInputFieldProps<T>) => {
   return (
     <FormField
@@ -44,6 +46,7 @@ const FormInputField = <T extends FieldValues>({
                   type === "number" ? +e.target.value : e.target.value
                 )
               }
+              disabled={disable}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
