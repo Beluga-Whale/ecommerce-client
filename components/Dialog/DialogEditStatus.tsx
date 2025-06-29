@@ -106,7 +106,11 @@ const DialogEditStatus = () => {
 
             <DialogFooter>
               <div className="flex flex-col w-full gap-3">
-                <Button className="w-full" type="submit" disabled={isPending}>
+                <Button
+                  className="w-full hover:cursor-pointer"
+                  type="submit"
+                  disabled={isPending}
+                >
                   Update
                 </Button>
               </div>

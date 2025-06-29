@@ -4,26 +4,18 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   orderStatusState,
-  setDialogDeleteProductOpen,
+  setDialogDeleteOrderOpen,
   setDialogEditStatusOpen,
-  setProductID,
-  setProductName,
+  setOrderIdDelete,
   setStatusOrder,
 } from "@/lib/features/dialog/dialogSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { Ellipsis } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 type DropdownDataTableOrderProps = {
   orderId?: number;
@@ -34,8 +26,8 @@ const DropdownDataTableOrder = ({
   orderId,
   status,
 }: DropdownDataTableOrderProps) => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
+
   const handleEdit = () => {
     dispatch(setDialogEditStatusOpen());
     const payload: orderStatusState = {
@@ -43,11 +35,12 @@ const DropdownDataTableOrder = ({
       status: status ?? "",
     };
     dispatch(setStatusOrder(payload));
-    // router.push(`/admin/products/editProduct/${orderId}`);
   };
+
   const handleDelete = () => {
-    dispatch(setDialogDeleteProductOpen());
-    dispatch(setProductID(orderId ?? 0));
+    console.log("orderId", orderId);
+    dispatch(setDialogDeleteOrderOpen());
+    dispatch(setOrderIdDelete(Number(orderId)));
   };
   return (
     <DropdownMenu>
@@ -64,7 +57,7 @@ const DropdownDataTableOrder = ({
           </DropdownMenuItem>
           <DropdownMenuItem
             className="hover:text-red-600 cursor-pointer"
-            // onClick={() => handleDelete()}
+            onClick={() => handleDelete()}
           >
             <p>Delete</p>
           </DropdownMenuItem>

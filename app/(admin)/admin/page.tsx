@@ -3,6 +3,7 @@ import BarChartTopProduct from "@/components/Dashboard/BarChartTopProduct";
 import CardDashBoard from "@/components/Dashboard/CardDashBoard";
 import DonutChart from "@/components/Dashboard/DonutChart";
 import LineCartSale from "@/components/Dashboard/LineCartSale";
+import RecentOrderDataTable from "@/components/Dashboard/RecentOrderDataTable";
 import { useGetSummaryDashboard } from "@/services/orderService";
 const AdminPage = () => {
   const { data: summaryData } = useGetSummaryDashboard();
@@ -39,15 +40,20 @@ const AdminPage = () => {
           icon="delivery"
         />
       </div>
-      <div className="grid grid-cols-1  xl:grid-cols-3 gap-4 p-4">
-        <div className="">
+      <div className="grid grid-cols-4  gap-4 p-4">
+        <div className="col-span-4 lg:col-span-2">
+          <LineCartSale />
+        </div>
+        <div className="col-span-4 lg:col-span-2">
           <BarChartTopProduct />
         </div>
-        <div className="">
-          <DonutChart />
+      </div>
+      <div className="grid grid-cols-1  xl:grid-cols-4 gap-4 p-4">
+        <div className="col-span-4 xl:col-span-2">
+          <RecentOrderDataTable />
         </div>
-        <div className="">
-          <LineCartSale />
+        <div className="col-span-4 xl:col-span-2">
+          <DonutChart />
         </div>
       </div>
     </div>

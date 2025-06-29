@@ -1,22 +1,23 @@
-"use client";
-
 import { useGetOrderAllByAdmin } from "@/services/orderService";
+import { useMemo, useState } from "react";
+import DropdownDataTableOrder from "../DropDownDataTable/DropdownDataTableOrder";
 import { ColDef } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
-import { useMemo, useState } from "react";
-
-import { OrderAllByAdminDTO } from "../../../../types";
-import DialogEditStatus from "@/components/Dialog/DialogEditStatus";
-import DropdownDataTableOrder from "@/components/DropDownDataTable/DropdownDataTableOrder";
-import DialogDeleteOrder from "@/components/Dialog/DialogDeleteOrder";
-
-const OrdersPage = () => {
+import { OrderAllByAdminDTO } from "../../types";
+import dayjs from "dayjs";
+const RecentOrderDataTable = () => {
   const { data: orders } = useGetOrderAllByAdmin();
-  const containerStyle = useMemo(() => ({ width: "100%", height: 600 }), []);
+  const containerStyle = useMemo(() => ({ width: "100%", height: 250 }), []);
+  const recentOrders =
+    orders?.data
+      ?.sort(
+        (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
+      )
+      .slice(0, 5) ?? [];
 
   const [columnDefs] = useState<ColDef[]>([
-    { headerName: "Order", field: "orderID", filter: true },
-    { headerName: "Date", field: "createdAt", filter: true },
+    { headerName: "Order", field: "orderID" },
+    { headerName: "Date", field: "createdAt" },
     {
       headerName: "Customer",
       field: "userName",
@@ -67,20 +68,6 @@ const OrdersPage = () => {
         return <p>{listItem}</p>;
       },
     },
-    {
-      headerName: "Actions",
-      field: "actions",
-      cellRenderer: (params: any) => {
-        return (
-          <div className="flex items-center h-full space-x-5">
-            <DropdownDataTableOrder
-              orderId={params?.data?.orderID}
-              status={params?.data?.status}
-            />
-          </div>
-        );
-      },
-    },
   ]);
   const defaultColDef = useMemo<ColDef>(() => {
     return {
@@ -90,19 +77,16 @@ const OrdersPage = () => {
   }, []);
 
   return (
-    <div>
-      <div style={containerStyle} className="ag-theme-alpine mt-4">
+    <div className="w-full max-w-7xl mx-auto h-[330px] p-4  rounded-xl shadow-md">
+      <h2 className="text-center font-semibold text-xl mb-2">Recent Orders</h2>
+      <div style={containerStyle} className="ag-theme-alpine  ">
         <AgGridReact<OrderAllByAdminDTO>
-          rowData={orders?.data}
+          rowData={recentOrders ?? []}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          pagination={true}
-          paginationPageSize={20}
         />
       </div>
-      <DialogEditStatus />
-      <DialogDeleteOrder />
     </div>
   );
 };
-export default OrdersPage;
+export default RecentOrderDataTable;

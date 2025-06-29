@@ -16,7 +16,7 @@ const DonutChart = () => {
         breakpoint: 480,
         options: {
           chart: {
-            width: 237,
+            width: 260,
           },
           legend: {
             position: "bottom",
@@ -34,14 +34,14 @@ const DonutChart = () => {
   ];
 
   return (
-    <div className="w-full max-w-2xlmx-auto p-4 bg-white rounded-xl shadow-md">
+    <div className="w-full max-w-2xl mx-auto p-4 bg-white rounded-xl shadow-md">
       <h2 className="text-center font-semibold text-xl mb-2">Order Status</h2>
       <ReactApexChart
         options={options}
         series={series}
         type="donut"
         width="100%"
-        height={237}
+        height={260}
       />
     </div>
   );

@@ -10,6 +10,7 @@ const LineCartSale = () => {
       x: item.date,
       y: item.totalSale,
     })) ?? [];
+
   const options: ApexOptions = {
     chart: {
       type: "area",
@@ -30,10 +31,7 @@ const LineCartSale = () => {
     markers: {
       size: 0,
     },
-    title: {
-      text: "Sales Over Time",
-      align: "left",
-    },
+
     fill: {
       type: "gradient",
       gradient: {
@@ -70,7 +68,7 @@ const LineCartSale = () => {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 bg-white rounded-xl shadow-md">
+    <div className="w-full  mx-auto p-4 bg-white rounded-xl shadow-md">
       <h2 className="text-center font-semibold text-xl mb-2">Sale Over Time</h2>
       <ReactApexChart
         options={options}

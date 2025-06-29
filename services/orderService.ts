@@ -10,6 +10,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createOrder,
+  deleteOrder,
   getAllOrderAdmin,
   getAllOrderUserId,
   getOrders,
@@ -76,6 +77,27 @@ export const useUpdateStatusOrderAdmin = () => {
   return useMutation({
     mutationFn: (payload: UpdateStatusOrderDTO) =>
       updateStatusOrderByAdmin(payload.orderId, payload.status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByUserIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderByIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByAdminQueryKey],
+      });
+    },
+    onError: (error: Error) => {
+      console.log("Update Status Order Failed: ", error.message);
+    },
+  });
+};
+
+export const useDeleteOrder = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => deleteOrder(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [getOrderAllByUserIdQueryKey],

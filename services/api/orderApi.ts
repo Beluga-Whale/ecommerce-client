@@ -118,9 +118,21 @@ export const getProductTop = async (): Promise<topProductResponse> => {
     throw error;
   }
 };
+
 export const getSalePerDay = async (): Promise<salePerDayResponse> => {
   try {
     const result = await axios.get(`${apiUrl}/admin/dashboard/slatePerday`, {
+      withCredentials: true,
+    });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteOrder = async (id: number) => {
+  try {
+    const result = await axios.delete(`${apiUrl}/admin/order/${id}`, {
       withCredentials: true,
     });
     return result?.data;
