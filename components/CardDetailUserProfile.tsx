@@ -26,7 +26,7 @@ const CardDetailUserProfile = ({ userProfile }: CardDetailUserProfileProps) => {
         <div>
           <p className="text-xs text-gray-400 mb-1">BirthDate</p>
           <p className="font-medium">
-            {dayjs(userProfile?.birthDate).format("DD/MM/YYYY")}
+            {dayjs(userProfile?.birthDate).format("DD MM YYYY")}
           </p>
         </div>
       </div>
