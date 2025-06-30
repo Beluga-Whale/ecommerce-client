@@ -15,20 +15,26 @@ import { useAppDispatch } from "@/lib/hooks";
 import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 import PopupCart from "./PopupCart";
 import { setUserId } from "@/lib/features/user/userSlice";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useGetProfileUser } from "@/services/authServices";
 
 type HeaderProps = {
   cookie: string | undefined;
 };
 
 const navigation = {
-  pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
-  ],
   menu: [
     {
-      name: "Feature TEST",
-      href: "#",
+      name: "Shop",
+      href: "/shop",
+    },
+    {
+      name: "Cart",
+      href: "/shop/order",
+    },
+    {
+      name: "Profile",
+      href: "/profile",
     },
   ],
 };
@@ -36,7 +42,7 @@ const navigation = {
 const Header = ({ cookie }: HeaderProps) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
-
+  const { data: userProfile } = useGetProfileUser();
   const router = useRouter();
   const handleLogout = async () => {
     await deleteCookie();
@@ -80,21 +86,8 @@ const Header = ({ cookie }: HeaderProps) => {
             </div>
 
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-              {navigation.menu.map((page) => (
-                <div key={page.name} className="flow-root">
-                  <a
-                    href={page.href}
-                    className="-m-2 block p-2 font-medium text-gray-900"
-                  >
-                    {page.name}
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-              {navigation.pages.map((page) => (
-                <div key={page.name} className="flow-root">
+              {navigation.menu.map((page, index) => (
+                <div key={index} className="flow-root">
                   <a
                     href={page.href}
                     className="-m-2 block p-2 font-medium text-gray-900"
@@ -109,15 +102,33 @@ const Header = ({ cookie }: HeaderProps) => {
               <div className="flow-root">
                 {/* NOTE- Login */}
                 {cookie == "" || cookie == undefined ? (
-                  <UserIcon
+                  <Label
                     onClick={() => dispatch(setDialogLoginOpen())}
-                    className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 "
-                    aria-describedby="login"
-                  />
-                ) : (
-                  <Label className="-m-2 block p-2 font-medium text-gray-900">
-                    Profile
+                    className="w-11 hover:cursor-pointer hover:bg-gray-200 p-1"
+                  >
+                    Login
                   </Label>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="hover:cursor-pointer">
+                        <AvatarImage
+                          src={userProfile?.data?.avatar}
+                          className="w-full h-full object-cover"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <p className="text-sm font-semibold">
+                        {userProfile?.data?.firstName}{" "}
+                        {userProfile?.data?.lastName}
+                      </p>
+                    </div>
+                    <div>
+                      <Link href={"/myorder"} className="font-semibold">
+                        Order History
+                      </Link>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -168,8 +179,15 @@ const Header = ({ cookie }: HeaderProps) => {
               {/* Flyout menus */}
               <div className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8 justify-center items-center">
-                  <p>Feature TEST</p>
-                  <p>Feature TEST</p>
+                  <Link href={"/shop"} className="font-semibold">
+                    Shop
+                  </Link>
+                  <Link href={"/shop/order"} className="font-semibold">
+                    Cart
+                  </Link>
+                  <Link href={"/profile"} className="font-semibold">
+                    Profile
+                  </Link>
                 </div>
               </div>
 

@@ -87,7 +87,7 @@ const PopupCart = () => {
           className={`
         group -m-2 flex items-center p-2
         ${variantCount === 0 ? "pointer-events-none opacity-50" : ""}
-      `}
+       hover:cursor-pointer`}
         >
           <ShoppingBagIcon
             aria-hidden="true"
@@ -166,6 +166,7 @@ const PopupCart = () => {
         <Button
           className="bg-amber-400 font-bold hover:cursor-pointer"
           onClick={() => handlerOrderClick()}
+          disabled={totalPrice <= 0}
         >
           Order(${totalPrice.toFixed(2)})
         </Button>

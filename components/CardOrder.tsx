@@ -43,7 +43,9 @@ const CardOrder = () => {
                           : order.status === "complete"
                           ? "text-green-500"
                           : "text-red-500"
-                      }`}
+                      }
+                      uppercase
+                      `}
                     >
                       {order.status}
                     </span>

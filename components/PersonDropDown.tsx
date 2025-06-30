@@ -70,7 +70,10 @@ export function PersonDropDown() {
           </DropdownMenuItem>
         </Link>
 
-        <DropdownMenuItem onClick={() => handleLogout()}>
+        <DropdownMenuItem
+          onClick={() => handleLogout()}
+          className="hover:cursor-pointer"
+        >
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
