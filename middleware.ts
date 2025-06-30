@@ -42,6 +42,14 @@ export async function middleware(req: NextRequest) {
     return redirectToHome(req);
   }
 
+  if (!token && req.nextUrl.pathname.startsWith("/myorder")) {
+    return redirectToHome(req);
+  }
+
+  if (!token && req.nextUrl.pathname.startsWith("/profile")) {
+    return redirectToHome(req);
+  }
+
   try {
     const decoded = jwtDecode<{ exp: number; role?: string }>(token ?? "");
 
@@ -77,5 +85,9 @@ export const config = {
     "/myorder/:path*",
     "/payment",
     "/payment-success",
+    "/myorder",
+    "/myorder/:path*",
+    "/profile",
+    "/profile/:path*",
   ],
 };
