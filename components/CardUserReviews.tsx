@@ -1,19 +1,28 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ReviewItem } from "@/types";
+
+type CardUserReviews = {
+  item: ReviewItem;
+};
 
 function classNames(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
 }
-const reviews = { href: "#", average: 4, totalCount: 119 };
-const CardUserReviews = () => {
+const CardUserReviews = ({ item }: CardUserReviews) => {
   return (
     <div className="w-full sm:max-w-5xl mx-auto bg-white rounded-xl shadow-sm p-4 my-4">
       <div className="flex items-center space-x-3">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage
+            src={item?.avatar}
+            className="w-full h-full object-cover"
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p>Thanathat Jivapaiboonsak</p>
+        <p>
+          {item?.firstName} {item?.lastName}
+        </p>
       </div>
       <div className="my-3">
         <div className="flex items-center ">
@@ -22,7 +31,7 @@ const CardUserReviews = () => {
               key={rating}
               aria-hidden="true"
               className={classNames(
-                reviews.average > rating ? "text-amber-400" : "text-gray-200",
+                item.rating > rating ? "text-amber-400" : "text-gray-200",
                 "size-3 shrink-0"
               )}
             />
@@ -31,7 +40,7 @@ const CardUserReviews = () => {
         </div>
       </div>
       <div>
-        <p>อร่อยมากกกก</p>
+        <p>{item?.comment}</p>
       </div>
     </div>
   );

@@ -1,9 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createReview, getUserReview } from "./api/reviewApi";
-import { reviewUserDTO, reviewUserResponse } from "@/types";
+import {
+  createReview,
+  getReviewAllByProductId,
+  getUserReview,
+} from "./api/reviewApi";
+import {
+  ReviewAllProductSummaryApiResponse,
+  reviewUserDTO,
+  reviewUserResponse,
+} from "@/types";
 import { getOrderByIdQueryKey } from "./orderService";
 
 const getReviewUserQueryKey = "getReviewUserQueryKey";
+const getReviewAllByProductIdQueryKey = "getReviewAllByProductIdQueryKey";
 
 export const useUserReview = () => {
   return useQuery<reviewUserResponse>({
@@ -24,5 +33,12 @@ export const useCreateReview = (orderId: number, userId: number) => {
         queryKey: [getReviewUserQueryKey],
       });
     },
+  });
+};
+
+export const useReviewAllProductById = (productId: number) => {
+  return useQuery<ReviewAllProductSummaryApiResponse>({
+    queryKey: [getReviewAllByProductIdQueryKey],
+    queryFn: () => getReviewAllByProductId(productId),
   });
 };

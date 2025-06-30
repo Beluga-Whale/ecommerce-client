@@ -15,6 +15,7 @@ import { productItem, setCartItem } from "@/lib/features/cart/cartSlice";
 import { getCookie } from "@/lib/getCookie";
 import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 import Link from "next/link";
+import { useReviewAllProductById } from "@/services/reviewServices";
 
 const reviews = { href: "#", average: 4, totalCount: 119 };
 
@@ -40,6 +41,9 @@ export default function ProductDetailByID() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { data: productByID } = useGetProductByID(Number(id));
+
+  const { data: reviewAll } = useReviewAllProductById(Number(id));
+
   const sizeCheck: SizeType[] =
     productByID?.data?.variants
       ?.map((item: ProductVariant) => ({
@@ -147,7 +151,7 @@ export default function ProductDetailByID() {
                       key={rating}
                       aria-hidden="true"
                       className={classNames(
-                        reviews.average > rating
+                        (reviewAll?.data?.average ?? 0) > rating
                           ? "text-amber-400"
                           : "text-gray-200",
                         "size-5 shrink-0"
@@ -160,7 +164,7 @@ export default function ProductDetailByID() {
                   href={`/shop/product/reviews/${productByID?.data?.id}`}
                   className="ml-3 text-sm font-medium text-amber-600 hover:text-amber-500"
                 >
-                  {reviews.totalCount} reviews sdfsd
+                  {reviewAll?.data?.reviewList.length} reviews
                 </Link>
               </div>
             </div>

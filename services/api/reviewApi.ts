@@ -1,4 +1,8 @@
-import { reviewUserDTO, reviewUserResponse } from "@/types";
+import {
+  ReviewAllProductSummaryApiResponse,
+  reviewUserDTO,
+  reviewUserResponse,
+} from "@/types";
 import axios from "axios";
 const apiUrl: string = process.env.NEXT_PUBLIC_PORT || "";
 
@@ -18,6 +22,22 @@ export const createReview = async (data: reviewUserDTO) => {
     const result = await axios.post(`${apiUrl}/user/review`, data, {
       withCredentials: true,
     });
+    return result?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getReviewAllByProductId = async (
+  productId: number
+): Promise<ReviewAllProductSummaryApiResponse> => {
+  try {
+    const result = await axios.get(
+      `${apiUrl}/product/review-all/${productId}`,
+      {
+        withCredentials: true,
+      }
+    );
     return result?.data;
   } catch (error) {
     throw error;

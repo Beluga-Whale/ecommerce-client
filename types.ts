@@ -340,3 +340,29 @@ export interface reviewUserResponse {
   message: string;
   success: boolean;
 }
+
+export type ReviewItem = {
+  firstName: string;
+  lastName: string;
+  productId: number;
+  rating: number;
+  comment: string;
+  avatar: string;
+};
+
+export type CountPerStar = {
+  [star: number]: number;
+};
+
+export type ReviewAllProductSummaryResponse = {
+  average: number;
+  total: number;
+  countPerStar: CountPerStar;
+  reviewList: ReviewItem[];
+};
+
+export type ReviewAllProductSummaryApiResponse = {
+  data: ReviewAllProductSummaryResponse;
+  message: string;
+  success: boolean;
+};
