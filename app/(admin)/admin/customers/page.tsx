@@ -31,7 +31,7 @@ const CustomersPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="p-4">
       <div style={containerStyle} className="ag-theme-alpine mt-4">
         <AgGridReact<CustomerDTO>
           rowData={customerDetailData?.data ?? []}

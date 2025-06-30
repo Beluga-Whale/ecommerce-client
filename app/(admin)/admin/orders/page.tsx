@@ -93,7 +93,7 @@ const OrdersPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="p-4">
       <div style={containerStyle} className="ag-theme-alpine mt-4">
         <AgGridReact<OrderAllByAdminDTO>
           rowData={orders?.data}
