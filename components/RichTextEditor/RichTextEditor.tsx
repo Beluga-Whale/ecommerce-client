@@ -4,7 +4,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import RichTextMenuBar from "./RichTextMenuBar";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 type RichTextEditorProps = {
   onChange: Dispatch<SetStateAction<string>>;
@@ -41,7 +41,11 @@ const RichTextEditor = ({ onChange, description }: RichTextEditorProps) => {
       onChange(editor.getHTML());
     },
   });
-
+  useEffect(() => {
+    if (editor && description) {
+      editor.commands.setContent(description);
+    }
+  }, [editor, description]);
   return (
     <div className="mt-5">
       <RichTextMenuBar editor={editor} />

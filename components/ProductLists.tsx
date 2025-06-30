@@ -19,7 +19,7 @@ const ProductLists = () => {
     12
   );
   return (
-    <div className="bg-white">
+    <div className="bg-white rounded-2xl p-3">
       <div className="mx-auto max-w-2xl px-4 py-1 sm:px-6  lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           Customers also purchased

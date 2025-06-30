@@ -12,7 +12,7 @@ import { UploadImage } from "@/components/UploadImage";
 import FormSelectField, {
   Option,
 } from "@/components/FormInput/FormSelectFiled";
-import { Info } from "lucide-react";
+import { CircleX, Info, X } from "lucide-react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategory } from "@/services/categoryServices";
@@ -86,6 +86,10 @@ const EditProductPage = () => {
     url: item,
   }));
 
+  const handleRemoveImage = (urlToRemove: string) => {
+    setImageUpload((prev) => prev.filter((url) => url !== urlToRemove));
+  };
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     const productVariants: variantsDTO[] = data?.variants?.map((item) => ({
       size: item.size,
@@ -155,8 +159,8 @@ const EditProductPage = () => {
     }
   }, [product?.data]);
   return (
-    <div className="  bg-slate-200 h-screen overflow-auto p-10 ">
-      <h3>Edit Product</h3>
+    <div className="  h-screen overflow-auto p-6 ">
+      <h3 className="text-2xl font-bold mb-5">Edit Product</h3>
       <div className="  ">
         <Card className="w-full  ">
           <FormProvider {...form}>
@@ -170,14 +174,22 @@ const EditProductPage = () => {
                 {imageUpload && (
                   <div className="flex gap-1.5">
                     {imageUpload.map((url, idx) => (
-                      <CldImage
-                        key={idx}
-                        src={url}
-                        alt="Product image"
-                        width={200}
-                        height={125}
-                        className="rounded-xl border w-[200px] h-[125px] my-5 object-cover"
-                      />
+                      <div key={idx} className="relative">
+                        <CldImage
+                          src={url}
+                          alt="Product image"
+                          width={200}
+                          height={125}
+                          className="rounded-xl border w-[200px] h-[125px] my-5 object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage(url)}
+                          className="absolute top-7 right-3 bg-red-500 text-white rounded-full  text-xs p-1 hover:cursor-pointer hover:bg-red-600"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
                     ))}
                   </div>
                 )}

@@ -104,16 +104,8 @@ export default function ProductDetailByID() {
   }, [sizeCheck, selectedSize]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-gray-100 min-h-screen">
       <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol
-            role="list"
-            className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-          >
-            <li className="text-sm">{productByID?.data?.name}</li>
-          </ol>
-        </nav>
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-4 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-16">
@@ -121,7 +113,7 @@ export default function ProductDetailByID() {
           </div>
 
           {/* Options */}
-          <div className="mt-4 lg:row-span-3 lg:col-span-2 lg:mt-0">
+          <div className=" bg-white mt-4 p-5 rounded-2xl lg:row-span-3 lg:col-span-2 lg:mt-0">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
               {productByID?.data?.name}
             </h1>
