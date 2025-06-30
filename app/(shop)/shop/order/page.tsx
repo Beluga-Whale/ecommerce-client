@@ -3,7 +3,11 @@ import CartOrder from "@/components/CartOrder";
 import FormAddress from "@/components/FormAddress";
 import SideBarOrder from "@/components/SideBarOrder";
 import Stepper from "@/components/Stepper";
-import { setPriceTotal } from "@/lib/features/cart/cartSlice";
+import {
+  setAddress,
+  setDefaultCartList,
+  setPriceTotal,
+} from "@/lib/features/cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useCreateOrder } from "@/services/orderService";
 import { OrderDto } from "@/types";
@@ -65,11 +69,24 @@ const OrderPage = () => {
         zipcode: values.zipCode,
         items: variantList,
       };
+
+      dispatch(
+        setAddress({
+          fullName: values.name,
+          address: values.address,
+          phone: values.phone,
+          province: values.province,
+          district: values.district,
+          subdistrict: values.subdistrict,
+          zipCode: values.zipCode,
+        })
+      );
       createOrderMutate(payloadAddress)
         .then((res) => {
           if (res.success === true && res.data?.orderID !== undefined) {
             router.push(`/payment/${res.data?.orderID}`);
             dispatch(setPriceTotal(res.data?.totalPrice ?? 0.0));
+            dispatch(setDefaultCartList());
           }
         })
         .catch((error: any) => {

@@ -133,6 +133,9 @@ const cartSlice = createSlice({
     setPriceTotal: (state, action: PayloadAction<number>) => {
       state.priceTotal = action.payload;
     },
+    setDefaultCartList: (state) => {
+      state.cartList = initialState.cartList;
+    },
   },
 });
 
@@ -143,6 +146,7 @@ export const {
   inCreaseCartItemQuantity,
   setAddress,
   setPriceTotal,
+  setDefaultCartList,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
