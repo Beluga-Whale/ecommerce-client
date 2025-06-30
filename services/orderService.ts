@@ -92,6 +92,15 @@ export const useUpdateStatusOrderAdmin = () => {
       });
     },
     onError: (error: Error) => {
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByUserIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderByIdQueryKey],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [getOrderAllByAdminQueryKey],
+      });
       console.log("Update Status Order Failed: ", error.message);
     },
   });

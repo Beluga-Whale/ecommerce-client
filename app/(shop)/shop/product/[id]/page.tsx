@@ -14,8 +14,9 @@ import { useAppDispatch } from "@/lib/hooks";
 import { productItem, setCartItem } from "@/lib/features/cart/cartSlice";
 import { getCookie } from "@/lib/getCookie";
 import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
+import Link from "next/link";
 
-const reviews = { href: "#", average: 4, totalCount: 117 };
+const reviews = { href: "#", average: 4, totalCount: 119 };
 
 function classNames(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
@@ -155,12 +156,12 @@ export default function ProductDetailByID() {
                   ))}
                 </div>
                 <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a
-                  href={reviews.href}
+                <Link
+                  href={`/shop/product/reviews/${productByID?.data?.id}`}
                   className="ml-3 text-sm font-medium text-amber-600 hover:text-amber-500"
                 >
-                  {reviews.totalCount} reviews
-                </a>
+                  {reviews.totalCount} reviews sdfsd
+                </Link>
               </div>
             </div>
 

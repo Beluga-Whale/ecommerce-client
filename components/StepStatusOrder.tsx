@@ -1,5 +1,5 @@
 import { OrderDtoById } from "@/types";
-import { CheckCircle, Clock, Truck, XCircle } from "lucide-react";
+import { Clock, PackageCheck, Truck, XCircle, CreditCard } from "lucide-react";
 
 type StepStatusOrderProps = {
   orderData?: OrderDtoById;
@@ -15,12 +15,17 @@ const StepStatusOrder = ({ orderData }: StepStatusOrderProps) => {
     {
       key: "paid",
       label: "ชำระเงินแล้ว",
-      icon: <CheckCircle className="w-5 h-5" />,
+      icon: <CreditCard className="w-5 h-5" />,
     },
     {
       key: "shipped",
       label: "จัดส่งแล้ว",
       icon: <Truck className="w-5 h-5" />,
+    },
+    {
+      key: "complete",
+      label: "สำเร็จ",
+      icon: <PackageCheck className="w-5 h-5" />,
     },
   ];
 
@@ -36,7 +41,7 @@ const StepStatusOrder = ({ orderData }: StepStatusOrderProps) => {
   const currentStep = steps.findIndex((step) => step.key === orderData?.status);
 
   return (
-    <div className="flex justify-between items-center mb-8">
+    <div className="flex justify-between items-center mb-8 bg-white  p-6 rounded-xl">
       {steps.map((step, idx) => (
         <div key={step.key} className="flex flex-col items-center text-center">
           <div
@@ -48,6 +53,7 @@ const StepStatusOrder = ({ orderData }: StepStatusOrderProps) => {
           >
             {step.icon}
           </div>
+
           <span className="text-sm mt-2">{step.label}</span>
         </div>
       ))}

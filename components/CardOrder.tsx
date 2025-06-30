@@ -9,7 +9,7 @@ const CardOrder = () => {
   const { data: ordersData } = useGetOrderAllByUserId();
 
   return (
-    <div className="min-h-screen bg-red-300 py-10 px-4">
+    <div className="min-h-screen  py-10 px-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold text-amber-600 mb-6">
           My Order History
@@ -35,9 +35,13 @@ const CardOrder = () => {
                     <span
                       className={`font-medium ${
                         order.status === "paid"
-                          ? "text-green-600"
+                          ? "text-blue-500"
                           : order.status === "pending"
-                          ? "text-yellow-600"
+                          ? "text-yellow-500"
+                          : order.status === "shipped"
+                          ? "text-purple-500"
+                          : order.status === "complete"
+                          ? "text-green-500"
                           : "text-red-500"
                       }`}
                     >

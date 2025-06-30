@@ -17,17 +17,20 @@ import FormSelectField from "../FormInput/FormSelectFiled";
 import { useEffect } from "react";
 import { useUpdateStatusOrderAdmin } from "@/services/orderService";
 import { UpdateStatusOrderDTO } from "@/types";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   status: z.string().min(1, "Category is required"),
 });
 
-const defaultStatus = ["pending", "paid", "shipped", "cancel"];
+const defaultStatus = ["pending", "paid", "shipped", "cancel", "complete"];
 
 const DialogEditStatus = () => {
   const dispatch = useAppDispatch();
   const { editStatusToggle } = useAppSelector((state) => state.dialog);
   const { orderId, status } = useAppSelector((state) => state.dialog);
+
+  const router = useRouter();
 
   const { mutateAsync: updateStatusMutate, isPending } =
     useUpdateStatusOrderAdmin();
@@ -58,6 +61,7 @@ const DialogEditStatus = () => {
           theme: "light",
           transition: Bounce,
         });
+        router.refresh();
         dispatch(setDialogEditStatusClose());
         form.reset();
       });

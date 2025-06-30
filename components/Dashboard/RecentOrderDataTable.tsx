@@ -35,16 +35,19 @@ const RecentOrderDataTable = () => {
 
         switch (status) {
           case "pending":
-            colorClass = "bg-yellow-100 text-yellow-800";
+            colorClass = "bg-yellow-100 text-yellow-500";
             break;
           case "paid":
-            colorClass = "bg-green-100 text-green-800";
+            colorClass = "bg-blue-100 text-blue-500";
             break;
           case "shipped":
-            colorClass = "bg-blue-100 text-blue-800";
+            colorClass = "bg-purple-100 text-purple-500";
             break;
           case "cancel":
-            colorClass = "bg-red-100 text-red-800";
+            colorClass = "bg-red-100 text-red-500";
+            break;
+          case "complete":
+            colorClass = "bg-green-100 text-green-500";
             break;
           default:
             colorClass = "bg-gray-100 text-gray-800";

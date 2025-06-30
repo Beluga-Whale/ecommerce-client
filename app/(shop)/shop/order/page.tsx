@@ -45,8 +45,7 @@ const OrderPage = () => {
       zipCode: "",
     },
   });
-  const { mutateAsync: createOrderMutate, data: dataCreateOrder } =
-    useCreateOrder();
+  const { mutateAsync: createOrderMutate } = useCreateOrder();
   const handleNext = async () => {
     // NOTE - เช็คการ validate หน้ากรอก address
     if (currentStep === 1) {
