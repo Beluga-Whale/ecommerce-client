@@ -23,6 +23,9 @@ const ProfilePage = () => {
   const statusShipped = orderAll?.data?.filter(
     (item) => item?.status == "shipped"
   );
+  const statusComplete = orderAll?.data?.filter(
+    (item) => item?.status == "complete"
+  );
 
   return (
     <div className="bg-gray-100 min-h-screen pt-6">
@@ -65,7 +68,7 @@ const ProfilePage = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <CardStatus
             order={statusPending?.length ?? 0}
             statusTitle="Pending"
@@ -74,6 +77,10 @@ const ProfilePage = () => {
           <CardStatus
             order={statusShipped?.length ?? 0}
             statusTitle="Shipped"
+          />
+          <CardStatus
+            order={statusComplete?.length ?? 0}
+            statusTitle="Complete"
           />
           <CardStatus order={statusCancel?.length ?? 0} statusTitle="Cancel" />
         </div>
