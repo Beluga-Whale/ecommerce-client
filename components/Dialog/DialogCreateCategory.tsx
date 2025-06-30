@@ -40,7 +40,6 @@ const DialogCreateCategory = () => {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       await createCategoryMutate(data).then(() => {
-        // router.refresh();
         toast.success("Create Category Success", {
           position: "top-center",
           autoClose: 2000,

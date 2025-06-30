@@ -23,7 +23,7 @@ import {
   updateStatusOrderByAdmin,
 } from "./api/orderApi";
 
-const getOrderByIdQueryKey = "getOrderByIdQueryKey";
+export const getOrderByIdQueryKey = "getOrderByIdQueryKey";
 const getOrderAllByUserIdQueryKey = "getOrderAllByUserIdQueryKey";
 const getOrderAllByAdminQueryKey = "getOrderAllByAdminQueryKey";
 const getSummaryDashboardQueryKey = "getSummaryDashboardQueryKey";

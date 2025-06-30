@@ -110,7 +110,6 @@ const OrderPage = () => {
         return null;
     }
   };
-  console.log("cart?.addressDetail", cart);
   useEffect(() => {
     if (cart?.addressDetail) {
       form.reset({

@@ -161,6 +161,7 @@ export interface OrderItemResponse {
   size: string;
   quantity: number;
   priceAtPurchase: number;
+  productId: number;
 }
 
 export interface OrderDtoById {
@@ -325,4 +326,17 @@ export interface userProfileUpdateDTO {
   phone?: string;
   birthDate?: dayjs.Dayjs;
   avatar?: string;
+}
+
+// NOTE - review User
+
+export interface reviewUserDTO {
+  productId: number;
+  rating: number;
+  comment: string;
+}
+export interface reviewUserResponse {
+  data: reviewUserDTO[];
+  message: string;
+  success: boolean;
 }

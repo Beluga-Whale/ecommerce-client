@@ -1,9 +1,14 @@
 "use client";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-const RatingStars = ({ totalStars = 5 }) => {
-  const [rating, setRating] = useState(0);
+type RatingStarsProps = {
+  setRating: Dispatch<SetStateAction<number>>;
+  rating: number;
+};
+
+const RatingStars = ({ rating, setRating }: RatingStarsProps) => {
+  const totalStars = 5;
   return (
     <div className="flex items-center gap-1">
       {Array.from({ length: totalStars }, (_, i) => (

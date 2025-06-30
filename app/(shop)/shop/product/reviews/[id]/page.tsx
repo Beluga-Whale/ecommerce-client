@@ -1,5 +1,6 @@
 import CardReview from "@/components/CardReview";
 import CardUserReviews from "@/components/CardUserReviews";
+import { Button } from "@/components/ui/button";
 
 const ReviewPage = () => {
   return (

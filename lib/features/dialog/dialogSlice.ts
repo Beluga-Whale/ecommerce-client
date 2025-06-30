@@ -30,13 +30,18 @@ export type orderIdState = {
   orderIdDelete: number;
 };
 
+export type dialogCreateReviewState = {
+  createReviewToggle: boolean;
+};
+
 type allState = dialogLoginState &
   dialogDeleteProductState &
   productID &
   dialogEditStatusState &
   orderStatusState &
   orderIdState &
-  dialogDeleteOrderState;
+  dialogDeleteOrderState &
+  dialogCreateReviewState;
 
 export const initialState: allState = {
   loginToggle: false,
@@ -48,6 +53,7 @@ export const initialState: allState = {
   status: "",
   orderIdDelete: 0,
   deleteOrderToggle: false,
+  createReviewToggle: false,
 };
 
 // NOTE - create Slice
@@ -95,6 +101,12 @@ const dialogSlice = createSlice({
     setOrderIdDelete: (state, action: PayloadAction<number>) => {
       state.orderIdDelete = action.payload;
     },
+    setDialogCreateReviewOpen: (state) => {
+      state.createReviewToggle = true;
+    },
+    setDialogCreateReviewClose: (state) => {
+      state.createReviewToggle = false;
+    },
   },
 });
 
@@ -111,6 +123,8 @@ export const {
   setDialogDeleteOrderClose,
   setDialogDeleteOrderOpen,
   setOrderIdDelete,
+  setDialogCreateReviewClose,
+  setDialogCreateReviewOpen,
 } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

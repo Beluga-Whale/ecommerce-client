@@ -1,17 +1,40 @@
 "use client";
+import DialogCreateReview from "@/components/Dialog/DialogCreateReview";
 import StepStatusOrder from "@/components/StepStatusOrder";
 import { Button } from "@/components/ui/button";
-import { useAppSelector } from "@/lib/hooks";
+import {
+  setDialogCreateReviewOpen,
+  setProductID,
+  setProductName,
+} from "@/lib/features/dialog/dialogSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useGetOrderById, useUpdateStatusOder } from "@/services/orderService";
+import { useUserReview } from "@/services/reviewServices";
 import { UpdateStatusOrderDTO } from "@/types";
+import { CircleCheck, PenLine } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const MyOrderId = () => {
   const { id } = useParams();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const { data: orderData } = useGetOrderById(Number(id), Number(user.userId));
   const { mutateAsync: updateStatusMutate } = useUpdateStatusOder();
+
+  const uniqueProductItems = orderData?.data?.orderItem?.filter(
+    (item, index, self) =>
+      index === self.findIndex((t) => t.productId === item.productId)
+  );
+
+  const { data: userReviews } = useUserReview();
+  const isReviewed = (productId: number) => {
+    return userReviews?.data?.some((review) => review.productId === productId);
+  };
+
+  useEffect(() => {}, [orderData?.data]);
+
   return (
     <main className="bg-gray-100">
       <div className="  max-w-4xl mx-auto py-10 px-6">
@@ -68,6 +91,42 @@ const MyOrderId = () => {
             </span>
           </div>
 
+          {orderData?.data.status === "complete" && (
+            <div className="mt-6">
+              <h2 className="font-bold text-gray-800 mb-2">ให้คะแนนสินค้า</h2>
+              {uniqueProductItems?.map((item) => (
+                <div
+                  key={item.variantID}
+                  className="flex justify-between items-center border-b py-2"
+                >
+                  <div>
+                    <p>{item.productName}</p>
+                  </div>
+                  <div>
+                    {isReviewed(item.productId) ? (
+                      <div className="flex items-center space-x-3">
+                        <CircleCheck className="text-green-600" />
+                        <span className="text-green-600 text-sm">Reviewed</span>
+                      </div>
+                    ) : (
+                      <Button
+                        className="bg-amber-500 hover:bg-amber-600 text-white hover:cursor-pointer "
+                        onClick={() => {
+                          dispatch(setDialogCreateReviewOpen());
+                          dispatch(setProductName(item.productName));
+                          dispatch(setProductID(item.productId));
+                        }}
+                      >
+                        <PenLine />
+                        Add Review
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {orderData?.data.status === "pending" && (
             <div className="space-x-2">
               <Button
@@ -94,6 +153,7 @@ const MyOrderId = () => {
           )}
         </div>
       </div>
+      <DialogCreateReview id={Number(id)} userId={user.userId ?? 0} />
     </main>
   );
 };

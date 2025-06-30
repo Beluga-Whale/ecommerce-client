@@ -38,7 +38,6 @@ const RichTextEditor = ({ onChange, description }: RichTextEditorProps) => {
       },
     },
     onUpdate: ({ editor }) => {
-      // console.log(editor.getHTML());
       onChange(editor.getHTML());
     },
   });
