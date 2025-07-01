@@ -38,7 +38,7 @@ export const useCreateReview = (orderId: number, userId: number) => {
 
 export const useReviewAllProductById = (productId: number) => {
   return useQuery<ReviewAllProductSummaryApiResponse>({
-    queryKey: [getReviewAllByProductIdQueryKey],
+    queryKey: [getReviewAllByProductIdQueryKey, productId],
     queryFn: () => getReviewAllByProductId(productId),
   });
 };

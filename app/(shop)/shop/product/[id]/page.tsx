@@ -34,9 +34,7 @@ export default function ProductDetailByID() {
   const [changeQuantity, setChangeQuantity] = useState<number>(1);
 
   // NOTE -เก็บไซด์ ไว้เพื่อดึงราคมาโชว์ เอาไป map
-  const [selectedSize, setSelectedSize] = useState<string | undefined>(
-    undefined
-  );
+  const [selectedSize, setSelectedSize] = useState<string>("");
 
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -96,10 +94,7 @@ export default function ProductDetailByID() {
 
   useEffect(() => {
     if (sizeCheck.length > 0 && !selectedSize) {
-      const firstAvailable = sizeCheck.find((s) => s.inStock);
-      if (firstAvailable) {
-        setSelectedSize(firstAvailable.name);
-      }
+      setSelectedSize(sizeCheck[0].name);
     }
   }, [sizeCheck, selectedSize]);
 
@@ -175,7 +170,7 @@ export default function ProductDetailByID() {
                 </div>
 
                 <fieldset aria-label="Choose a size" className="mt-4">
-                  {selectedSize && (
+                  {sizeCheck.length > 0 && (
                     <RadioGroup
                       value={selectedSize}
                       onChange={setSelectedSize}

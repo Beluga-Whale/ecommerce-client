@@ -176,20 +176,21 @@ const Header = ({ cookie }: HeaderProps) => {
                 </Link>
               </div>
 
-              {/* Flyout menus */}
-              <div className="hidden lg:ml-8 lg:block lg:self-stretch">
-                <div className="flex h-full space-x-8 justify-center items-center">
-                  <Link href={"/shop"} className="font-semibold">
-                    Shop
-                  </Link>
-                  <Link href={"/shop/order"} className="font-semibold">
-                    Cart
-                  </Link>
-                  <Link href={"/profile"} className="font-semibold">
-                    Profile
-                  </Link>
+              {cookie == "" || cookie == undefined ? null : (
+                <div className="hidden lg:ml-8 lg:block lg:self-stretch">
+                  <div className="flex h-full space-x-8 justify-center items-center">
+                    <Link href={"/shop"} className="font-semibold">
+                      Shop
+                    </Link>
+                    <Link href={"/shop/order"} className="font-semibold">
+                      Cart
+                    </Link>
+                    <Link href={"/profile"} className="font-semibold">
+                      Profile
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6  ">
