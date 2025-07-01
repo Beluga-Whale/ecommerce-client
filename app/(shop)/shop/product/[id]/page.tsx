@@ -56,6 +56,12 @@ export default function ProductDetailByID() {
     (item) => item.size === selectedSize
   );
 
+  const selectedVariant = productByID?.data?.variants?.find(
+    (v) => v.size === selectedSize
+  );
+
+  const isSelectedVariantOutOfStock = selectedVariant?.stock === 0;
+
   const handleIncrease = () => {
     setChangeQuantity(changeQuantity + 1);
   };
@@ -221,7 +227,11 @@ export default function ProductDetailByID() {
                   type="button"
                   className="rounded-md px-3 bg-amber-400 hover:bg-amber-500"
                   onClick={() => handleIncrease()}
-                  disabled={changeQuantity == priceProductSize?.stock}
+                  disabled={
+                    changeQuantity == priceProductSize?.stock ||
+                    isSelectedVariantOutOfStock ||
+                    changeQuantity >= (selectedVariant?.stock ?? 0)
+                  }
                 >
                   <Plus />
                 </Button>
@@ -232,6 +242,7 @@ export default function ProductDetailByID() {
                 type="button"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-amber-400 px-8 py-3 text-base font-medium text-white hover:bg-amber-500 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-hidden hover:cursor-pointer"
                 onClick={() => handleAddToCart()}
+                disabled={isSelectedVariantOutOfStock}
               >
                 Add to Cart
               </button>
