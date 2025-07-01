@@ -36,7 +36,6 @@ export function PersonDropDown() {
       transition: Bounce,
     });
   };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

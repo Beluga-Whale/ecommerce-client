@@ -1,7 +1,7 @@
 "use client";
 import FormInputField from "@/components/FormInput/FormInputField";
 import ProductVariants from "@/components/ProductVariants";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
@@ -93,7 +93,6 @@ const AddProductPage = () => {
       sku: `${data?.name.toUpperCase()}-${item.size}`,
       price: item.price,
     }));
-
     const payload: ProductBodyDTO = {
       name: data?.name,
       title: data?.title,
@@ -228,13 +227,15 @@ const AddProductPage = () => {
                   label="Feature"
                 />
               </div>
+              <div className="md:col-span-2 flex justify-end px-6 pb-6">
+                <Button
+                  type="submit"
+                  className="w-full md:w-1/3 hover:cursor-pointer"
+                >
+                  Create Product
+                </Button>
+              </div>
             </form>
-
-            <DialogFooter className="px-6 pb-6">
-              <Button type="submit" className="w-full md:w-1/3 ml-auto">
-                Create Product
-              </Button>
-            </DialogFooter>
           </FormProvider>
           {/* <DialogCreateCategory /> */}
         </Card>

@@ -157,7 +157,10 @@ export default function ProductDetailByID() {
                   href={`/shop/product/reviews/${productByID?.data?.id}`}
                   className="ml-3 text-sm font-medium text-amber-600 hover:text-amber-500"
                 >
-                  {reviewAll?.data?.reviewList.length} reviews
+                  {(reviewAll?.data?.reviewList &&
+                    reviewAll?.data?.reviewList.length) ||
+                    0}{" "}
+                  reviews
                 </Link>
               </div>
             </div>

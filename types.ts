@@ -84,6 +84,7 @@ export interface ProductDTO {
   isOnSale: boolean;
   salePrice?: number;
   categoryID: number;
+  categoryName: string;
 }
 
 export interface ProductAllResponse {
