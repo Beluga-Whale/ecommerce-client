@@ -152,7 +152,7 @@ const OrderPage = () => {
 
             <div className="mt-8 rounded-md">{renderStepContent()}</div>
           </div>
-          <div className="col-span-5 mt-5 lg:col-span-2 lg:mt-21  ">
+          <div className="col-span-5 mt-5 lg:col-span-2 lg:mt-[118px]  ">
             <SideBarOrder />
           </div>
         </div>
