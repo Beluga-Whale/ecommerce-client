@@ -45,22 +45,22 @@ jobs:
           docker tag ecommerce-client-app ${{ secrets.DOCKER_USERNAME }}/ecommerce-client-app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-client-app:latest
 
-#   deploy:
-#     runs-on: ubuntu-latest
-#     needs: build-test-docker
-#     steps:
-#       - name: 📦 SSH & Deploy Docker Container on EC2
-#         uses: appleboy/ssh-action@v1.0.0
-#         with:
-#           host: ${{ secrets.EC2_HOST }}
-#           username: ${{ secrets.EC2_USER }}
-#           key: ${{ secrets.EC2_SSH_KEY }}
-#           script: |
-#             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ecommerce-client-app:latest
-#             sudo docker stop taskmanage-frontend || true
-#             sudo docker rm taskmanage-frontend || true
-#             sudo docker run -d \
-#               --name taskmanage-frontend \
-#               -p 80:3000 \
-#               --restart unless-stopped \
-#               ${{ secrets.DOCKER_USERNAME }}/ecommerce-client-app:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-test-docker
+    steps:
+      - name: 📦 SSH & Deploy Docker Container on EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/ecommerce-client-app:latest
+            sudo docker stop ecommerce-frontend || true
+            sudo docker rm ecommerce-frontend || true
+            sudo docker run -d \
+              --name ecommerce-frontend \
+              -p 80:3000 \
+              --restart unless-stopped \
+              ${{ secrets.DOCKER_USERNAME }}/ecommerce-client-app:latest
