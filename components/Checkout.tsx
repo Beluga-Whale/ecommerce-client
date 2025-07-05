@@ -75,7 +75,7 @@ const Checkout = ({
     });
 
     if (error) {
-      // This point is only reached if there's an immediate error when
+      // This point is only reached if there's an immediate erro when
       // confirming the payment. Show the error to your customer (for example, payment details incomplete)
       setErrorMessage(error.message);
     } else {
