@@ -31,11 +31,13 @@ jobs:
       - name: Build Next.js
         run: npm run build
 
+      - name: 📄 Create .env.production from GitHub Secret
+        run: echo "${{ secrets.ENV_PROD_CONTENT }}" > .env.production
+
       - name: Build Docker image
         run: |
           docker build \
             -f Dockerfile.prod \
-            --build-arg NEXT_PUBLIC_PORT=${{ secrets.NEXT_PUBLIC_PORT }} \
             -t ecommerce-client-app .
 
       - name: Login to DockerHub
