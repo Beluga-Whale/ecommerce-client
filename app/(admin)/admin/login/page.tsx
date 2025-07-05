@@ -86,7 +86,7 @@ const AdminLoginPage = () => {
           >
             <CardContent>
               <div className="grid grid-cols-2 gap-6">
-                {/* NOTE - Email*/}
+                {/* NOTE - Email */}
                 <div className="col-span-2 ">
                   <FormInputField
                     control={form.control}
