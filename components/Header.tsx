@@ -206,7 +206,7 @@ const Header = ({ cookie }: HeaderProps) => {
                   )}
                 </div>
 
-                {/* Cart */}
+                {/* Cart*/}
                 <div className="ml-4 flow-root lg:ml-6">
                   <PopupCart />
                 </div>
