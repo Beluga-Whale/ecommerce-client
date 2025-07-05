@@ -124,6 +124,9 @@ const CartOrder = () => {
                         onClick={() =>
                           handleIncrease(cartItem?.productId, v.variantId)
                         }
+                        disabled={
+                          (quantity?.quantity ?? 0) >= (price?.stock ?? 0)
+                        }
                       >
                         <Plus />
                       </Button>

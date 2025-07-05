@@ -10,12 +10,13 @@ import { ProductVariant } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { productItem, setCartItem } from "@/lib/features/cart/cartSlice";
 import { getCookie } from "@/lib/getCookie";
 import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 import Link from "next/link";
 import { useReviewAllProductById } from "@/services/reviewServices";
+import { Bounce, toast } from "react-toastify";
 
 const reviews = { href: "#", average: 4, totalCount: 119 };
 
@@ -32,7 +33,7 @@ type SizeType = {
 
 export default function ProductDetailByID() {
   const [changeQuantity, setChangeQuantity] = useState<number>(1);
-
+  const cart = useAppSelector((state) => state.cart);
   // NOTE -เก็บไซด์ ไว้เพื่อดึงราคมาโชว์ เอาไป map
   const [selectedSize, setSelectedSize] = useState<string>("");
 
@@ -82,7 +83,43 @@ export default function ProductDetailByID() {
     );
 
     if (!selectedVariant) {
-      alert("กรุณาเลือกขนาดที่มีสินค้า");
+      toast.error("Please select a valid size with stock available", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      return;
+    }
+
+    const existingItem = cart.cartList.find(
+      (item) => item.productId === productByID?.data?.id
+    );
+
+    const existingVariant = existingItem?.variant.find(
+      (v) => v.variantId === selectedVariant.variantID
+    );
+
+    const existingQty = existingVariant?.quantity ?? 0;
+    const totalQty = existingQty + changeQuantity;
+
+    if (totalQty > selectedVariant.stock) {
+      toast.error("Cannot add more than available stock", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
       return;
     }
 

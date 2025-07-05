@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import FormDatePickerField from "./FormInput/FormDatePickerField";
 import { Info } from "lucide-react";
 import { useGetProfileUser, useUpdateProfile } from "@/services/authServices";
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import { userProfileUpdateDTO } from "@/types";
 import { useRouter } from "next/navigation";
 
@@ -46,9 +46,21 @@ const ProfileFormEdit = () => {
   };
 
   const { mutateAsync: updateProfileMutate } = useUpdateProfile();
-
   const handleUpdateProfile = async (values: z.infer<typeof formSchema>) => {
     try {
+      if (imageUpload.length < 1) {
+        return toast.warning("Please Upload Image", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
       const payload: userProfileUpdateDTO = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -66,6 +78,10 @@ const ProfileFormEdit = () => {
         });
     } catch (error) {}
   };
+
+  const isCheckUpdate =
+    form.formState.isDirty || imageUpload[0] !== userProfile?.data?.avatar;
+
   useEffect(() => {
     if (userProfile?.data) {
       form.reset({
@@ -178,7 +194,7 @@ const ProfileFormEdit = () => {
               <Button
                 type="submit"
                 className="w-full hover:cursor-pointer "
-                disabled={!form.formState.isDirty}
+                disabled={!isCheckUpdate}
               >
                 Update
               </Button>
