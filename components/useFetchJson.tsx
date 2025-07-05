@@ -12,7 +12,7 @@ export const useFetchJson = <T,>(url: string, limit?: number) => {
     const fetchData = async () => {
       setLoading(true);
 
-      // Note error handling is omitted here for brevity
+      // Note error handling isomitted here for brevity
       const response = await fetch(url);
       const json = await response.json();
       const data = limit ? json.slice(0, limit) : json;
