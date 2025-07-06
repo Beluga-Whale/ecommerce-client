@@ -7,6 +7,13 @@ import RecentOrderDataTable from "@/components/Dashboard/RecentOrderDataTable";
 import { useGetSummaryDashboard } from "@/services/orderService";
 const AdminPage = () => {
   const { data: summaryData } = useGetSummaryDashboard();
+  if (!summaryData?.data) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Loading summary data...
+      </div>
+    );
+  }
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 ">
