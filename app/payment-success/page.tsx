@@ -70,7 +70,7 @@ const PaymentSuccess = () => {
             className="bg-amber-500 mt-5 hover:bg-amber-600 text-white px-4 py-2 rounded-md hover:cursor-pointer"
             onClick={() => router.push(`/myorder/${Number(orderId)}`)}
           >
-            ดูคำสั่งซื้อของฉัน
+            See my order
           </button>
         </div>
       </main>
@@ -103,7 +103,7 @@ const PaymentSuccess = () => {
           className="bg-red-500 hover:bg-red-600 mt-5 text-white px-4 py-2 rounded-md"
           onClick={goToCheckout}
         >
-          ลองจ่ายอีกครั้ง
+          Pay again
         </button>
       </div>
     </main>
