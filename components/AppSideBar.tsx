@@ -48,6 +48,7 @@ export function AppSidebar() {
         theme: "light",
         transition: Bounce,
       });
+      router.push("/");
     } catch (error) {
       toast.error("Logout failed. Please try again.", {
         position: "top-center",
