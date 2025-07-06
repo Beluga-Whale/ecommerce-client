@@ -26,8 +26,8 @@ const SideBarOrder = () => {
     }, 0);
   }, [cart.cartList, products]);
 
-  const priceBeforVat = totalPrice * 0.7;
-  const vat = totalPrice - totalPrice * 0.7;
+  const priceBeforVat = totalPrice - totalPrice * 0.07;
+  const vat = totalPrice * 0.07;
 
   useEffect(() => {
     const fetchAllProducts = async () => {

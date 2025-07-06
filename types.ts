@@ -349,6 +349,7 @@ export type ReviewItem = {
   rating: number;
   comment: string;
   avatar: string;
+  created_at: dayjs.Dayjs;
 };
 
 export type CountPerStar = {

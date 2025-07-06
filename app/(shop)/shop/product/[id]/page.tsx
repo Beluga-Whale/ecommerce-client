@@ -133,6 +133,17 @@ export default function ProductDetailByID() {
       ],
     };
     dispatch(setCartItem(payload));
+    toast.success("Add to cart success", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   };
 
   useEffect(() => {

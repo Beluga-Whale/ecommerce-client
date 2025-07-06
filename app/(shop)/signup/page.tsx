@@ -90,10 +90,7 @@ const SignupPage = () => {
         </CardHeader>
         <FormProvider {...form}>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              form.handleSubmit(handleSignIn)();
-            }}
+            onSubmit={form.handleSubmit(handleSignIn)}
             className="space-y-5"
           >
             <CardContent>
@@ -171,7 +168,11 @@ const SignupPage = () => {
               </div>
             </CardContent>
             <CardFooter className="flex-col gap-2">
-              <Button type="submit" className="w-full hover:cursor-pointer ">
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="w-full hover:cursor-pointer"
+              >
                 Sign Up
               </Button>
             </CardFooter>

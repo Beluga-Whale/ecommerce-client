@@ -85,7 +85,7 @@ const FormAddress = ({ form }: FormAddressProps) => {
                   control={form.control}
                   name="subdistrict"
                   label="subdistrict"
-                  placeholder="District"
+                  placeholder="Subdistrict"
                 />
               </div>
               {/* NOTE - ZipCode */}
