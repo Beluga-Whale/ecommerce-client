@@ -46,6 +46,7 @@ export const useGetOrderById = (orderId: number, userId: number) => {
     queryKey: [getOrderByIdQueryKey, orderId, userId],
     queryFn: () => getOrders(orderId, userId),
     enabled: orderId !== 0 && orderId !== undefined,
+    refetchInterval: 1000,
   });
 };
 
