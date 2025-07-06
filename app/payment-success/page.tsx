@@ -3,7 +3,8 @@ import { useAppSelector } from "@/lib/hooks";
 import { useGetOrderById } from "@/services/orderService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { CircleCheck, Loader2, XCircle } from "lucide-react";
+import React from "react";
+import { CircleCheck, XCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const PaymentSuccess = () => {
@@ -21,30 +22,7 @@ const PaymentSuccess = () => {
     router.push(`/checkout/${orderId}`);
   };
 
-  if (!orderIdData) {
-    return (
-      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600">
-        <div className="bg-white max-w-xl w-full rounded-2xl shadow-md p-10 text-center border border-amber-200">
-          <motion.div
-            initial={{ rotate: 0 }}
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-            className="mb-6 flex justify-center"
-          >
-            <Loader2 className="w-10 h-10 text-amber-500 animate-spin" />
-          </motion.div>
-          <h2 className="text-2xl font-semibold text-gray-700">
-            Checking your payment...
-          </h2>
-          <p className="text-gray-500 mt-2">
-            Please wait while we confirm your order.
-          </p>
-        </div>
-      </main>
-    );
-  }
-
-  if (orderIdData.data.status === "paid") {
+  if (orderIdData?.data?.status === "paid") {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600">
         <div className="bg-white max-w-xl w-full rounded-2xl shadow-md p-10 text-center border border-amber-200">
@@ -66,6 +44,7 @@ const PaymentSuccess = () => {
           <Separator className="mt-5" />
 
           <p className="mt-4 text-lg text-gray-700">Order List</p>
+
           {orderIdData?.data?.orderItem?.map((item) => (
             <div key={item.variantID} className="mt-2">
               <p>
@@ -79,21 +58,19 @@ const PaymentSuccess = () => {
             ${amount}
           </div>
 
-          <p className="mt-4">Address :</p>
+          <p>Address :</p>
           <p>Name: {orderIdData?.data?.fullName}</p>
           <p>
             Address : {orderIdData?.data?.address}{" "}
             {orderIdData?.data?.subdistrict} {orderIdData?.data?.district}{" "}
             {orderIdData?.data?.province} {orderIdData?.data?.zipcode}
           </p>
-
           <Separator className="mt-5" />
-
           <button
-            className="bg-amber-500 mt-5 hover:bg-amber-600 text-white px-4 py-2 rounded-md"
+            className="bg-amber-500 mt-5 hover:bg-amber-600 text-white px-4 py-2 rounded-md hover:cursor-pointer"
             onClick={() => router.push(`/myorder/${Number(orderId)}`)}
           >
-            See My Order
+            ดูคำสั่งซื้อของฉัน
           </button>
         </div>
       </main>
@@ -126,7 +103,7 @@ const PaymentSuccess = () => {
           className="bg-red-500 hover:bg-red-600 mt-5 text-white px-4 py-2 rounded-md"
           onClick={goToCheckout}
         >
-          Pay Again
+          ลองจ่ายอีกครั้ง
         </button>
       </div>
     </main>
