@@ -16,7 +16,7 @@ import { setDialogLoginOpen } from "@/lib/features/dialog/dialogSlice";
 import PopupCart from "./PopupCart";
 import { setUserId } from "@/lib/features/user/userSlice";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useGetProfileUser } from "@/services/authServices";
+import { useGetProfileUser, useSignOut } from "@/services/authServices";
 
 type HeaderProps = {
   cookie: string | undefined;
@@ -44,21 +44,30 @@ const Header = ({ cookie }: HeaderProps) => {
   const dispatch = useAppDispatch();
   const { data: userProfile } = useGetProfileUser();
   const router = useRouter();
+  const { mutateAsync: logoutMutate } = useSignOut();
   const handleLogout = async () => {
-    await deleteCookie();
-    dispatch(setUserId(undefined));
-    router.refresh();
-    toast.success("Logged out successfully.", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
+    // await deleteCookie();
+    try {
+      await logoutMutate();
+      dispatch(setUserId(undefined));
+      router.refresh();
+      toast.success("Logged out successfully.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    } catch (error) {
+      toast.error("Logout failed. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
   };
   return (
     <div className="bg-white sticky top-0 z-10 ">

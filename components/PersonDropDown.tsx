@@ -8,7 +8,7 @@ import {
 import { deleteCookie } from "@/lib/clearCookie";
 import { setUserId } from "@/lib/features/user/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
-import { useGetProfileUser } from "@/services/authServices";
+import { useGetProfileUser, useSignOut } from "@/services/authServices";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -18,23 +18,30 @@ import { Bounce, toast } from "react-toastify";
 export function PersonDropDown() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-
+  const { mutateAsync: logoutMutate } = useSignOut();
   const { data: userProfile } = useGetProfileUser();
   const handleLogout = async () => {
-    await deleteCookie();
-    dispatch(setUserId(undefined));
-    router.refresh();
-    toast.success("Logged out successfully.", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
+    try {
+      await logoutMutate();
+      dispatch(setUserId(undefined));
+      router.refresh();
+      toast.success("Logged out successfully.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    } catch (error) {
+      toast.error("Logout failed. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
   };
   return (
     <DropdownMenu>

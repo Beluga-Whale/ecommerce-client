@@ -19,6 +19,7 @@ import { Button } from "./ui/button";
 import { deleteCookie } from "@/lib/clearCookie";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useSignOut } from "@/services/authServices";
 
 const menuItems = [
   { title: "Dashboard", path: "/admin", icon: Home },
@@ -31,21 +32,24 @@ export function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handlerLogout = async () => {
-    await deleteCookie();
+  const { mutateAsync: logoutMutate } = useSignOut();
 
-    toast.success("Logged out successfully.", {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-    router.refresh();
+  const handlerLogout = async () => {
+    try {
+      await logoutMutate();
+      toast.success("Logged out successfully.", {
+        position: "top-center",
+        autoClose: 2000,
+        theme: "light",
+        transition: Bounce,
+      });
+      router.push("/login");
+    } catch (error) {
+      toast.error("Logout failed. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
   };
 
   return (

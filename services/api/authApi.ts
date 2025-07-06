@@ -19,6 +19,21 @@ export const signIn = async (data: LoginBodyDTO) => {
   }
 };
 
+export const signOut = async () => {
+  try {
+    const result = await axios.post(
+      `${apiUrl}/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const signUp = async (data: signUpBodyDTO) => {
   try {
     const result = await axios.post(`${apiUrl}/register`, data, {

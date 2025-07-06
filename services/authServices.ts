@@ -1,5 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProfile, signIn, signUp, updateProfile } from "./api/authApi";
+import {
+  getProfile,
+  signIn,
+  signOut,
+  signUp,
+  updateProfile,
+} from "./api/authApi";
 import { userProfileResponse, userProfileUpdateDTO } from "@/types";
 
 const getUserProfileQueryKey = "getUserProfileQueryKey";
@@ -10,6 +16,16 @@ export const useSignIn = () => {
     onSuccess: () => {},
     onError: (error: Error) => {
       console.log("SignIn Failed: ", error.message);
+    },
+  });
+};
+
+export const useSignOut = () => {
+  return useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {},
+    onError: (error: Error) => {
+      console.log("SignOut Failed: ", error.message);
     },
   });
 };
