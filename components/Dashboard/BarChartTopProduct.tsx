@@ -4,9 +4,13 @@ import ReactApexChart from "react-apexcharts";
 const BarChartTopProduct = () => {
   const { data: productTops, isLoading } = useGetProductTop();
 
-  const productNames =
-    productTops?.data?.map((item) => `${item.name} (#${item.productId})`) ?? [];
-  const totalSold = productTops?.data?.map((item) => item.totalSold) ?? [];
+  const productNames = Array.isArray(productTops?.data)
+    ? productTops.data.map((item) => `${item.name} (#${item.productId})`)
+    : [];
+
+  const totalSold = Array.isArray(productTops?.data)
+    ? productTops.data.map((item) => item.totalSold)
+    : [];
 
   const series = [
     {

@@ -5,11 +5,12 @@ import ReactApexChart from "react-apexcharts";
 const LineCartSale = () => {
   const { data: saleData } = useGetSalePerDay();
 
-  const salesChartData =
-    saleData?.data.map((item) => ({
-      x: item.date,
-      y: item.totalSale,
-    })) ?? [];
+  const salesChartData = Array.isArray(saleData?.data)
+    ? saleData.data.map((item) => ({
+        x: item.date,
+        y: item.totalSale,
+      }))
+    : [];
 
   const options: ApexOptions = {
     chart: {

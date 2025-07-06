@@ -55,14 +55,14 @@ const AdminPage = () => {
           <BarChartTopProduct />
         </div>
       </div>
-      {/* <div className="grid grid-cols-1  xl:grid-cols-4 gap-4 p-4">
+      <div className="grid grid-cols-1  xl:grid-cols-4 gap-4 p-4">
         <div className="col-span-4 xl:col-span-2">
           <RecentOrderDataTable />
         </div>
         <div className="col-span-4 xl:col-span-2">
           <DonutChart />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

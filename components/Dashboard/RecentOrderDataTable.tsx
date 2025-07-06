@@ -8,12 +8,13 @@ import dayjs from "dayjs";
 const RecentOrderDataTable = () => {
   const { data: orders } = useGetOrderAllByAdmin();
   const containerStyle = useMemo(() => ({ width: "100%", height: 250 }), []);
-  const recentOrders =
-    orders?.data
-      ?.sort(
-        (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
-      )
-      .slice(0, 5) ?? [];
+  const recentOrders = Array.isArray(orders?.data)
+    ? orders.data
+        .sort(
+          (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
+        )
+        .slice(0, 5)
+    : [];
 
   const [columnDefs] = useState<ColDef[]>([
     { headerName: "Order", field: "orderID" },

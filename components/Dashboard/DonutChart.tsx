@@ -27,10 +27,10 @@ const DonutChart = () => {
   };
 
   const series = [
-    Number(summaryData?.data?.statusPending),
-    Number(summaryData?.data?.statusPaid),
-    Number(summaryData?.data?.statusShipped),
-    Number(summaryData?.data?.statusCancel),
+    Number(summaryData?.data?.statusPending ?? 0),
+    Number(summaryData?.data?.statusPaid ?? 0),
+    Number(summaryData?.data?.statusShipped ?? 0),
+    Number(summaryData?.data?.statusCancel ?? 0),
   ];
 
   return (
