@@ -1,6 +1,11 @@
 "use client";
-
-import { Home, Inbox, Calendar, Search } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Users,
+  Tags,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -16,16 +21,16 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { deleteCookie } from "@/lib/clearCookie";
 import { Bounce, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useSignOut } from "@/services/authServices";
 
 const menuItems = [
-  { title: "Dashboard", path: "/admin", icon: Home },
-  { title: "Orders", path: "/admin/orders", icon: Inbox },
-  { title: "Products", path: "/admin/products", icon: Calendar },
-  { title: "Customers", path: "/admin/customers", icon: Search },
+  { title: "Dashboard", path: "/admin", icon: LayoutDashboard },
+  { title: "Orders", path: "/admin/orders", icon: ShoppingCart },
+  { title: "Products", path: "/admin/products", icon: Package },
+  { title: "Customers", path: "/admin/customers", icon: Users },
+  { title: "Category", path: "/admin/category", icon: Tags },
 ];
 
 export function AppSidebar() {

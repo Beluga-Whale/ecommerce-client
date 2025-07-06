@@ -8,19 +8,21 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { deleteCategoryById } from "@/services/categoryServices";
 import { Bounce, toast } from "react-toastify";
-import { useDeleteOrder } from "@/services/orderService";
-import { setDialogDeleteOrderClose } from "@/lib/features/dialog/dialogSlice";
-const DialogDeleteOrder = () => {
-  const dispatch = useAppDispatch();
-  const { deleteOrderToggle, orderIdDelete } = useAppSelector(
+import { setDialogDeleteCategoryClose } from "@/lib/features/dialog/dialogSlice";
+import { useRouter } from "next/navigation";
+const DialogDeleteCategory = () => {
+  const { deleteCategoryToggle, categoryId, categoryName } = useAppSelector(
     (state) => state.dialog
   );
-  const { mutateAsync: deleteOrderById } = useDeleteOrder();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
+  const { mutateAsync: deleteCategoryMutate } = deleteCategoryById(categoryId);
   const handlerDelete = async () => {
     try {
-      await deleteOrderById(orderIdDelete).then(() => {
+      await deleteCategoryMutate().then(() => {
         toast.success("Delete Success", {
           position: "top-center",
           autoClose: 2000,
@@ -32,8 +34,8 @@ const DialogDeleteOrder = () => {
           theme: "light",
           transition: Bounce,
         });
-        dispatch(setDialogDeleteOrderClose());
-        window.location.reload();
+        router.refresh();
+        dispatch(setDialogDeleteCategoryClose());
       });
     } catch (error) {
       toast.error("Delete Failed", {
@@ -49,17 +51,16 @@ const DialogDeleteOrder = () => {
       });
     }
   };
-
   const handlerClose = () => {
-    dispatch(setDialogDeleteOrderClose());
+    dispatch(setDialogDeleteCategoryClose());
   };
   return (
-    <AlertDialog open={deleteOrderToggle}>
+    <AlertDialog open={deleteCategoryToggle}>
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>
             Are you sure to delete{" "}
-            <span className="text-red-400">{orderIdDelete}</span>{" "}
+            <span className="text-red-400">{categoryName}</span>{" "}
           </AlertDialogTitle>
           <AlertDialogDescription>
             Make sure you want to delete this order
@@ -83,4 +84,4 @@ const DialogDeleteOrder = () => {
     </AlertDialog>
   );
 };
-export default DialogDeleteOrder;
+export default DialogDeleteCategory;

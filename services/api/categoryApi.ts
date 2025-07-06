@@ -13,9 +13,31 @@ export const createCategory = async (data: CreateCategoryDTO) => {
   }
 };
 
+export const updateCategory = async (id: number, payload: { name: string }) => {
+  try {
+    const result = await axios.put(`${apiUrl}/category/${id}`, payload, {
+      withCredentials: true,
+    });
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getAllCategory = async (): Promise<CategoryResponseDTO> => {
   try {
     const result = await axios.get(`${apiUrl}/category`, {
+      withCredentials: true,
+    });
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCategory = async (id: number) => {
+  try {
+    const result = await axios.delete(`${apiUrl}/category/${id}`, {
       withCredentials: true,
     });
     return result.data;

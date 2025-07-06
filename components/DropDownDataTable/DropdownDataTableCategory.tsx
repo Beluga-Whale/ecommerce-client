@@ -7,38 +7,40 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  orderStatusState,
-  setDialogDeleteOrderOpen,
-  setDialogEditStatusOpen,
-  setOrderIdDelete,
-  setStatusOrder,
+  CategoryState,
+  setCategory,
+  setDialogDeleteCategoryOpen,
+  setDialogEditCategoryOpen,
 } from "@/lib/features/dialog/dialogSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { Ellipsis } from "lucide-react";
 
-type DropdownDataTableOrderProps = {
-  orderId?: number;
-  status?: string;
+type DropdownDataTableCategoryProps = {
+  categoryId?: number;
+  categoryname?: string;
 };
 
-const DropdownDataTableOrder = ({
-  orderId,
-  status,
-}: DropdownDataTableOrderProps) => {
+const DropdownDataTableCategory = ({
+  categoryId,
+  categoryname,
+}: DropdownDataTableCategoryProps) => {
   const dispatch = useAppDispatch();
-
   const handleEdit = () => {
-    dispatch(setDialogEditStatusOpen());
-    const payload: orderStatusState = {
-      orderId: orderId ?? 0,
-      status: status ?? "",
+    dispatch(setDialogEditCategoryOpen());
+    const payload: CategoryState = {
+      categoryId: categoryId ?? 0,
+      categoryName: categoryname ?? "",
     };
-    dispatch(setStatusOrder(payload));
+    dispatch(setCategory(payload));
   };
 
   const handleDelete = () => {
-    dispatch(setDialogDeleteOrderOpen());
-    dispatch(setOrderIdDelete(Number(orderId)));
+    dispatch(setDialogDeleteCategoryOpen());
+    const payload: CategoryState = {
+      categoryId: categoryId ?? 0,
+      categoryName: categoryname ?? "",
+    };
+    dispatch(setCategory(payload));
   };
   return (
     <DropdownMenu>
@@ -65,4 +67,4 @@ const DropdownDataTableOrder = ({
     </DropdownMenu>
   );
 };
-export default DropdownDataTableOrder;
+export default DropdownDataTableCategory;

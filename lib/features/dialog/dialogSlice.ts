@@ -34,6 +34,23 @@ export type dialogCreateReviewState = {
   createReviewToggle: boolean;
 };
 
+export type dialogEditCategoryState = {
+  editCategoryToggle: boolean;
+};
+
+export type dialogDeleteCategoryState = {
+  deleteCategoryToggle: boolean;
+};
+
+export type CategoryState = {
+  categoryId: number;
+  categoryName: string;
+};
+
+export type dialogAddCategoryState = {
+  addCategoryToggle: boolean;
+};
+
 type allState = dialogLoginState &
   dialogDeleteProductState &
   productID &
@@ -41,7 +58,11 @@ type allState = dialogLoginState &
   orderStatusState &
   orderIdState &
   dialogDeleteOrderState &
-  dialogCreateReviewState;
+  dialogEditCategoryState &
+  dialogDeleteCategoryState &
+  dialogCreateReviewState &
+  CategoryState &
+  dialogAddCategoryState;
 
 export const initialState: allState = {
   loginToggle: false,
@@ -54,6 +75,11 @@ export const initialState: allState = {
   orderIdDelete: 0,
   deleteOrderToggle: false,
   createReviewToggle: false,
+  deleteCategoryToggle: false,
+  editCategoryToggle: false,
+  categoryId: 0,
+  categoryName: "",
+  addCategoryToggle: false,
 };
 
 // NOTE - create Slice
@@ -107,6 +133,31 @@ const dialogSlice = createSlice({
     setDialogCreateReviewClose: (state) => {
       state.createReviewToggle = false;
     },
+    setDialogEditCategoryOpen: (state) => {
+      state.editCategoryToggle = true;
+    },
+    setDialogEditCategoryClose: (state) => {
+      state.editCategoryToggle = false;
+    },
+    setCategory: (
+      state,
+      action: PayloadAction<{ categoryId: number; categoryName: string }>
+    ) => {
+      state.categoryId = action.payload.categoryId ?? 0;
+      state.categoryName = action.payload.categoryName;
+    },
+    setDialogDeleteCategoryOpen: (state) => {
+      state.deleteCategoryToggle = true;
+    },
+    setDialogDeleteCategoryClose: (state) => {
+      state.deleteCategoryToggle = false;
+    },
+    setDialogAddCategoryOpen: (state) => {
+      state.addCategoryToggle = true;
+    },
+    setDialogAddCategoryClose: (state) => {
+      state.addCategoryToggle = false;
+    },
   },
 });
 
@@ -125,6 +176,13 @@ export const {
   setOrderIdDelete,
   setDialogCreateReviewClose,
   setDialogCreateReviewOpen,
+  setDialogEditCategoryClose,
+  setDialogEditCategoryOpen,
+  setCategory,
+  setDialogDeleteCategoryClose,
+  setDialogDeleteCategoryOpen,
+  setDialogAddCategoryOpen,
+  setDialogAddCategoryClose,
 } = dialogSlice.actions;
 
 export default dialogSlice.reducer;
