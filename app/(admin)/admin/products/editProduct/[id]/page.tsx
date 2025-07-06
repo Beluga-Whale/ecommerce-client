@@ -265,7 +265,7 @@ const EditProductPage = () => {
                   className="w-full"
                   onClick={() => form.handleSubmit(handleSubmit)()}
                 >
-                  Create Products
+                  Edit Products
                 </Button>
               </div>
             </DialogFooter>
