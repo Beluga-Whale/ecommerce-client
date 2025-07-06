@@ -174,7 +174,7 @@ const ProfileFormEdit = () => {
                   <FormDatePickerField
                     control={form.control}
                     name="birthDate"
-                    label="BirthData"
+                    label="BirthDate"
                     // description="Choose the dead line for the task."
                   />
                 </div>
