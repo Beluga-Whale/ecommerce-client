@@ -47,7 +47,7 @@ const AdminPage = () => {
           icon="delivery"
         />
       </div>
-      <div className="grid grid-cols-4  gap-4 p-4">
+      {/* <div className="grid grid-cols-4  gap-4 p-4">
         <div className="col-span-4 lg:col-span-2">
           <LineCartSale />
         </div>
@@ -62,7 +62,7 @@ const AdminPage = () => {
         <div className="col-span-4 xl:col-span-2">
           <DonutChart />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
