@@ -1,7 +1,7 @@
 "use client";
 import FormInputField from "@/components/FormInput/FormInputField";
 import ProductVariants from "@/components/ProductVariants";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
@@ -143,39 +143,16 @@ const AddProductPage = () => {
         <Card className="w-full  ">
           <FormProvider {...form}>
             <form
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6"
+              className="inline-block md:flex md:flex-row-reverse "
               onSubmit={form.handleSubmit(handleSubmit)}
             >
-              <div className="space-y-5">
-                <FormInputField
-                  control={form.control}
-                  name="name"
-                  label="Name Product"
-                  placeholder="Name of product"
-                  type="text"
-                />
-                <FormInputField
-                  control={form.control}
-                  name="title"
-                  label="Title Product"
-                  placeholder="Title of product"
-                  type="text"
-                />
-                <div className="h-96">
-                  <Label>Description Product</Label>
-                  <RichTextEditor
-                    onChange={setDescription}
-                    description={description}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-5">
-                <div>
-                  <Label>Upload Image</Label>
-                  {imageUpload.length < 3 && (
-                    <UploadImage setImageUpload={setImageUpload} />
-                  )}
+              {/* NOTE - left */}
+              <CardContent className="flex flex-col h-full my-5 md:w-1/2 ">
+                <Label>Upload Image</Label>
+                {imageUpload.length < 3 && (
+                  <UploadImage setImageUpload={setImageUpload} />
+                )}
+                {imageUpload && (
                   <div className="flex gap-1.5">
                     {imageUpload.map((url, idx) => (
                       <div key={idx} className="relative">
@@ -196,46 +173,83 @@ const AddProductPage = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-start space-x-4 mt-2">
-                    <Info size={25} className="text-gray-400 mt-1" />
-                    <p className="text-sm text-gray-400">
-                      Add at least 3 images. Focus on quality and size.
-                    </p>
-                  </div>
+                )}
+                <div className="flex items-center space-x-4">
+                  <Info size={35} className="text-gray-400" />
+                  <p className="text-sm text-gray-400">
+                    You need to add image 3 images. Pay attention to the quality
+                    and size of picture you add (important)
+                  </p>
                 </div>
-
-                <ProductVariants formProductVariants={form} />
-
-                <FormInputField
-                  control={form.control}
-                  name="salePrice"
-                  label="Sale Price"
-                  placeholder="Sale price"
-                  type="number"
-                />
-
-                <FormSelectField
-                  control={form.control}
-                  name="category"
-                  label="Select Category"
-                  options={categoryList}
-                />
-
-                <FormCheckBoxField
-                  control={form.control}
-                  name="isFeature"
-                  label="Feature"
-                />
-              </div>
-              <div className="md:col-span-2 flex justify-end px-6 pb-6">
+                {/* NOTE - Add Product Size */}
+                <div className="my-5">
+                  <ProductVariants formProductVariants={form} />
+                </div>
+                <div className="my-5">
+                  <FormInputField
+                    control={form.control}
+                    name="salePrice"
+                    label="Sale Price"
+                    placeholder="Sale price all size"
+                    type="number"
+                  />
+                </div>
+                <div className="my-5">
+                  <FormSelectField
+                    control={form.control}
+                    name="category"
+                    label="Select Category"
+                    options={categoryList}
+                  />
+                </div>
+                <div className="my-5">
+                  <FormCheckBoxField
+                    control={form.control}
+                    name="isFeature"
+                    label="Feature"
+                  />
+                </div>
+              </CardContent>
+              {/* NOTE - right */}
+              <CardContent className="  h-full md:w-1/2 ">
+                <div className="my-5">
+                  <FormInputField
+                    control={form.control}
+                    name="name"
+                    label="Name Product"
+                    placeholder="name of product"
+                    type="text"
+                  />
+                </div>
+                <div className="my-5">
+                  <FormInputField
+                    control={form.control}
+                    name="title"
+                    label="Title Product"
+                    placeholder="Title of product"
+                    type="text"
+                  />
+                </div>
+                {/* NOTE - Description */}
+                <div className="max-w-3xl my-5 h-96">
+                  <Label>Description Product</Label>
+                  <RichTextEditor
+                    onChange={setDescription}
+                    description={description}
+                  />
+                </div>
+              </CardContent>
+            </form>
+            <DialogFooter className="self-end">
+              <div className="flex flex-col w-full gap-3">
                 <Button
-                  type="submit"
-                  className="w-full md:w-1/3 hover:cursor-pointer"
+                  className="w-full"
+                  onClick={() => form.handleSubmit(handleSubmit)()}
                 >
-                  Create Product
+                  Create Products
                 </Button>
               </div>
-            </form>
+            </DialogFooter>
           </FormProvider>
           {/* <DialogCreateCategory /> */}
         </Card>
