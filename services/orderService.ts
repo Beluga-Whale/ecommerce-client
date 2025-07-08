@@ -46,6 +46,18 @@ export const useGetOrderById = (orderId: number, userId: number) => {
     queryKey: [getOrderByIdQueryKey, orderId, userId],
     queryFn: () => getOrders(orderId, userId),
     enabled: orderId !== 0 && orderId !== undefined,
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      const createdAtStr = data?.data?.createdAt;
+      if (!createdAtStr) return 2000;
+      const createdAtTime = new Date(createdAtStr.replace(" ", "T")).getTime();
+      const now = Date.now();
+      const minutesPassed = (now - createdAtTime) / (1000 * 60);
+      if (minutesPassed > 15) return false;
+      if (data?.data?.status === "paid") return false;
+
+      return 2000;
+    },
   });
 };
 
