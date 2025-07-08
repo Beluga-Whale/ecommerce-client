@@ -40,7 +40,7 @@ const MyOrderId = () => {
       <div className="  max-w-4xl mx-auto py-10 px-6">
         <h1 className="text-2xl font-bold mb-6">
           <span className="text-amber-600 ">
-            รายละเอียดคำสั่งซื้อ #{orderData?.data.orderID}{" "}
+            Order Details #{orderData?.data.orderID}{" "}
           </span>
           <span
             className={`px-4 py-1 rounded-xl  uppercase  ${
@@ -62,17 +62,17 @@ const MyOrderId = () => {
 
         <div className="bg-white p-6 rounded-xl shadow space-y-4">
           <div>
-            <h1>ชื่อผู้สั่ง:</h1> {orderData?.data.fullName}
-            <h1>เบอร์:</h1> {orderData?.data.phone}
-            <h1>ที่อยู่:</h1> {orderData?.data.address},{" "}
+            <h1>Customer Name:</h1> {orderData?.data.fullName}
+            <h1>Phone:</h1> {orderData?.data.phone}
+            <h1>Address:</h1> {orderData?.data.address},{" "}
             {orderData?.data.subdistrict}, {orderData?.data.district},{" "}
             {orderData?.data.province}, {orderData?.data.zipcode}
-            <h1>รวมเงิน:</h1> ฿{orderData?.data.totalPrice}
-            <h1>วันเวลาสั่ง:</h1> {orderData?.data.createdAt}
+            <h1>Total Price:</h1> ฿{orderData?.data.totalPrice}
+            <h1>Order Date:</h1> {orderData?.data.createdAt}
           </div>
 
           <div>
-            <h2 className="font-bold text-gray-800 mb-2">รายการสินค้า</h2>
+            <h2 className="font-bold text-gray-800 mb-2">Product list</h2>
             {orderData?.data?.orderItem?.map((item, i) => (
               <div key={i} className="border-b py-2 flex justify-between">
                 <p>
@@ -85,7 +85,7 @@ const MyOrderId = () => {
             ))}
           </div>
           <div className="flex justify-end items-center text-lg font-semibold mt-4">
-            <span>รวมเงินทั้งหมด: </span>
+            <span>Total: </span>
             <span className="ml-2 text-amber-600">
               ${orderData?.data.totalPrice}
             </span>
@@ -93,7 +93,7 @@ const MyOrderId = () => {
 
           {orderData?.data.status === "complete" && (
             <div className="mt-6">
-              <h2 className="font-bold text-gray-800 mb-2">ให้คะแนนสินค้า</h2>
+              <h2 className="font-bold text-gray-800 mb-2">Rate Products</h2>
               {uniqueProductItems?.map((item) => (
                 <div
                   key={item.variantID}
@@ -147,7 +147,7 @@ const MyOrderId = () => {
                 }
                 className="mt-3 inline-block px-4 py-2 text-white bg-amber-500 hover:bg-amber-600 rounded-md transition"
               >
-                ชำระเงินอีกครั้ง
+                Retry Payment
               </Button>
             </div>
           )}
