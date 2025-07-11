@@ -9,22 +9,22 @@ const StepStatusOrder = ({ orderData }: StepStatusOrderProps) => {
   const steps = [
     {
       key: "pending",
-      label: "รอดำเนินการ",
+      label: "Pending",
       icon: <Clock className="w-5 h-5" />,
     },
     {
       key: "paid",
-      label: "ชำระเงินแล้ว",
+      label: "Paid",
       icon: <CreditCard className="w-5 h-5" />,
     },
     {
       key: "shipped",
-      label: "จัดส่งแล้ว",
+      label: "Shipped",
       icon: <Truck className="w-5 h-5" />,
     },
     {
       key: "complete",
-      label: "สำเร็จ",
+      label: "Complete",
       icon: <PackageCheck className="w-5 h-5" />,
     },
   ];
