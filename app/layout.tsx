@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "./QueryProvider";
 import { ToastContainer } from "react-toastify";
-import { Edit } from "lucide-react";
 
 const inter = Inter({
   variable: "--font-inter",

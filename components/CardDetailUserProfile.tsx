@@ -23,6 +23,7 @@ const CardDetailUserProfile = ({ userProfile }: CardDetailUserProfileProps) => {
           <p className="text-xs text-gray-400 mb-1">Phone</p>
           <p className="font-medium">{userProfile?.phone ?? "-"}</p>
         </div>
+
         <div>
           <p className="text-xs text-gray-400 mb-1">BirthDate</p>
           <p className="font-medium">
