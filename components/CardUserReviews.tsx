@@ -14,7 +14,6 @@ function classNames(...classes: (string | false | null | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
 }
 const CardUserReviews = ({ item }: CardUserReviews) => {
-  console.log("item", item?.created_at);
   return (
     <div className="w-full sm:max-w-5xl mx-auto bg-white rounded-xl shadow-sm p-4 my-4">
       <div className="flex items-center space-x-3">

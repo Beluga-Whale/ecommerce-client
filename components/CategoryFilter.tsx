@@ -8,19 +8,9 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  FunnelIcon,
-  MinusIcon,
-  PlusIcon,
-  Squares2X2Icon,
-} from "@heroicons/react/20/solid";
+import { FunnelIcon, MinusIcon, PlusIcon } from "@heroicons/react/20/solid";
 import ProductLists from "./ProductLists";
 import { useGetAllCategory } from "@/services/categoryServices";
 import { CategoryDTO } from "@/types";

@@ -357,14 +357,14 @@ export type CountPerStar = {
 };
 
 export type ReviewAllProductSummaryResponse = {
-  average: number;
+  average: number | undefined;
   total: number;
-  countPerStar: CountPerStar;
+  countPerStar: CountPerStar | undefined;
   reviewList: ReviewItem[];
 };
 
 export type ReviewAllProductSummaryApiResponse = {
-  data: ReviewAllProductSummaryResponse;
+  data: ReviewAllProductSummaryResponse | undefined;
   message: string;
   success: boolean;
 };

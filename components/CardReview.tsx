@@ -13,7 +13,7 @@ function classNames(...classes: (string | false | null | undefined)[]): string {
 const CardReview = ({ reviewAll }: CardReviewProps) => {
   const data = reviewAll?.data;
 
-  const average = data?.average ?? 0; // fallback 0
+  const average = data?.average ?? 0;
   const ratingCounts = {
     5: data?.countPerStar?.[5] ?? 0,
     4: data?.countPerStar?.[4] ?? 0,
