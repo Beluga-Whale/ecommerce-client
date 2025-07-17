@@ -3,6 +3,12 @@ import { render, screen } from "@testing-library/react";
 import dayjs from "dayjs";
 import CardDetailUserProfile from "../CardDetailUserProfile";
 
+const mockDispatch = jest.fn();
+jest.mock("@/lib/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+  useAppSelector: jest.fn(),
+}));
+
 const userProfileMock: UserProfileDTO = {
   userId: 1,
   email: "test@gmail.com",

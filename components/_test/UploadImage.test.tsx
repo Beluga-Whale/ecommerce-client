@@ -3,6 +3,12 @@ import { UploadImage } from "../UploadImage";
 
 jest.mock("next-cloudinary");
 
+const mockDispatch = jest.fn();
+jest.mock("@/lib/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+  useAppSelector: jest.fn(),
+}));
+
 describe("UploadImage", () => {
   it("renders correctly", () => {
     const setImageUpload = jest.fn();

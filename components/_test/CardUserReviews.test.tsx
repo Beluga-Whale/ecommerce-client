@@ -3,6 +3,12 @@ import CardUserReviews from "../CardUserReviews";
 import { ReviewItem } from "@/types";
 import dayjs from "dayjs";
 
+const mockDispatch = jest.fn();
+jest.mock("@/lib/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+  useAppSelector: jest.fn(),
+}));
+
 const itemMock: ReviewItem = {
   firstName: "TestName",
   lastName: "TestLast",

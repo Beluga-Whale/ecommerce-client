@@ -3,6 +3,12 @@ import { render, screen } from "@testing-library/react";
 import { useGetOrderAllByUserId } from "@/services/orderService";
 import dayjs from "dayjs";
 
+const mockDispatch = jest.fn();
+jest.mock("@/lib/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+  useAppSelector: jest.fn(),
+}));
+
 jest.mock("@/services/orderService", () => ({
   useGetOrderAllByUserId: jest.fn(),
 }));

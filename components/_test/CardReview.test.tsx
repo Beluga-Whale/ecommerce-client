@@ -2,6 +2,12 @@ import { ReviewAllProductSummaryApiResponse } from "@/types";
 import { render, screen } from "@testing-library/react";
 import CardReview from "../CardReview";
 
+const mockDispatch = jest.fn();
+jest.mock("@/lib/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+  useAppSelector: jest.fn(),
+}));
+
 const mockReview: ReviewAllProductSummaryApiResponse = {
   data: {
     average: 4.2,
