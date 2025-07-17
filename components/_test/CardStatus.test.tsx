@@ -1,4 +1,3 @@
-import { ReviewAllProductSummaryApiResponse } from "@/types";
 import { render, screen } from "@testing-library/react";
 import CardStatus from "../CardStatus";
 

@@ -50,6 +50,7 @@ const StepStatusOrder = ({ orderData }: StepStatusOrderProps) => {
                 ? "bg-amber-500 text-white"
                 : "bg-gray-200 text-gray-500"
             }`}
+            data-testid={`step-${step.label}`}
           >
             {step.icon}
           </div>

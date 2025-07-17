@@ -13,8 +13,8 @@ const Stepper = ({ steps, currentStep }: StepperProps) => {
 
         return (
           <div key={label} className="flex-1 flex flex-col items-center">
-            {/* Step Circle */}
             <div
+              aria-label={`step-${label}`}
               className={`rounded-full w-8 h-8 flex items-center justify-center border-2 transition mb-1 ${
                 isCompleted
                   ? "bg-amber-500 border-amber-500 text-white"
@@ -26,7 +26,6 @@ const Stepper = ({ steps, currentStep }: StepperProps) => {
               {isCompleted ? <Check size={16} /> : index + 1}
             </div>
 
-            {/* Step Label */}
             <div className="text-xs text-center">{label}</div>
           </div>
         );

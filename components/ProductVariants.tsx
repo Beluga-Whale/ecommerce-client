@@ -1,16 +1,6 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { useFieldArray, UseFormReturn } from "react-hook-form";
 import FormSelectField from "./FormInput/FormSelectFiled";
 import FormInputField from "./FormInput/FormInputField";
@@ -75,6 +65,7 @@ export default function ProductVariants({
             size="sm"
             onClick={() => remove(index)}
             disabled={fields.length <= 1}
+            data-testid={`remove-variant-${index}`}
           >
             ✕
           </Button>
@@ -83,6 +74,7 @@ export default function ProductVariants({
 
       <Button
         type="button"
+        data-testid="add-variant"
         onClick={() => append({ size: "", price: 0, stock: 0 })}
         variant="outline"
         size="sm"

@@ -20,10 +20,6 @@ import {
   setSizeFilter,
 } from "@/lib/features/filter/filerSlice";
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
-
 type FilterType = {
   value: string;
   label: string;

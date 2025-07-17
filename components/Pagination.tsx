@@ -2,30 +2,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 
-const items = [
-  {
-    id: 1,
-    title: "Back End Developer",
-    department: "Engineering",
-    type: "Full-time",
-    location: "Remote",
-  },
-  {
-    id: 2,
-    title: "Front End Developer",
-    department: "Engineering",
-    type: "Full-time",
-    location: "Remote",
-  },
-  {
-    id: 3,
-    title: "User Interface Designer",
-    department: "Design",
-    type: "Full-time",
-    location: "Remote",
-  },
-];
-
 type PaginationProps = {
   setCurrentPage: Dispatch<SetStateAction<number>>;
   totalPage: number | undefined;
@@ -53,18 +29,22 @@ const Pagination = ({
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white mt-4 px-4 py-3 sm:px-6 ">
       <div className="flex flex-1 justify-between sm:hidden">
-        <a
-          href="#"
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        <button
+          onClick={handlePrevious}
+          disabled={currentPage === 1}
+          aria-label="Previous"
+          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
         >
           Previous
-        </a>
-        <a
-          href="#"
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPage}
+          aria-label="Next"
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
         >
           Next
-        </a>
+        </button>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div></div>
@@ -75,6 +55,7 @@ const Pagination = ({
           >
             <Button
               onClick={() => handlePrevious()}
+              aria-label="Previous"
               className="relative inline-flex items-center rounded-l-md px-2 py-2 bg-white text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               disabled={currentPage == 1}
             >
@@ -85,6 +66,7 @@ const Pagination = ({
               <div key={item}>
                 <p
                   aria-current="page"
+                  aria-label={`page-${item}`}
                   className={`relative z-10 inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 hover:cursor-pointer
                     ${
                       currentPage == item
@@ -101,6 +83,7 @@ const Pagination = ({
 
             <Button
               onClick={() => handleNext()}
+              aria-label="Next"
               className="relative inline-flex items-center rounded-l-md px-2 py-2 bg-white text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               disabled={currentPage == totalPage}
             >

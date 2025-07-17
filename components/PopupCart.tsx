@@ -84,6 +84,7 @@ const PopupCart = () => {
     <Popover>
       <PopoverTrigger asChild>
         <div
+          role="button"
           className={`
         group -m-2 flex items-center p-2
         ${variantCount === 0 ? "pointer-events-none opacity-50" : ""}
@@ -146,6 +147,7 @@ const PopupCart = () => {
                     variant="ghost"
                     size="lg"
                     className="hover:cursor-pointer"
+                    aria-label="remove"
                     onClick={() =>
                       dispatch(
                         removeCardItem({

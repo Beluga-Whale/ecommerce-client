@@ -26,7 +26,7 @@ const ProductLists = () => {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {productAll?.data?.products?.map(
+          {(productAll?.data?.products ?? [])?.map(
             (product: ProductDTO, index: number) => (
               <div
                 key={product?.id}
@@ -51,10 +51,16 @@ const ProductLists = () => {
                 </div>
                 <div className="mt-4 flex justify-between">
                   <div>
-                    <h3 className="text-sm text-gray-700 font-bold ">
+                    <h3
+                      className="text-sm text-gray-700 font-bold "
+                      aria-label="name"
+                    >
                       {product.name}
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p
+                      className="mt-1 text-sm text-gray-500"
+                      aria-label="title"
+                    >
                       {product.title}
                     </p>
                   </div>
