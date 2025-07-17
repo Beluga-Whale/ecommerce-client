@@ -45,9 +45,7 @@ describe("FormInputField", () => {
   it("should input field ", async () => {
     const textInput = screen.getByPlaceholderText(/you@example.com/i);
 
-    await act(async () => {
-      await userEvent.type(textInput, "test@gmail.com");
-    });
+    await userEvent.type(textInput, "test@gmail.com");
 
     expect((textInput as HTMLInputElement).value).toBe("test@gmail.com");
   });

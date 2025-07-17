@@ -84,14 +84,11 @@ describe("Render PopupCart", () => {
   it("renders items and calculates total", async () => {
     (getProductID as jest.Mock).mockResolvedValue({ data: mockProduct });
 
-    await act(async () => {
-      RenderWithProvider(<PopupCart />);
-    });
+    RenderWithProvider(<PopupCart />);
 
     const cartButton = screen.getByRole("button");
-    await act(async () => {
-      await userEvent.click(cartButton);
-    });
+
+    await userEvent.click(cartButton);
 
     await waitFor(() => {
       expect(screen.getByText("Shopping Cart")).toBeInTheDocument();
@@ -104,19 +101,16 @@ describe("Render PopupCart", () => {
   });
   it("renders remove item and calculates total", async () => {
     (getProductID as jest.Mock).mockResolvedValue({ data: mockProduct });
-    await act(async () => {
-      RenderWithProvider(<PopupCart />);
-    });
+
+    RenderWithProvider(<PopupCart />);
 
     const cartButton = screen.getByRole("button");
-    await act(async () => {
-      await userEvent.click(cartButton);
-    });
+
+    await userEvent.click(cartButton);
 
     const removeItem = screen.getAllByLabelText("remove");
-    await act(async () => {
-      await userEvent.click(removeItem[0]);
-    });
+
+    await userEvent.click(removeItem[0]);
 
     await waitFor(() => {
       expect(screen.getByText("Shopping Cart")).toBeInTheDocument();
