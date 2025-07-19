@@ -59,7 +59,6 @@ const DialogLogin = () => {
           theme: "light",
           transition: Bounce,
         });
-        console.log("Login Success", res);
         dispatch(setUserId(res.data.userId));
         dispatch(setDialogLoginClose());
         form.reset();
@@ -84,8 +83,12 @@ const DialogLogin = () => {
       onOpenChange={(open) => {
         if (!open) dispatch(setDialogLoginClose());
       }}
+      aria-describedby="login-description"
     >
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent
+        className="sm:max-w-[425px]"
+        aria-describedby="login-description"
+      >
         <DialogHeader>
           <DialogTitle className="text-center">Sign In</DialogTitle>
         </DialogHeader>

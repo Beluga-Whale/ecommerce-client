@@ -2,7 +2,6 @@
 
 import HeroSection from "@/components/HeroSection";
 import NewArrivals from "@/components/NewArrivals";
-import ShopByCategory from "@/components/ShopByCategory";
 
 export default function Home() {
   return (

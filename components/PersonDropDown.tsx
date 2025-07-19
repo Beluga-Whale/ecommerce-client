@@ -5,7 +5,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { deleteCookie } from "@/lib/clearCookie";
 import { setUserId } from "@/lib/features/user/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { useGetProfileUser, useSignOut } from "@/services/authServices";
@@ -45,7 +44,7 @@ export function PersonDropDown() {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild data-testid="avatar-dropdown-trigger">
         {userProfile?.data?.avatar !== "" ? (
           <Avatar className="hover:cursor-pointer">
             <AvatarImage

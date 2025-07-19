@@ -46,6 +46,7 @@ const FormInputField = <T extends FieldValues>({
                   type === "number" ? +e.target.value : e.target.value
                 )
               }
+              data-testid={`input-${name}`}
               disabled={disable}
             />
           </FormControl>

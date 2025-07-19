@@ -46,7 +46,6 @@ const Header = ({ cookie }: HeaderProps) => {
   const router = useRouter();
   const { mutateAsync: logoutMutate } = useSignOut();
   const handleLogout = async () => {
-    // await deleteCookie();
     try {
       await logoutMutate();
       dispatch(setUserId(undefined));
@@ -209,6 +208,7 @@ const Header = ({ cookie }: HeaderProps) => {
                       onClick={() => dispatch(setDialogLoginOpen())}
                       className="size-7 hover:cursor-pointer hover:bg-gray-200 rounded-full p-1 "
                       aria-describedby="login"
+                      data-testid="login-icon"
                     />
                   ) : (
                     <PersonDropDown />

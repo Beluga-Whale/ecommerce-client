@@ -50,7 +50,7 @@ const cartSlice = createSlice({
       );
 
       if (existingProduct) {
-        // NOTE- เช็ค variantId ว่ามีอยู่ไหม
+        // NOTE - เช็ค variantId ว่ามีอยู่ไหม
         action.payload.variant.forEach((newVariant) => {
           const existingVariant = existingProduct.variant.find(
             (v) => v.variantId === newVariant.variantId
